@@ -54,10 +54,16 @@
     }
     .card h3 { margin: 0; font-size: 18px; line-height: 1.25; }
     .meta { font-size: 13px; color: var(--muted); display:flex; gap: 10px; flex-wrap: wrap; }
-    .status-active { color: #166534; font-weight: 600; }    /* green */
-    .status-draft { color: #92400e; font-weight: 600; }     /* orange/brown */
-    .status-archived { color: #991b1b; font-weight: 600; }  /* red */
-    .status-pilot { color: #1d4ed8; font-weight: 600; }     /* blue */
+    /*
+    .status-active { color: #166534; font-weight: 600; }    / green /
+    .status-draft { color: #92400e; font-weight: 600; }     / orange/brown /
+    .status-archived { color: #991b1b; font-weight: 600; }  / red /
+    .status-pilot { color: #1d4ed8; font-weight: 600; }     / blue /
+    */
+    .card-active { background: #ecfdf5; border-color: #6ee7b7; }     /* green background */
+    .card-draft { background: #fffbeb; border-color: #fcd34d; }      /* yellow/orange background */
+    .card-archived { background: #fef2f2; border-color: #fca5a5; }   /* red background */
+    .card-pilot { background: #eff6ff; border-color: #93c5fd; }      /* blue background */
     .tags { display:flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .tag { background: var(--accent-muted); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-size: 12px; }
     .links a { text-decoration: none; color: var(--accent); }
@@ -218,7 +224,7 @@
       const updated = x.date_updated ? ` · Updated: ${x.date_updated}` : '';
 
       return `
-        <article class="card">
+        <article class="card card-${escapeHTML((x.status||'').toLowerCase())}">
           <h3>${
             x?.links?.live
               ? `<a href="${x.links.live}" target="_blank" rel="noopener">${escapeHTML(title)}</a>`
@@ -227,7 +233,7 @@
                   : `${escapeHTML(title)}`)
           }</h3>
           <div class="meta">
-            Status: <span class="status-${escapeHTML((x.status||'').toLowerCase())}">${escapeHTML(x.status || '—')}</span>
+            Status: ${escapeHTML(x.status || '—')}
             · Created: ${escapeHTML(created)}${updated}
           </div>
           ${desc ? `<p>${escapeHTML(desc)}</p>` : ''}
