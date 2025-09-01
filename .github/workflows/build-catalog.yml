@@ -46,10 +46,10 @@ jobs:
         run: node scripts/indexer.mjs
 
       - name: Copy site files to public/experiments/
-      run: |
-        mkdir -p public/experiments
-        cp -f index.html public/experiments/index.html
-        cp -f public/experiments.json public/experiments/experiments.json
+        run: |
+          mkdir -p public/experiments
+          cp -f index.html public/experiments/index.html
+          cp -f public/experiments.json public/experiments/experiments.json
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
