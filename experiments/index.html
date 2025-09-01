@@ -60,10 +60,14 @@
     .status-archived { color: #991b1b; font-weight: 600; }  / red /
     .status-pilot { color: #1d4ed8; font-weight: 600; }     / blue /
     */
-    .card-active { background: #ecfdf5; border-color: #6ee7b7; }     /* green background */
-    .card-draft { background: #fffbeb; border-color: #fcd34d; }      /* yellow/orange background */
-    .card-archived { background: #fef2f2; border-color: #fca5a5; }   /* red background */
-    .card-pilot { background: #eff6ff; border-color: #93c5fd; }      /* blue background */
+    /* Apple-like subtle tints & gentle elevation */
+    .card { transition: transform 120ms ease, box-shadow 180ms ease, border-color 180ms ease; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: #d1d5db; }
+
+    .card-active  { background: linear-gradient(180deg, #f7fbf9 0%, #ffffff 100%); border-color: #d9efe6; }
+    .card-draft   { background: linear-gradient(180deg, #fffaf2 0%, #ffffff 100%); border-color: #f1e3c7; }
+    .card-archived{ background: linear-gradient(180deg, #fdf6f6 0%, #ffffff 100%); border-color: #f0d3d3; }
+    .card-pilot   { background: linear-gradient(180deg, #f6f9ff 0%, #ffffff 100%); border-color: #d6e4fb; }
     .tags { display:flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .tag { background: var(--accent-muted); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-size: 12px; }
     .links a { text-decoration: none; color: var(--accent); }
@@ -82,14 +86,70 @@
     .btn { display: inline-block; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--accent); text-decoration: none; font-weight: 600; }
     .btn-primary { background: var(--accent); color: #ffffff; }
     .btn-ghost { background: #ffffff; color: var(--accent); border-color: var(--border); }
+
+    /* Minimalist icon buttons (Apple-like) */
+    .iconbtn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(0,0,0,0.03);
+      color: #0f172a;
+      text-decoration: none;
+      transition: transform 120ms ease, box-shadow 180ms ease, background 120ms ease, border-color 180ms ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .iconbtn:hover, .iconbtn:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      background: rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.12);
+      outline: none;
+    }
+    .iconbtn svg { width: 18px; height: 18px; display:block; }
+
+    /* New experiment button */
+    .ml-auto { margin-left: auto; }
+    .new-exp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--fg);
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 120ms ease, box-shadow 180ms ease, background 120ms ease, border-color 180ms ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .new-exp:hover, .new-exp:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      background: rgba(0,0,0,0.02);
+      border-color: rgba(0,0,0,0.12);
+      outline: none;
+    }
+    .new-exp svg { width: 16px; height: 16px; display:block; }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
       <div class="title">
-        <h1>USYD Meta Lab — Experiments Test</h1>
+        <img src="https://usyd-meta-lab.github.io/images/logo.PNG" alt="USYD Meta Lab Logo" style="height:40px;">
+        <h1>USYD Meta Lab — Experiments</h1>
         <small id="updated"></small>
+        <a class="new-exp ml-auto" href="https://github.com/usyd-meta-lab/code/issues/new?template=new-experiment.yml&labels=new-experiment&title=%5BExperiment%5D%20" target="_blank" rel="noopener" aria-label="Create a new experiment" title="Create a new experiment">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+          <span>New experiment</span>
+        </a>
       </div>
 
       <div class="controls" role="region" aria-label="Filters">
@@ -143,7 +203,7 @@
     // CONFIG: If experiments.json is on the SAME site, set to '/experiments.json'.
     // Otherwise, point to your Pages URL, e.g.:
     // 'https://usyd-meta-lab.github.io/experiments/experiments.json'
-    const CATALOG_URL = 'experiments.json'; // relative to this page (works on GitHub Pages repo paths)
+    const CATALOG_URL = 'https://usyd-meta-lab.github.io/code/experiments/experiments.json'; // relative to this page (works on GitHub Pages repo paths)
     // ─────────────────────────────────────────────────────────────────────────────
 
     const els = {
@@ -246,8 +306,19 @@
           ${tags ? `<div class="tags">${tags}</div>` : ''}
           ${links ? `<div class="links">${links}</div>` : ''}
           <div class="actions">
-            <a class="btn btn-primary btn-icon" href="https://usyd-meta-lab.github.io/code/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener" title="Start study">▶</a>
-            <a class="btn btn-ghost btn-icon" href="https://github.com/usyd-meta-lab/code/tree/main/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener" title="View folder in repository">📁</a>
+            <!-- Start study: play-in-circle (thin stroke, monochrome) -->
+            <a class="iconbtn" href="https://usyd-meta-lab.github.io/code/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener" aria-label="Start study" title="Start study">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.2"></circle>
+                <path d="M10 8l6 4-6 4z" fill="currentColor"></path>
+              </svg>
+            </a>
+            <!-- Open repository folder: minimal folder outline (thin stroke) -->
+            <a class="iconbtn" href="https://github.com/usyd-meta-lab/code/tree/main/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener" aria-label="Open folder in repository" title="Open folder in repository">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.5 7.5h5.5l2 2H20a1.5 1.5 0 0 1 1.5 1.5v7A1.5 1.5 0 0 1 20 19.5H4.5A1.5 1.5 0 0 1 3 18V9a1.5 1.5 0 0 1 1.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"></path>
+              </svg>
+            </a>
           </div>
         </article>
       `;
