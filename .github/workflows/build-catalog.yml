@@ -48,7 +48,7 @@ jobs:
       - name: Copy site files to public/experiments/
         run: |
           mkdir -p public/experiments
-          cp -f index.html public/experiments/index.html
+          cp -f experiments/index.html public/experiments/index.html
           cp -f public/experiments.json public/experiments/experiments.json
 
       - name: Upload artifact for GitHub Pages
