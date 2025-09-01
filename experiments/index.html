@@ -78,6 +78,10 @@
 
     .btn-primary:hover, .btn-primary:focus { filter: brightness(0.95); }
     .btn-icon { padding: 6px 10px; font-size: 16px; }
+    .actions { margin-top: 8px; display: flex; gap: 6px; }
+    .btn { display: inline-block; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--accent); text-decoration: none; font-weight: 600; }
+    .btn-primary { background: var(--accent); color: #ffffff; }
+    .btn-ghost { background: #ffffff; color: var(--accent); border-color: var(--border); }
   </style>
 </head>
 <body>
@@ -243,6 +247,7 @@
           ${links ? `<div class="links">${links}</div>` : ''}
           <div class="actions">
             <a class="btn btn-primary btn-icon" href="https://usyd-meta-lab.github.io/code/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener" title="Start study">▶</a>
+            <a class="btn btn-ghost btn-icon" href="https://github.com/usyd-meta-lab/code/tree/main/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener" title="View folder in repository">📁</a>
           </div>
         </article>
       `;
