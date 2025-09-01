@@ -214,7 +214,6 @@
       const desc = x.description || '';
       const tags = (x.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
       const links = [
-        x?.links?.live ? `<a href="${x.links.live}" target="_blank" rel="noopener">Live</a>` : '',
         x?.links?.github ? `<a href="${x.links.github}" target="_blank" rel="noopener">Code</a>` : '',
         x?.links?.osf ? `<a href="${x.links.osf}" target="_blank" rel="noopener">OSF</a>` : '',
         x?.links?.prereg ? `<a href="${x.links.prereg}" target="_blank" rel="noopener">Prereg</a>` : ''
@@ -239,6 +238,9 @@
           ${desc ? `<p>${escapeHTML(desc)}</p>` : ''}
           ${tags ? `<div class="tags">${tags}</div>` : ''}
           ${links ? `<div class="links">${links}</div>` : ''}
+          <div class="actions">
+            <a class="btn btn-primary" href="https://usyd-meta-lab.github.io/code/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener">Start study</a>
+          </div>
         </article>
       `;
     }
