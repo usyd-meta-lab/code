@@ -49,9 +49,8 @@ jobs:
       - name: Copy site files to public/
         run: |
           mkdir -p public
-          cp -f index.html public/index.html
-          # If you later add CSS/JS/assets, copy them too:
-          # rsync -av --delete --exclude 'public' ./site/ ./public/   # (if you keep a /site folder)
+          # was: cp -f index.html public/index.html
+          cp -f experiments/index.html public/index.html
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
