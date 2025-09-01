@@ -54,6 +54,10 @@
     }
     .card h3 { margin: 0; font-size: 18px; line-height: 1.25; }
     .meta { font-size: 13px; color: var(--muted); display:flex; gap: 10px; flex-wrap: wrap; }
+    .status-active { color: #166534; font-weight: 600; }    /* green */
+    .status-draft { color: #92400e; font-weight: 600; }     /* orange/brown */
+    .status-archived { color: #991b1b; font-weight: 600; }  /* red */
+    .status-pilot { color: #1d4ed8; font-weight: 600; }     /* blue */
     .tags { display:flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .tag { background: var(--accent-muted); color: var(--accent); padding: 2px 8px; border-radius: 8px; font-size: 12px; }
     .links a { text-decoration: none; color: var(--accent); }
@@ -222,7 +226,10 @@
                   ? `<a href="${x.links.github}" target="_blank" rel="noopener">${escapeHTML(title)}</a>`
                   : `${escapeHTML(title)}`)
           }</h3>
-          <div class="meta">Status: ${escapeHTML(x.status || '—')} · Created: ${escapeHTML(created)}${updated}</div>
+          <div class="meta">
+            Status: <span class="status-${escapeHTML((x.status||'').toLowerCase())}">${escapeHTML(x.status || '—')}</span>
+            · Created: ${escapeHTML(created)}${updated}
+          </div>
           ${desc ? `<p>${escapeHTML(desc)}</p>` : ''}
           ${tags ? `<div class="tags">${tags}</div>` : ''}
           ${links ? `<div class="links">${links}</div>` : ''}
