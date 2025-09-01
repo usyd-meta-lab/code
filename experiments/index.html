@@ -75,6 +75,9 @@
     }
     footer { border-top: 1px solid var(--border); margin-top: 28px; }
     .sr-only { position:absolute; left:-9999px; }
+
+    .btn-primary:hover, .btn-primary:focus { filter: brightness(0.95); }
+    .btn-icon { padding: 6px 10px; font-size: 16px; }
   </style>
 </head>
 <body>
@@ -239,7 +242,7 @@
           ${tags ? `<div class="tags">${tags}</div>` : ''}
           ${links ? `<div class="links">${links}</div>` : ''}
           <div class="actions">
-            <a class="btn btn-primary" href="https://usyd-meta-lab.github.io/code/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener">Start study</a>
+            <a class="btn btn-primary btn-icon" href="https://usyd-meta-lab.github.io/code/experiments/${escapeHTML(x.id)}/" target="_blank" rel="noopener" title="Start study">▶</a>
           </div>
         </article>
       `;
