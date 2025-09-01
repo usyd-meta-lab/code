@@ -1,0 +1,70 @@
+# .github/workflows/build-catalog.yml
+name: Build experiment catalog
+
+on:
+  # Run when Step #4 finishes (works even if the commit was made by a workflow)
+  workflow_run:
+    workflows: ["Create experiment from issue"]
+    types: [completed]
+
+  # Also run on any direct push that touches relevant paths
+  push:
+    paths:
+      - "experiments/**"
+      - "scripts/**"
+      - ".github/workflows/build-catalog.yml"
+
+  # And give yourself a manual "Run workflow" button
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install build deps
+        run: |
+          npm init -y >/dev/null 2>&1 || true
+          npm i ajv ajv-formats glob yaml
+
+      - name: Build catalog (experiments.json)
+        run: node scripts/indexer.mjs
+
+      # ➜ NEW: include your static site files in the artifact
+      - name: Copy site files to public/
+        run: |
+          mkdir -p public
+          cp -f index.html public/index.html
+          # If you later add CSS/JS/assets, copy them too:
+          # rsync -av --delete --exclude 'public' ./site/ ./public/   # (if you keep a /site folder)
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
