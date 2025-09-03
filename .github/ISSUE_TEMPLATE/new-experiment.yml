@@ -1,10 +1,8 @@
 name: "New experiment"
 description: "Create an experiment folder with metadata"
-title: "Expeirment Name"
+title: "[Experiment] "
 labels:
   - new-experiment
-validations:
-  required: true
 
 body:
   - type: markdown
