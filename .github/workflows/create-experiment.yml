@@ -38,7 +38,7 @@ jobs:
         with:
           script: |
             const body = context.payload.issue?.body || "";
-            const hasHeader = body.includes("### Experiment ID");
+            const hasHeader = body.includes("### Project Title");
             const hasLabel = (context.payload.issue?.labels || []).some(l => l.name === "new-experiment");
             if (hasHeader && !hasLabel) {
               await github.rest.issues.addLabels({
@@ -52,7 +52,7 @@ jobs:
         id: gate
         run: |
           body="${{ github.event.issue.body || '' }}"
-          if echo "$body" | grep -q "### Experiment ID"; then
+          if echo "$body" | grep -q "### Project Title"; then
             echo "ok=true" >> $GITHUB_OUTPUT
           else
             echo "ok=false" >> $GITHUB_OUTPUT
@@ -74,7 +74,7 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           python3 - <<'PY'
-          import os, re, json, yaml, sys
+          import os, re, json, yaml, sys, unicodedata
 
           body = os.environ.get("ISSUE_BODY", "")
 
@@ -91,11 +91,21 @@ jobs:
               val = "\n".join(val.splitlines()[1:-1]).strip()
             return clean(val)
 
+          def slugify(text:str) -> str:
+            text = text or ""
+            text = unicodedata.normalize('NFKD', text)
+            text = text.encode('ascii', 'ignore').decode('ascii')
+            text = re.sub(r"[^a-zA-Z0-9\s-_]", "", text)
+            text = text.strip().lower()
+            text = re.sub(r"[\s_]+", "-", text)
+            text = re.sub(r"-+", "-", text)
+            return text.strip('-')
+
           data = {
-            "title":       clean(get_block("Title")),
+            # Updated labels from issue form
+            "title":       clean(get_block("Project Title")),
             "description": clean(get_block("Description")),
             "status":      clean(get_block("Status")) or "draft",
-            "short_title": clean(get_block("Short title")),
           }
 
           authors = [a.strip() for a in clean(get_block("Authors (comma-separated)")).split(",") if a.strip()]
@@ -103,14 +113,14 @@ jobs:
           if authors: data["authors"] = authors
           if tags:    data["tags"] = tags
 
-          ethics_id = clean(get_block("Ethics ID"))
-          if ethics_id:
-            data.setdefault("ethics", {})["id"] = ethics_id
+          # Map new single-value fields
+          dp_name = clean(get_block("DataPipe Name"))
+          if dp_name:
+            data.setdefault("data", {})["datapipe_name"] = dp_name
 
-          dp = clean(get_block("DataPipe IDs (comma-separated)"))
-          datapipes = [d.strip() for d in dp.split(",") if d.strip()]
-          if datapipes:
-            data.setdefault("data", {})["datapipes"] = datapipes
+          osf_link = clean(get_block("OSF Link"))
+          if osf_link:
+            data.setdefault("links", {})["osf"] = osf_link
 
           for key,label in [
             ("links",    "Links (YAML)"),
@@ -138,22 +148,26 @@ jobs:
           # Debug table
           def dbg(key): return data.get(key, "")
           print("Parsed fields:")
-          print(f"  id          : {dbg('id')}")
           print(f"  title       : {dbg('title')}")
           print(f"  status      : {dbg('status')}")
           print(f"  authors     : {dbg('authors')}")
           print(f"  tags        : {dbg('tags')}")
 
+          # Ensure we have a stable id; derive from title if missing
           if not data.get("id"):
-            print("::error::Missing 'Experiment ID' in Issue. Ensure the Issue Form label is exactly 'Experiment ID'.")
-            sys.exit(1)
+            if data.get("title"):
+              data["id"] = slugify(data["title"]) or None
+            if not data.get("id"):
+              print("::error::Missing title to derive experiment id.")
+              sys.exit(1)
+          print(f"  id          : {dbg('id')}")
 
           payload = json.dumps(data, ensure_ascii=False)
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
             fh.write("payload<<EOF\n"); fh.write(payload); fh.write("\nEOF\n")
           PY
 
-      - name: Create/merge metadata.yml in experiments/<title>/
+      - name: Create/merge metadata.yml in experiments/<id>/
         if: steps.gate.outputs.ok == 'true'
         env:
           PAYLOAD: ${{ steps.parse.outputs.payload }}
