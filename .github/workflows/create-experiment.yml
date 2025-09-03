@@ -154,7 +154,7 @@ jobs:
             fh.write("payload<<EOF\n"); fh.write(payload); fh.write("\nEOF\n")
           PY
 
-      - name: Create/merge metadata.yml in experiments/<id>/
+      - name: Create/merge metadata.yml in experiments/<title>/
         if: steps.gate.outputs.ok == 'true'
         env:
           PAYLOAD: ${{ steps.parse.outputs.payload }}
