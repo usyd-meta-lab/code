@@ -234,7 +234,7 @@
       const tagOk = TAGS.length === 0 || (Array.isArray(r.tags) && TAGS.every(t => r.tags.map(normalize).includes(normalize(t))));
 
       const hay = [
-        r.id, r.title, r.short_title, r.description,
+        r.id, r.title, r.short_title, r.project_title, r.description,
         ...(r.tags || []), ...(r.authors || [])
       ].map(normalize).join(' ');
       const qOk = !q || hay.includes(q);
@@ -279,8 +279,8 @@
     }
 
     function card(x){
-      const projectTitle = x.project_title || x.title || x.id;
-      const experimentTitle = x.experiment_title || x.short_title || '';
+      const projectTitle = x.project_title || '';
+      const experimentTitle = x.title || x.short_title || x.id;
       const desc = x.description || '';
       const tags = (x.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
       const links = [
@@ -294,8 +294,9 @@
 
       const titleBlock = `
         <div>
-          <div class="proj-title">${escapeHTML(projectTitle)}</div>
-          ${experimentTitle ? `<div class="exp-title">${escapeHTML(experimentTitle)}</div>` : ''}
+          ${projectTitle
+            ? `<div class=\"proj-title\">${escapeHTML(projectTitle)}</div><div class=\"exp-title\">${escapeHTML(experimentTitle)}</div>`
+            : `<div class=\"proj-title\">${escapeHTML(experimentTitle)}</div>`}
         </div>`;
 
       const titleLinked = (
