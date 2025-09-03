@@ -106,19 +106,19 @@
     if(condition == 0){
       // Contingency Freqency Table
       cue_outcome =  3// Number of cue+, outcome+ trials
-      cue_noOutcome =  12// Number of cue+, outcome- trials
-      noCue_outcome =  3// Number of cue-, outcome+ trials
+      cue_noOutcome =  3// Number of cue+, outcome- trials
+      noCue_outcome =  12// Number of cue-, outcome+ trials
       noCue_noOutcome =  12// Number of cue-, outcome- trials
-      jsPsych.data.addProperties({density: "Low Outcome"});
+      jsPsych.data.addProperties({density: "Low Cue"});
       
     } else {
       
       // Contingency Freqency Table
       cue_outcome =  12// Number of cue+, outcome+ trials
-      cue_noOutcome =  3// Number of cue+, outcome- trials
-      noCue_outcome =  12// Number of cue-, outcome+ trials
+      cue_noOutcome =  12// Number of cue+, outcome- trials
+      noCue_outcome =  3// Number of cue-, outcome+ trials
       noCue_noOutcome =  3// Number of cue-, outcome- trials
-      jsPsych.data.addProperties({density: "High Outcome"});
+      jsPsych.data.addProperties({density: "High Cue"});
       
       
     }
