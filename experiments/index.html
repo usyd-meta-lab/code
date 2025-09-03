@@ -216,6 +216,40 @@
     // On GitHub Pages at /code/experiments/index.html this resolves to /code/experiments/experiments.json
     const DEFAULT_CATALOG_URL = './experiments.json';
     function getCatalogURL(){ return window.CATALOG_URL || DEFAULT_CATALOG_URL; }
+    function guessPagesURL(){
+      try{
+        const p = new URL(window.location.href);
+        const path = p.pathname.replace(/\/experiments\/index\.html?.*$/, '/experiments/experiments.json');
+        return `${p.origin}${path}`;
+      }catch{ return DEFAULT_CATALOG_URL; }
+    }
+    function buildCandidates(){
+      if(window.CATALOG_URL){ return [window.CATALOG_URL]; }
+      // Try local relative, then local build output, then guessed pages URL
+      return [
+        './experiments.json',
+        '/public/experiments.json',
+        guessPagesURL(),
+      ];
+    }
+    async function fetchFirstAvailable(urls){
+      const attempts = [];
+      for(const u of urls){
+        try{
+          const url = new URL(u, window.location.href);
+          url.searchParams.set('_ts', Date.now().toString()); // cache-bust
+          const res = await fetch(url.toString(), { cache: 'no-store' });
+          attempts.push({ url: url.toString(), status: res.status });
+          if(res.ok){
+            const json = await res.json();
+            return { json, url: url.toString(), attempts };
+          }
+        }catch(err){
+          attempts.push({ url: u, error: String(err) });
+        }
+      }
+      throw { attempts };
+    }
     // ─────────────────────────────────────────────────────────────────────────────
 
     const els = {
@@ -354,15 +388,10 @@
     }
 
     async function init(){
-      const baseUrl = getCatalogURL();
-      els.src.textContent = baseUrl;
+      const candidates = buildCandidates();
       try{
-        // Add timestamp param to bypass CDN caches on refresh
-        const url = new URL(baseUrl, window.location.href);
-        url.searchParams.set('_ts', Date.now().toString());
-        const res = await fetch(url.toString(), { cache: 'no-store' });
-        if(!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
+        const { json, url, attempts } = await fetchFirstAvailable(candidates);
+        els.src.textContent = url;
         DATA = Array.isArray(json) ? json : [];
         // Derive "last updated" display from max(date_updated/date_created)
         const dates = DATA.map(r => r.date_updated || r.date_created).filter(Boolean).sort().reverse();
@@ -372,8 +401,12 @@
         els.count.textContent = 'Could not load catalog.';
         els.grid.innerHTML = '';
         els.empty.hidden = false;
-        els.empty.textContent = `Failed to load ${baseUrl}. Check that your GitHub Action published experiments.json.`;
-        console.error(err);
+        const lines = (err?.attempts||[]).map(a => {
+          if(a.error) return `- ${a.url} → ${a.error}`;
+          return `- ${a.url} → HTTP ${a.status}`;
+        }).join('\n');
+        els.empty.textContent = `Failed to load a catalog. Tried:\n${lines}\nYou can override with ?src=… (e.g., ?src=/public/experiments.json).`;
+        console.error('Catalog load attempts failed:', err);
       }
     }
 
