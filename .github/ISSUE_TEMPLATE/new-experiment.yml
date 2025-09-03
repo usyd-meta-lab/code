@@ -15,8 +15,8 @@ body:
       label: Experiment Folder Name
       description: "Format: exp-YYYY-MM-slug (e.g., exp-2025-09-cloveritol)"
       placeholder: "exp-YYYY-MM-slug"
-    validations:
-      required: true
+      validations:
+        required: true
 
   - type: input
     id: title
