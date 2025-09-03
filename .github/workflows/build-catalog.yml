@@ -48,7 +48,14 @@ jobs:
       - name: Copy site files to public/experiments/
         run: |
           mkdir -p public/experiments
+          # Copy the index page
           cp -f experiments/index.html public/experiments/index.html
+          # Copy experiment subfolders (if any) so /experiments/<id>/index.html works on Pages
+          # It's okay if there are none; `cp` will ignore missing patterns
+          if compgen -G "experiments/*/" > /dev/null; then
+            cp -a experiments/* public/experiments/
+          fi
+          # Place the generated catalog next to the page
           cp -f public/experiments.json public/experiments/experiments.json
 
       - name: Upload artifact for GitHub Pages
