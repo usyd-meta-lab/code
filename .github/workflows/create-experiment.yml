@@ -38,7 +38,8 @@ jobs:
         with:
           script: |
             const body = context.payload.issue?.body || "";
-            const hasHeader = body.includes("### Project Title");
+            // Support both old and new headings
+            const hasHeader = body.includes("### Experiment Title") || body.includes("### Project Title");
             const hasLabel = (context.payload.issue?.labels || []).some(l => l.name === "new-experiment");
             if (hasHeader && !hasLabel) {
               await github.rest.issues.addLabels({
@@ -52,7 +53,7 @@ jobs:
         id: gate
         run: |
           body="${{ github.event.issue.body || '' }}"
-          if echo "$body" | grep -q "### Project Title"; then
+          if echo "$body" | grep -qE "### (Experiment|Project) Title"; then
             echo "ok=true" >> $GITHUB_OUTPUT
           else
             echo "ok=false" >> $GITHUB_OUTPUT
@@ -108,9 +109,13 @@ jobs:
             text = re.sub(r"-+", "-", text)
             return text.strip('-')
 
+          # Read both experiment and project titles
+          exp_title = clean(get_block("Experiment Title")) or clean(get_block("Title"))
+          proj_title = clean(get_block("Project Title"))
           data = {
-            # Updated labels from issue form
-            "title":       clean(get_block("Project Title")),
+            # Experiment title is the canonical title used for id
+            "title":       exp_title,
+            "project_title": proj_title,
             "description": clean(get_block("Description")),
             "status":      clean(get_block("Status")) or "draft",
           }
@@ -162,10 +167,11 @@ jobs:
           # Debug table
           def dbg(key): return data.get(key, "")
           print("Parsed fields:")
-          print(f"  title       : {dbg('title')}")
-          print(f"  status      : {dbg('status')}")
-          print(f"  authors     : {dbg('authors')}")
-          print(f"  tags        : {dbg('tags')}")
+          print(f"  project_title: {dbg('project_title')}")
+          print(f"  title        : {dbg('title')}")
+          print(f"  status       : {dbg('status')}")
+          print(f"  authors      : {dbg('authors')}")
+          print(f"  tags         : {dbg('tags')}")
 
           # Ensure we have a stable id; derive from title if missing
           if not data.get("id"):
