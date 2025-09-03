@@ -1,0 +1,13 @@
+name: "Rebuild catalog"
+description: "Trigger a rebuild and deploy of experiments.json and the site"
+title: "[Catalog] Rebuild experiments.json"
+labels:
+  - rebuild-catalog
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submitting this issue will trigger a rebuild of the catalog and redeploy the site.
+        You can close it after it completes.
+
