@@ -13,6 +13,14 @@ body:
   - type: input
     id: title
     attributes:
+      label: Experiment Title
+      placeholder: "cue-density-cloveritol"
+    validations:
+      required: true
+
+  - type: input
+    id: project_title
+    attributes:
       label: Project Title
       placeholder: "Cloveritol Efficacy Judgement Task"
     validations:
