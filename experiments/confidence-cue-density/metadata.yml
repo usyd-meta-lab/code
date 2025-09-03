@@ -1,0 +1,22 @@
+id: mindset-and-reactivity
+version: 1.0.0
+date_created: '2025-09-03'
+title: confidence-cue-density
+project_title: Causal Illusions and Confidence
+description: Causal induction task with cue density manipulation and confidence ratings
+status: active
+authors:
+- Kit S. Double <kit.double@sydney.edu.au>
+tags:
+- metacognition
+- confidence
+- learning
+- causal illusions
+data:
+  datapipe_name: Causal Illusions and Confidence - Cue Density 
+links:
+  osf: https://osf.io/ekxhn/
+measures:
+- causal induction
+- confidence
+date_updated: '2025-09-03'
