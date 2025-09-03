@@ -32,6 +32,8 @@ body:
     attributes:
       label: Experiment title
       placeholder: "Cloveritol Efficacy"
+    validations:
+      required: true
 
   - type: textarea
     id: description
@@ -68,15 +70,9 @@ body:
       placeholder: "Datapipe Name"
 
   - type: input
-    id: osf_project
-    attributes:
-      label: OSF Project
-      placeholder: "OSF Project Link"
-
-  - type: input
     id: osf_data_component
     attributes:
-      label: OSF Data Component
+      label: OSF Link
       placeholder: "OSF Data Component"
 
   - type: textarea
