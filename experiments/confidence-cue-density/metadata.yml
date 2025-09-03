@@ -1,0 +1,20 @@
+id: confidence-cue-density
+version: 1.0.0
+date_created: '2025-09-03'
+title: confidence-cue-density
+project_title: Causal Illusions and Confidence
+description: Causal induction task with cue density manipulation and confidence ratings
+status: draft
+authors:
+- Kit S. Double <kit.double@sydney.edu.au>
+tags:
+- causal illusions
+- confidence
+data:
+  datapipe_name: Causal Illusions and Confidence - Cue Density
+links:
+  osf: https://osf.io/ekxhn/
+measures:
+- confidence
+- efficacy ratings
+date_updated: '2025-09-03'
