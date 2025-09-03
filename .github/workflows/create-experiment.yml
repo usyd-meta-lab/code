@@ -80,7 +80,10 @@ jobs:
 
           def clean(v:str) -> str:
             v = (v or "").strip()
-            return "" if v in ("_No response_", "No response", "(none)") else v
+            lower = v.lower()
+            if lower in {"_no response_", "no response", "(none)", "none", "n/a", "na"}:
+              return ""
+            return v
 
           def get_block(label:str) -> str:
             m = re.search(rf"^### {re.escape(label)}\s*\n\n([\s\S]*?)(?=\n^### |\Z)", body, re.M)
@@ -95,7 +98,8 @@ jobs:
             text = text or ""
             text = unicodedata.normalize('NFKD', text)
             text = text.encode('ascii', 'ignore').decode('ascii')
-            text = re.sub(r"[^a-zA-Z0-9\s-_]", "", text)
+            # Keep letters, numbers, space, underscore, hyphen; drop others
+            text = re.sub(r"[^a-zA-Z0-9\s_-]", "", text)
             text = text.strip().lower()
             text = re.sub(r"[\s_]+", "-", text)
             text = re.sub(r"-+", "-", text)
