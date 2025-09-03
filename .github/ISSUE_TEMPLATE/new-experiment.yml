@@ -12,7 +12,7 @@ body:
   - type: input
     id: id
     attributes:
-      label: Experiment ID
+      label: Experiment Folder Name
       description: "Format: exp-YYYY-MM-slug (e.g., exp-2025-09-cloveritol)"
       placeholder: "exp-YYYY-MM-slug"
     validations:
@@ -21,10 +21,16 @@ body:
   - type: input
     id: title
     attributes:
-      label: Title
+      label: Project Title
       placeholder: "Cloveritol Efficacy Judgement Task"
     validations:
       required: true
+
+  - type: input
+    id: exp_title
+    attributes:
+      label: Experiment title
+      placeholder: "Cloveritol Efficacy"
 
   - type: textarea
     id: description
@@ -36,19 +42,14 @@ body:
     id: status
     attributes:
       label: Status
-      options: ["draft", "pilot", "active", "archived"]
-      default: 2
-
-  - type: input
-    id: short_title
-    attributes:
-      label: Short title
-      placeholder: "Cloveritol Efficacy"
+      options: ["draft", "active", "archived"]
+      default: 1
 
   - type: input
     id: authors
     attributes:
       label: Authors (comma-separated)
+      default: Kit S. Double <kit.double@sydney.edu.au>
       placeholder: "Kit S. Double <kit.double@sydney.edu.au>, Jane Doe <jane@uni.edu>"
 
   - type: input
@@ -60,14 +61,20 @@ body:
   - type: input
     id: datapipes
     attributes:
-      label: DataPipe IDs (comma-separated)
-      placeholder: "DP-00123, DP-00456"
+      label: DataPipe Name
+      placeholder: "Datapipe Name"
 
   - type: input
-    id: ethics_id
+    id: osf_project
     attributes:
-      label: Ethics ID
-      placeholder: "USYD HREC 2025/123"
+      label: OSF Project
+      placeholder: "OSF Project Link"
+
+  - type: input
+    id: osf_data_component
+    attributes:
+      label: OSF Data Component
+      placeholder: "OSF Data Component"
 
   - type: textarea
     id: links
@@ -75,9 +82,7 @@ body:
       label: Links (YAML)
       description: "Provide YAML for any links you have. You can leave unknown ones blank."
       placeholder: |
-        github: https://github.com/usyd-meta-lab/experiments/tree/main/exp-2025-09-cloveritol
-        live: https://usyd-meta-lab.github.io/experiments/exp-2025-09-cloveritol/
-        osf: https://osf.io/abcd1/
+        reference: https://doi.org/10.1080/13546783.2025.2542252
         prereg: https://osf.io/efgh2/
 
   - type: textarea
