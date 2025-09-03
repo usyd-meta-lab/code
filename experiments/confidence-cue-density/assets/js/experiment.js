@@ -66,7 +66,7 @@ var training_trial = {
         // Cue-; Outcome+
         if(jsPsych.evaluateTimelineVariable('cue') == 'No Treatment' & jsPsych.evaluateTimelineVariable('outcome') == 'Recovery') return '<div style = "width:120px;height:200px;"></div><h1 style = "color: #275AC5">No Treatment</h1><p style = "font-size: 14pt;">Will the patient recover?</p>';
         // Cue-; Outcome-
-        if(jsPsych.evaluateTimelineVariable('cue') == 'No Treatment' & jsPsych.evaluateTimelineVariable('outcome') == 'No Recovery') return '<div style = "width:120px;height:200px;"></div><h1 style = "color: #275AC5">Cloveritol</h1><p style = "font-size: 14pt;">Will the patient recover?</p>';
+        if(jsPsych.evaluateTimelineVariable('cue') == 'No Treatment' & jsPsych.evaluateTimelineVariable('outcome') == 'No Recovery') return '<div style = "width:120px;height:200px;"></div><h1 style = "color: #275AC5">No Treatment</h1><p style = "font-size: 14pt;">Will the patient recover?</p>';
       },
       choices: ['Very unlikely', 'Very likely'],
       data: {type: 'Prediction'}
@@ -136,7 +136,7 @@ var training_trial = {
         // Cue-; Outcome+
         if(jsPsych.evaluateTimelineVariable('cue') == 'No Treatment' & jsPsych.evaluateTimelineVariable('outcome') == 'Recovery') return '<div style = "width:120px;height:200px;"></div><h1 style = "color: #275AC5">No Treatment</h1><p style = "font-size: 18pt; color: green">Patient Recovered</p>';
         // Cue-; Outcome-
-        if(jsPsych.evaluateTimelineVariable('cue') == 'No Treatment' & jsPsych.evaluateTimelineVariable('outcome') == 'No Recovery') return '<div style = "width:120px;height:200px;"></div><h1 style = "color: #275AC5">Cloveritol</h1><p style = "font-size: 18pt; color: red">No Recovery</p>';
+        if(jsPsych.evaluateTimelineVariable('cue') == 'No Treatment' & jsPsych.evaluateTimelineVariable('outcome') == 'No Recovery') return '<div style = "width:120px;height:200px;"></div><h1 style = "color: #275AC5">No Treatment</h1><p style = "font-size: 18pt; color: red">No Recovery</p>';
       },
       choices: ['Next'],
       data: {type: 'Feedback'}
