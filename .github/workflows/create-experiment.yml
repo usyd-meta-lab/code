@@ -92,7 +92,6 @@ jobs:
             return clean(val)
 
           data = {
-            "id":          clean(get_block("Experiment ID")),
             "title":       clean(get_block("Title")),
             "description": clean(get_block("Description")),
             "status":      clean(get_block("Status")) or "draft",
