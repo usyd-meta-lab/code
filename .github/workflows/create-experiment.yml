@@ -176,10 +176,12 @@ jobs:
           PY
 
       - name: Commit files
+        if: steps.gate.outputs.ok == 'true'
         run: |
           git config user.name  "github-actions"
           git config user.email "actions@github.com"
-          git add experiments/**/metadata.yml
+          # Stage changes under experiments/, tolerate no matches
+          git add -A experiments 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
