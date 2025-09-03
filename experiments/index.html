@@ -371,7 +371,7 @@
         els.count.textContent = 'Could not load catalog.';
         els.grid.innerHTML = '';
         els.empty.hidden = false;
-        els.empty.textContent = `Failed to load ${CATALOG_URL}. Check that your GitHub Action published experiments.json.`;
+        els.empty.textContent = `Failed to load ${baseUrl}. Check that your GitHub Action published experiments.json.`;
         console.error(err);
       }
     }
