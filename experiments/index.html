@@ -279,7 +279,8 @@
     }
 
     function card(x){
-      const title = x.short_title || x.title || x.id;
+      const projectTitle = x.project_title || x.title || x.id;
+      const experimentTitle = x.experiment_title || x.short_title || '';
       const desc = x.description || '';
       const tags = (x.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
       const links = [
@@ -291,15 +292,23 @@
       const created = x.date_created || '';
       const updated = x.date_updated ? ` · Updated: ${x.date_updated}` : '';
 
+      const titleBlock = `
+        <div>
+          <div class="proj-title">${escapeHTML(projectTitle)}</div>
+          ${experimentTitle ? `<div class="exp-title">${escapeHTML(experimentTitle)}</div>` : ''}
+        </div>`;
+
+      const titleLinked = (
+        x?.links?.live
+          ? `<a href="${x.links.live}" target="_blank" rel="noopener" aria-label="Open experiment">${titleBlock}</a>`
+          : (x?.links?.github
+              ? `<a href="${x.links.github}" target="_blank" rel="noopener" aria-label="Open repository">${titleBlock}</a>`
+              : titleBlock)
+      );
+
       return `
         <article class="card card-${escapeHTML((x.status||'').toLowerCase())}">
-          <h3>${
-            x?.links?.live
-              ? `<a href="${x.links.live}" target="_blank" rel="noopener">${escapeHTML(title)}</a>`
-              : (x?.links?.github
-                  ? `<a href="${x.links.github}" target="_blank" rel="noopener">${escapeHTML(title)}</a>`
-                  : `${escapeHTML(title)}`)
-          }</h3>
+          ${titleLinked}
           <div class="meta">
             Status: ${escapeHTML(x.status || '—')}
             · Created: ${escapeHTML(created)}${updated}
