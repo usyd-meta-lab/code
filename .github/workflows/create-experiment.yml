@@ -72,11 +72,13 @@ jobs:
         id: parse
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
           python3 - <<'PY'
           import os, re, json, yaml, sys, unicodedata
 
           body = os.environ.get("ISSUE_BODY", "")
+          issue_title = os.environ.get("ISSUE_TITLE", "")
 
           def clean(v:str) -> str:
             v = (v or "").strip()
@@ -86,7 +88,8 @@ jobs:
             return v
 
           def get_block(label:str) -> str:
-            m = re.search(rf"^### {re.escape(label)}\s*\n\n([\s\S]*?)(?=\n^### |\Z)", body, re.M)
+            # Accept one or more newlines between heading and content
+            m = re.search(rf"^### {re.escape(label)}\s*\n+([\s\S]*?)(?=\n^### |\Z)", body, re.M)
             if not m:
               return ""
             val = m.group(1).strip()
@@ -111,6 +114,13 @@ jobs:
             "description": clean(get_block("Description")),
             "status":      clean(get_block("Status")) or "draft",
           }
+
+          # Fallback: if the form body didn't include the title, use the Issue title
+          if not data["title"] and issue_title:
+            t = issue_title.strip()
+            # Strip a leading tag like "[Experiment]" if present
+            t = re.sub(r"^\[[^\]]+\]\s*", "", t)
+            data["title"] = clean(t)
 
           authors = [a.strip() for a in clean(get_block("Authors (comma-separated)")).split(",") if a.strip()]
           tags    = [t.strip() for t in clean(get_block("Tags (comma-separated)")).split(",") if t.strip()]
