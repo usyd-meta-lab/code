@@ -1,23 +1,16 @@
 name: "New experiment"
 description: "Create an experiment folder with metadata"
-title: "[Experiment] "
+title: "Expeirment Name"
 labels:
   - new-experiment
+validations:
+  required: true
 
 body:
   - type: markdown
     attributes:
       value: |
         Fill this in to register a new experiment. The workflow will create a folder and `metadata.yml`.
-
-  - type: input
-    id: id
-    attributes:
-      label: Experiment Name
-      description: "e.g., cloveritol-cue-density"
-      placeholder: "exp-YYYY-MM-slug"
-    validations:
-      required: true
 
   - type: input
     id: title
