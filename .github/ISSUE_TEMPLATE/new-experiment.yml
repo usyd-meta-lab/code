@@ -13,8 +13,8 @@ body:
   - type: input
     id: id
     attributes:
-      label: Experiment Folder Name
-      description: "Format: exp-YYYY-MM-slug (e.g., exp-2025-09-cloveritol)"
+      label: Experiment Name
+      description: "e.g., cloveritol-cue-density"
       placeholder: "exp-YYYY-MM-slug"
     validations:
       required: true
