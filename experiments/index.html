@@ -31,6 +31,7 @@
     .title { display:flex; gap:10px; align-items:center; }
     .title h1 { font-size: 22px; margin: 0; }
     .title small { color: var(--muted); }
+    .title .spacer { flex: 1 1 auto; }
 
     /* Controls */
     .controls { display:grid; gap: 10px; grid-template-columns: 2fr 1fr 1fr 1fr; align-items:end; margin-top: 12px; }
@@ -146,6 +147,13 @@
         <img src="https://usyd-meta-lab.github.io/images/logo.PNG" alt="USYD Meta Lab Logo" style="height:40px;">
         <h1>USYD Meta Lab — Experiments</h1>
         <small id="updated"></small>
+        <button id="refresh" class="iconbtn" title="Refresh list" aria-label="Refresh list" style="margin-left:4px">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12a8 8 0 0 1 13.657-5.657M20 12a8 8 0 0 1-13.657 5.657" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M17 3v4h-4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M7 21v-4h4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </button>
         <a class="new-exp ml-auto" href="https://github.com/usyd-meta-lab/code/issues/new?template=new-experiment.yml&labels=new-experiment&title=%5BExperiment%5D%20" target="_blank" rel="noopener" aria-label="Create a new experiment" title="Create a new experiment">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
@@ -219,6 +227,7 @@
       src: document.getElementById('src'),
       tagInput: document.getElementById('tagInput'),
       tagChips: document.getElementById('tagChips'),
+      refresh: document.getElementById('refresh'),
     };
 
     let DATA = [];
@@ -367,6 +376,7 @@
     els.status.addEventListener('change', render);
     els.sort.addEventListener('change', render);
     els.tagInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); addTagFromInput(); } });
+    els.refresh.addEventListener('click', (e)=>{ e.preventDefault(); init(); });
 
     // Allow setting catalog via URL ?src=
     (function overrideFromQuery(){

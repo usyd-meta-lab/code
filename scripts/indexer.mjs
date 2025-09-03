@@ -11,7 +11,11 @@ async function main() {
   const schema = JSON.parse(await fs.readFile("scripts/schema.json", "utf8"));
   const validate = ajv.compile(schema);
 
-  const files = await glob("experiments/**/metadata.yml");
+  // Support both .yml and .yaml
+  const files = [
+    ...(await glob("experiments/**/metadata.yml")),
+    ...(await glob("experiments/**/metadata.yaml")),
+  ].sort();
   const records = [];
   const errors = [];
 
@@ -23,7 +27,7 @@ async function main() {
       errors.push({ file, errors: validate.errors });
     } else {
       // infer some nice defaults
-      const base = file.replace(/\/metadata\.yml$/, "/");
+      const base = file.replace(/\/metadata\.ya?ml$/, "/");
       records.push({
         ...data,
         paths: {
