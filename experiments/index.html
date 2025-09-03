@@ -212,8 +212,9 @@
     // ─────────────────────────────────────────────────────────────────────────────
     // CONFIG: If experiments.json is on the SAME site, set to '/experiments.json'.
     // Otherwise, point to your Pages URL, e.g.:
-    // 'https://usyd-meta-lab.github.io/experiments/experiments.json'
-    const DEFAULT_CATALOG_URL = 'https://usyd-meta-lab.github.io/code/experiments/experiments.json'; // default (works on GitHub Pages repo paths)
+    // Default to a path relative to this page so it works anywhere it's hosted
+    // On GitHub Pages at /code/experiments/index.html this resolves to /code/experiments/experiments.json
+    const DEFAULT_CATALOG_URL = './experiments.json';
     function getCatalogURL(){ return window.CATALOG_URL || DEFAULT_CATALOG_URL; }
     // ─────────────────────────────────────────────────────────────────────────────
 
