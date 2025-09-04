@@ -4,7 +4,7 @@ date_created: '2025-09-03'
 title: confidence-cue-density
 project_title: Causal Illusions and Confidence
 description: Causal induction task with cue density manipulation and confidence ratings
-status: draft
+status: active
 authors:
 - Kit S. Double <kit.double@sydney.edu.au>
 tags:
