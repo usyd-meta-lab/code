@@ -108,7 +108,7 @@ var faces_block = {
       preamble: function(){return "<img src = 'assets/img/" + jsPsych.evaluateTimelineVariable('face') + ".jpg'></img><p>How much is each feeling below expressed by this face? (i.e. Select a response from 1-5, where 1 = no feeling and 5 = extreme feeling)</p>"},
       labels: ["1", "2", "3", "4", "5"],
       questions: [
-        {name: 'Hapiness',   anchors: ['No happiness',   'Extreme happiness']},
+        {name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
         {name: 'Fear',       anchors: ['No fear',        'Extreme fear']},
         {name: 'Surprise',   anchors: ['No surprise',    'Extreme surprise']},
         {name: 'Disgust',    anchors: ['No disgust',     'Extreme disgust']},
@@ -545,7 +545,7 @@ var sensations_block = {
     // Q1
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
-      preamble: "<h3>INSTRUCTIONS: For each item below, you are asked to imagine feeling a certain way. Answer as best as you can, even if you are unable to imagine the feeling.</h3><p>1. Imagine feeling guilty that you forgot to visit a close friend who has a serious illness. In the middle of the day you realize you completely forgot to visit your friend at the hospital. How much is the feeling of guilt like each of the following?</p>",
+      preamble: "<h3>INSTRUCTIONS: For each item below, you are asked to imagine feeling a certain way. Answer as best as you can, even if you are unable to imagine the feeling.</h3><p>1. Imagine feeling guilty that you forgot to visit a close friend who has a serious illness. In the middle of the day you realise you completely forgot to visit your friend at the hospital. How much is the feeling of guilt like each of the following?</p>",
       labels: ["1 (Not alike)", "2", "3", "4", "5 (Very much alike)"],
       questions: [
         {name: 'cold',   anchors: ['cold',   '']},
@@ -671,7 +671,7 @@ var changes_block = {
           required: false
         },
         {
-          prompt: "3. Natalie had never been more surprised in her life. But as she recovered from the shock of the loss and realized she could gain some advantage from the situation if she planned carefully, she became .....", 
+          prompt: "3. Natalie had never been more surprised in her life. But as she recovered from the shock of the loss and realised she could gain some advantage from the situation if she planned carefully, she became .....", 
           name: 'changes_Q3', 
           options: ['amazed', 'confused', 'denying of the situation', 'expectant', 'pensive'], 
           required: false
