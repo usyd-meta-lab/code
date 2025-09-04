@@ -1,0 +1,23 @@
+id: shape-categorisation-mindset
+version: 1.0.0
+date_created: '2025-09-04'
+title: shape-categorisation-mindset
+project_title: Relational Mindset and Categorisation
+description: Relational mindset manipulation designed to enhance rule learning during
+  a categorisation task
+status: active
+authors:
+- Micah B. Goldwater
+tags:
+- categorisation
+- mindset
+data:
+  datapipe_name: shape-categorisation-mindset  (exp1)
+links:
+  osf: https://osf.io/d2arv/
+sample:
+  population: SONA
+measures:
+- categorisation
+- Little and McDaniel paradigm
+date_updated: '2025-09-04'
