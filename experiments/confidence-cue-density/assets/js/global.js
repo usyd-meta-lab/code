@@ -44,15 +44,15 @@ let in_fullscreen = false   // Tracks whether participant is in fullscreen (set 
 
 
         // Turn on to save a local copy
-        jsPsych.data.get().localSave('csv','mydata.csv'); 
+        //jsPsych.data.get().localSave('csv','mydata.csv'); 
 
         const meanCorrect = jsPsych.data.get().filter({trial_type: "Summary Trial"}).select('correct').mean();
         if (meanCorrect < accuracy_criterion) {
         // Failed check
-      //   window.location = attention_redirect_link;
+         window.location = attention_redirect_link;
         } else {
         // Passed check
-      //  window.location = redirect_link;
+        window.location = redirect_link;
         }
       }
     }
