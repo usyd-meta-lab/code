@@ -27,6 +27,7 @@
   <script src="https://unpkg.com/@jspsych/plugin-survey-likert@2.1.0"></script>
   <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
   <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@2.1.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey@3.0.0"></script>
   
   <!-- Load the info sheets -->
   <script src="assets/js/plugin-survey-matrix.js"></script>
@@ -36,34 +37,17 @@
   
   <!-- Custom CSS -->
   <link href="assets/css/custom-css.css" rel="stylesheet" type="text/css" />
-  <style>
-    html, body { margin:0; padding:0; width:100%; }
-    /* Center jsPsych’s containers and cap width at 80% of the viewport */
-    #jspsych-target,
-    .jspsych-display-element,
-    .jspsych-content-wrapper,
-    #jspsych-content {
-      max-width: 80vw;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-    /* Left-align multi-choice question text */
-    .jspsych-survey-multi-choice-preamble,
-    .jspsych-survey-multi-choice-question {
-      text-align: left !important;
-    }
-    
-    /* Force left alignment for survey-multi-choice prompts and options */
-    .jspsych-survey-multi-choice-question,
-    .jspsych-survey-multi-choice-question .jspsych-survey-multi-choice-text,
-    .jspsych-survey-multi-choice-question ul,
-    .jspsych-survey-multi-choice-question li,
-    .jspsych-survey-multi-choice-question label {
-      text-align: left !important;
-    }
+  <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@3.0.0/css/survey.min.css">
 
+  <style>
+    
     body {
       background-color: #A3A3A3;
+    }
+
+    .jspsych-content{
+      padding-left: 30px;
+      padding-right: 30px;
     }
   </style>
   
@@ -151,7 +135,7 @@ let provide_feedback;       // Tracks feedback mode (true during practice, false
   debug,
   save_data,
   DEBRIEF_School,
-  data_saved,  
+  study_complete_notification
   ];
   
   

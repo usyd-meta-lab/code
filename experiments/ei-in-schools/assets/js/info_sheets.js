@@ -1,55 +1,137 @@
- var demographics = {
-       timeline: [
-      {type: jsPsychSurveyHtmlForm,
-      preamble: "<font size = '15' color='#002080'>Basic Information</font>",
-      html: '<div style = "text-align: left"><br><p><b> Age: </b><br><input name="age" type="number" min ="17" max = "100" style = "width: 8em;"required></p>' +
-      '<p><b>Sex:</b></p><div><input type="radio" id="male" name="sex" value="male"unchecked><label for="male">Male</label></div><div><input type="radio" id="female" name="sex" value="female"><label for="female">Female</label></div><div><input type="radio" id="other" name="sex" value="other"><label for="other">Non binary/prefer not to say</label></div>' +
-      '<p><b>Do you speak english fluently?:</b></p><div><input type="radio" id="yes" name="english" value="yes"unchecked><label for="yes">Yes</label></div><div><input type="radio" id="no" name="english" value="no"><label for="no">No</label></p></div><div></div>',
-      on_finish: function(data){
-        jsPsych.data.addProperties({age: data.response.age, sex: data.response.sex, english_fluent: data.response.english});
+var demographics = {
+  timeline: [
+    {
+      type: jsPsychSurvey,
+      survey_json: {
+        title: "Demographic Information",
+        showQuestionNumbers: "on",
+        pages: [
+          {
+            elements: [
+              {
+                type: "text",
+                name: "age",
+                title: "1. Age",
+                inputType: "number",
+                min: 17,
+                max: 100,
+                isRequired: true,
+                width: "200px"
+              },
+              {
+                type: "radiogroup",
+                name: "sex",
+                title: "2. Gender",
+                isRequired: true,
+                choices: [
+                  { value: "man", text: "Man" },
+                  { value: "woman", text: "Woman" },
+                  { value: "trans_gd", text: "Trans and/or gender diverse" },
+                  { value: "different_term", text: "I use a different term" },
+                  { value: "prefer_not", text: "Prefer not to say" }
+                ]
+              },
+              {
+                type: "radiogroup",
+                name: "english_first",
+                title: "3. Is English your first language?",
+                isRequired: true,
+                choices: [
+                  { value: "yes", text: "Yes" },
+                  { value: "no", text: "No" }
+                ]
+              },
+              {
+                type: "text",
+                name: "home_language",
+                title: "i. What language do you speak at home?",
+                visibleIf: "{english_first} = 'no'",
+                isRequired: true,
+                width: "20em"
+              },
+              {
+                type: "radiogroup",
+                name: "english_duration",
+                title: "ii. How long have you been speaking English?",
+                visibleIf: "{english_first} = 'no'",
+                 isRequired: true,
+                choices: [
+                  { value: "<1", text: "< 1 year" },
+                  { value: "2-5", text: "2-5 years" },
+                  { value: "5-10", text: "5-10 years" },
+                  { value: "10+", text: "+ 10 years" }
+                ]
+              },
+              {
+                type: "sliders",
+                name: "english_confidence",
+                title: "iii. How confident are you with your English skills?",
+                visibleIf: "{english_first} = 'no'",
+                isRequired: false,
+                // Single-thumb slider from 0 to 100
+                min: 0,
+                max: 100,
+                step: 1,
+                value: 50,
+                hideNumber: false,
+                // Helper text below the slider
+                description: "0 = need assistance when out; 100 = proficient and confident"
+              },
+              {
+                type: "radiogroup",
+                name: "school_year",
+                title: "4. What school year are you currently in?",
+                isRequired: true,
+                choices: [
+                  { value: "9", text: "Year 9" },
+                  { value: "10", text: "Year 10" },
+                  { value: "11", text: "Year 11" },
+                  { value: "12", text: "Year 12" },
+                  { value: "not_attending", text: "I am not currently attending school" }
+                ]
+              }
+            ]
+          }
+        ]
       },
-      on_load: function(){
-        document.querySelector('#jspsych-survey-html-form-next').disabled = true;
-
-
-        $('input[type="radio"]').on("click", function(e) {
-          if($("input[name=age]" ).val() == '' || $("input[type=radio][name=sex]:checked" ).val() === undefined || $( "input[type=radio][name=english]:checked" ).val() === undefined ){return} else {
-            document.querySelector('#jspsych-survey-html-form-next').disabled = false;
-          }
-        })
-
-        $('input[type="number"]').on("change", function(e) {
-          if($("input[name=age]" ).val() == '' || $("input[type=radio][name=sex]:checked" ).val() === undefined || $( "input[type=radio][name=english]:checked" ).val() === undefined ){return} else {
-            document.querySelector('#jspsych-survey-html-form-next').disabled = false;
-          }
-        })
-
-
-
+      on_finish: function(data){
+        // Add key responses as top-level properties for convenience/consistency
+        var r = data.response || {};
+        jsPsych.data.addProperties({
+          age: r.age,
+          sex: r.sex,
+          english_first: r.english_first,
+          home_language: r.home_language,
+          english_duration: r.english_duration,
+          english_confidence: r.english_confidence,
+          school_year: r.school_year
+        });
       }
     }
-    ],
-    conditional_function: function(){
-      if(typeof SONAID != 'undefined') {return true} else {return false}
-    }}
-
-    
-
-
+  ],
+  conditional_function: function(){
+    if(typeof SONAID != 'undefined') {return true} else {return false}
+  }}
+  
+  
+  
   /* 
   ===============================================================
   =                SCHOOLS Project                =
   ===============================================================
   */
   
-
-
-var participant_info_school = {
-  timeline: [{
-    type: jsPsychInstructions,
-    pages: function(){
-      return [
-        `
+  
+  
+  var participant_info_school = {
+    timeline: [{
+      type: jsPsychInstructions,
+      on_load: function(){
+        document.body.style.backgroundColor = "white";
+      },
+      pages: function(){
+        return [
+          `
   <div style="padding-left: 50px;">
     <div style="text-align: left;">
       <img style="height: 100px; float: right" src="https://usyd-meta-lab.github.io/files/usyd.ico"></img>
@@ -94,21 +176,24 @@ For any questions or further discussions, please contact Dr Kit Double at (<a hr
       <div style="text-align: center;"></div>
     </div>
   `
-      ]
-},
-show_clickable_nav: true,
-button_label_next: "Start",
-allow_backward: false
-}]
-}
-
-
-
-var DEBRIEF_School = {
-  timeline: [{
-    type: jsPsychInstructions,
-    pages: [
-      `
+        ]
+      },
+      show_clickable_nav: true,
+      button_label_next: "Start",
+      allow_backward: false
+    }]
+  }
+  
+  
+  
+  var DEBRIEF_School = {
+    timeline: [{
+      type: jsPsychInstructions,
+      on_load: function(){
+        document.body.style.backgroundColor = "white";
+      },
+      pages: [
+        `
   <div style="padding-left: 50px;">
     <div style="text-align: left;">
       <img style="height: 100px; float: right" src="https://usyd-meta-lab.github.io/files/usyd.ico"></img>
@@ -118,13 +203,15 @@ var DEBRIEF_School = {
       School of Psychology, Faculty of Science<br>
       Phone: +61 2 8627 8636| Email: kit.double@sydney.edu.au
     </div>
+    <p style="text-align: left;">Download a copy of this information <a href="assets/pdf/Debrief.pdf" target="_blank">here</a>.</p>
     <hr>
     <div style="text-align: left;">
-      Thank you for participating in this research study. This study aims to understand how self-assessment affects emotional intelligence.
-Self-assessment involves rating or evaluating your performance in some way. Self-assessment while performing cognitive tasks (e.g., problem-solving tasks, memory tests) has been shown to impact performance.
-This research is interested in whether these findings extend to situations involving tests of emotional intelligence. That is, can your emotional intelligence be improved by self-assessing your performance? To investigate this, the study required you to complete questionnaires assessing your emotional intelligence and your ability to self-assess your performance on a range of tasks. We will explore how performing this self-assessment related to your performance on the emotional intelligence task (i.e., did it improve or impair your performance?). Such research is critical in the development of interventions to improve emotional intelligence and wellbeing outcomes in young persons. We thank you for your participation in this important research.
-If you have any questions, now or at a later time, please feel free to contact Dr Kit Double (kit.double@sydney.edu.au).
-
+    <p>Thank you for participating in this research study. This study aims to understand how self-assessment affects emotional intelligence.</p>
+<p>Self-assessment involves rating or evaluating your performance in some way. Self-assessment while performing cognitive tasks (e.g., problem-solving tasks, memory tests) has been shown to impact performance.</p>
+<p>This research is interested in whether these findings extend to situations involving tests of emotional intelligence. That is, can your emotional intelligence be improved by self-assessing your performance? To investigate this, the study required you to complete questionnaires assessing your emotional intelligence and your ability to self-assess your performance on a range of tasks. We will explore how performing this self-assessment related to your performance on the emotional intelligence task (i.e., did it improve or impair your performance?). Such research is critical in the development of interventions to improve emotional intelligence and wellbeing outcomes in young persons. We thank you for your participation in this important research.</p>
+<p>If you have any questions, now or at a later time, please feel free to contact Dr Kit Double (kit.double@sydney.edu.au).
+</p>        
+<p>
 The ethical aspects of this study have been approved by the Human Research Ethics Committee (GREC) of The University of Sydney [2025/HE000082] according to the National Statement on Ethical Conduct in Human Research (2023).
 If you are concerned about the way this study is being conducted or you wish to make a complaint to someone independent from the study, please contact the University:
 <br><br>
@@ -136,17 +223,20 @@ If you are concerned about the way this study is being conducted or you wish to 
     <div style="text-align: center;"></div>
   </div>
   `
-      ]
-  }]
-}
-
-
-
-var school_consent = {
-  timeline: [{
-    type: jsPsychInstructions,
-    pages: [
-      `
+      ],
+         show_clickable_nav: true,
+      button_label_next: "Finish",
+      allow_backward: false
+    }]
+  }
+  
+  
+  
+  var school_consent = {
+    timeline: [{
+      type: jsPsychInstructions,
+      pages: [
+        `
   <div style="padding-left: 50px;">
     <div style="text-align: left;">
       <img style="height: 100px; float: right" src="https://usyd-meta-lab.github.io/files/usyd.ico"></img>
@@ -158,12 +248,12 @@ var school_consent = {
     </div>
     <hr>
    <div style="text-align: left; padding-left: 20px;">
-
+        
   <ul>
     <li>The details of my involvement have been explained to me, and I have been provided with a written Participant Information Statement to keep.</li>
     <li>I understand the purpose of the study is to investigate how people monitor and control their emotional intelligence.</li>
     <li>I acknowledge that the risks and benefits of participating in this study have been explained to me to my satisfaction.</li>
-    <li>I understand that in this study I will be required to complete an online survey where I will answer questions about myself and complete a range of [cognitive and/or wellbeing and/or emotional intelligence] questionnaires. As I complete these questionnaires, I understand I may be asked to self-assess my performance.</li>
+    <li>I understand that in this study I will be required to complete an online survey where I will answer questions about myself and complete a range of cognitive and emotional intelligence questionnaires. As I complete these questionnaires, I understand I may be asked to self-assess my performance.</li>
     <li>I understand that if I provide consent my information may be used in future research by the present researchers or other researchers as responses to this study may be placed on online research data repositories where other researchers can access the data. No one will know which responses are mine because no personal information that could be used to identify me is being recorded.</li>
     <li>I understand that being in this study is completely voluntary.</li>
     <li>I am assured that my decision to participate will not have any impact on my relationship with the research team or the University of Sydney.</li>
@@ -172,9 +262,9 @@ var school_consent = {
     <li>I understand that the results of this study may be published, and that publications will not contain my name or any identifiable information about me.</li>
     <li>I understand that after I sign and return this consent form it will be retained by the researcher, and that I may request a copy at any time.</li>
   </ul>
-
+        
   <p><strong>I confirm the following:</strong></p>
-
+        
   <ul>
     <li>I consent to participate in this study</li>
     <input type="checkbox" id="consent_yes" name="consent" value="yes">
@@ -182,41 +272,60 @@ var school_consent = {
     <input type="checkbox" id="consent_no" name="consent" value="no">
     <label for="consent_no"> No </label><br>
   </ul>
-
+        
 </div>
   `
-    ],
-    show_clickable_nav: true,
-    button_label_next: "Continue",
-    allow_backward: false,
-    on_load: function() {
-      // Disable Continue button initially
-      const nextButton = document.querySelector('#jspsych-instructions-next');
-      nextButton.disabled = true;
-      nextButton.style.opacity = 0.5;
+      ],
+      show_clickable_nav: true,
+      button_label_next: "Continue",
+      allow_backward: false,
+      on_load: function() {
+        // Disable Continue button initially
+        const nextButton = document.querySelector('#jspsych-instructions-next');
+        nextButton.disabled = true;
+        nextButton.style.opacity = 0.5;
+        
+        const yesBox = document.getElementById('consent_yes');
+        const noBox = document.getElementById('consent_no');
+        
+        yesBox.addEventListener('change', function() {
+          if (yesBox.checked) {
+            noBox.checked = false; // ensure only one is selected
+            nextButton.disabled = false;
+            nextButton.style.opacity = 1;
+          } else {
+            nextButton.disabled = true;
+            nextButton.style.opacity = 0.5;
+          }
+        });
+        
+        noBox.addEventListener('change', function() {
+          if (noBox.checked) {
+            yesBox.checked = false;
+            nextButton.disabled = true;
+            nextButton.style.opacity = 0.5;
+            alert("You must provide consent (Yes) to participate in this study.");
+          }
+        });
+      },
+    }]
+  };
 
-      const yesBox = document.getElementById('consent_yes');
-      const noBox = document.getElementById('consent_no');
 
-      yesBox.addEventListener('change', function() {
-        if (yesBox.checked) {
-          noBox.checked = false; // ensure only one is selected
-          nextButton.disabled = false;
-          nextButton.style.opacity = 1;
-        } else {
-          nextButton.disabled = true;
-          nextButton.style.opacity = 0.5;
-        }
-      });
-
-      noBox.addEventListener('change', function() {
-        if (noBox.checked) {
-          yesBox.checked = false;
-          nextButton.disabled = true;
-          nextButton.style.opacity = 0.5;
-          alert("You must provide consent (Yes) to participate in this study.");
-        }
-      });
-    },
-  }]
-};
+  var study_complete_notification = {
+  timeline: [
+    {
+      type: jsPsychInstructions,
+      pages: [
+        `You have completed the study. Please notify the experimenter now.`
+      ]
+    }
+  ],
+  conditional_function: function(){
+    if(typeof in_lab !== "undefined" && in_lab === true){
+      return true
+    } else{ 
+      return false}
+      
+    }
+  }

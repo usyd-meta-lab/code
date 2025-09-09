@@ -35,7 +35,7 @@ Branch 4: Managing Emotions
 
 
 
-
+require_response = false;
 
 /* 
 ===============================================================
@@ -46,6 +46,9 @@ Branch 4: Managing Emotions
 
 var msceit_instructions = {
     type: jsPsychInstructions,
+    on_load: function(){
+         document.body.style.backgroundColor = "#A3A3A3";
+    },
     pages: [
     `
 <div style="text-align: left; padding-left: 20px; max-width: 70ch; margin: auto;">
@@ -152,35 +155,35 @@ var pictures_block = {
           prompt: "<p style = 'text-align:left;'>Happiness<p>", 
           name: 'Happiness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "<p style = 'text-align:left;'>Sadness</p>", 
           name: 'Sadness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Fear</p>", 
           name: 'Fear',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Anger</p>", 
           name: 'Anger',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Disgust</p>", 
           name: 'Disgust',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -198,35 +201,35 @@ var pictures_block = {
           prompt: "<p style = 'text-align:left;'>Sadness<p>", 
           name: 'Sadness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "<p style = 'text-align:left;'>Anger</p>", 
           name: 'Anger', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Surprise</p>", 
           name: 'Surprise',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Happiness</p>", 
           name: 'Happiness',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Excitement</p>", 
           name: 'Excitement',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -244,35 +247,35 @@ var pictures_block = {
           prompt: "<p style = 'text-align:left;'>Happiness<p>", 
           name: 'Happiness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "<p style = 'text-align:left;'>Fear</p>", 
           name: 'Fear', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Anger</p>", 
           name: 'Anger',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Surprise</p>", 
           name: 'Surprise',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Disgust</p>", 
           name: 'Disgust',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -291,35 +294,35 @@ var pictures_block = {
           prompt: "<p style = 'text-align:left;'>Sadness<p>", 
           name: 'Sadness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "<p style = 'text-align:left;'>Fear</p>", 
           name: 'Fear', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Anger</p>", 
           name: 'Anger',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Surprise</p>", 
           name: 'Surprise',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Disgust</p>", 
           name: 'Disgust',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -338,35 +341,35 @@ var pictures_block = {
           prompt: "<p style = 'text-align:left;'>Happiness<p>", 
           name: 'Happiness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "<p style = 'text-align:left;'>Sadness</p>", 
           name: 'Sadness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Fear</p>", 
           name: 'Fear',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Anger</p>", 
           name: 'Anger',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Disgust</p>", 
           name: 'Disgust',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -385,35 +388,35 @@ var pictures_block = {
           prompt: "<p style = 'text-align:left;'>Happiness<p>", 
           name: 'Happiness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "<p style = 'text-align:left;'>Sadness</p>", 
           name: 'Sadness', 
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Anger</p>", 
           name: 'Anger',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Surprise</p>", 
           name: 'Surprise',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "<p style = 'text-align:left;'>Disgust</p>", 
           name: 'Disgust',  
           options: ['1', '2', '3', '4', '5'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -942,28 +945,28 @@ var management_block = {
           prompt: "Action 1: She got up and enjoyed the rest of the day", 
           name: 'management_q1_action1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 2: Mara enjoyed the feeling and decided to think about and appreciate all the things that were going well for her.", 
           name: 'management_q1_action2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Action 3: She decided it was best to ignore the feeling since it wouldn't last anyway.", 
           name: 'management_q1_action3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 4: She used the positive feeling to call her Mother, who had been depressed, and tried to cheer her up.", 
           name: 'management_q1_action4', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
       ],
@@ -981,28 +984,28 @@ var management_block = {
           prompt: "Action 1: Andrew sat down and thought about all the good things in his life and work", 
           name: 'management_q2_action1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 2: Andrew made a list of positive and negative traits of his colleague.", 
           name: 'management_q2_action2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Action 3: Andrew felt terrible that he felt that way, and he told himself that it wasn't right to be so upset.", 
           name: 'management_q2_action3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 4: Andrew decided to tell people just what a poor job his colleague had done, and that he did not deserve the merit award. Andrew gathered memos and notes to prove his point, so it wasn't just his word.", 
           name: 'management_q2_action4', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
       ],
@@ -1020,28 +1023,28 @@ var management_block = {
           prompt: "Action 1: Jane tried to work out what she owed, how much was due, and when it was due.", 
           name: 'management_q3_action1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 2: Jane learned deep relaxation techniques to calm herself down.", 
           name: 'management_q3_action2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Action 3: Jane got the name of a financial planner to help her figure out how to manage her finances properly.", 
           name: 'management_q3_action3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 4: She decided to look for a job that paid more money.", 
           name: 'management_q3_action4', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
       ],
@@ -1059,28 +1062,28 @@ var management_block = {
           prompt: "Action 1: Ed started to call friends he hadn’t spoken to in a while and made plans to see a few people.", 
           name: 'management_q4_action1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 2: He started to eat better, to get to bed earlier, and to exercise more.", 
           name: 'management_q4_action2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Action 3: Ed felt that he was bringing people down and decided to stay by himself more until he could work out what was bothering him. He felt he needed time alone.", 
           name: 'management_q4_action3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 4: Ed found that relaxing in front of the TV at night, with a beer or two, really helped him to feel better.", 
           name: 'management_q4_action4', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
       ],
@@ -1098,28 +1101,28 @@ var management_block = {
           prompt: "Action 1: Robert taught the truck driver a lesson by cutting him off a few miles down the highway.", 
           name: 'management_q5_action1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 2: Robert just accepted that these things happen and drove home.", 
           name: 'management_q5_action2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Action 3: He yelled as loud as he could, and cursed and swore at the driver.", 
           name: 'management_q5_action3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Action 4: He vowed never to drive that way again.", 
           name: 'management_q5_action4', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
       ],
@@ -1146,21 +1149,21 @@ var relationships_block = {
           prompt: "Response 1: John felt good for him and told his friend that he was glad he got the new job. Over the next few weeks, John made arrangements to ensure they stayed in touch.", 
           name: 'Response1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Response 2: John felt sad that his friend was leaving, but he considered what happened as an indication that the friend did not much care for him. After all, the friend said nothing about his job search. Given that his friend was leaving anyway, John did not mention it, but instead went looking for other friends at work.", 
           name: 'Response2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Response 3: John was very angry that his friend hadn&apos;t said anything. John showed his disapproval by deciding to ignore his friend until the friend said something about what he had done. John thought that if his friend didn&apos;t say anything, it would confirm John&apos;s opinion that the friend was not worth talking to.", 
           name: 'Response3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -1178,21 +1181,21 @@ var relationships_block = {
           prompt: "Response 1: The parents told the teacher that this was a big shock to them since this was the first time that had ever heard there was a problem. They asked to meet with the teacher and also requested if the principal could attend the meeting.", 
           name: 'Response1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Response 2: The parents said to the teacher that if she continued to threaten to have their son repeat the grade, they would take it up with the principal. They said, “If our son is left back, we will hold you personally responsible. You are the teacher and your job is to teach, not blame the student”.", 
           name: 'Response2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Response 3: Roy&apos;s parents hung up on the teacher and called the principal. They complained about the teacher&apos;s threats and asked that their son be moved to a different classroom.", 
           name: 'Response3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }
       ],
@@ -1210,21 +1213,21 @@ var relationships_block = {
           prompt: "Response 1: Since everything is so good, it&apos;s okay to feel proud of it. But Liz also realized that some people see it as bragging, or may be jealous of her and so she only talked to close friends about her feelings.", 
           name: 'Response1', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         }, 
         {
           prompt: "Response 2: Liz started to think of all the things that could possibly go wrong in the future so she could gain perspective on her life. She saw that good feelings don&apos;t always last.", 
           name: 'Response2', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
         },
         {
           prompt: "Response 3: Liz shared her feelings with her husband that night. Then she decided that the family should spend time together on the weekend and get involved in several family events just to be together.", 
           name: 'Response3', 
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
-          required: false,
+          required: require_response,
           horizontal: true
     }
       ],
