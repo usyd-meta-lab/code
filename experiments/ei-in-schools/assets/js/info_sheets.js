@@ -13,7 +13,7 @@ var demographics = {
                 name: "age",
                 title: "1. Age",
                 inputType: "number",
-                min: 17,
+                min: 13,
                 max: 100,
                 isRequired: true,
                 width: "200px"
