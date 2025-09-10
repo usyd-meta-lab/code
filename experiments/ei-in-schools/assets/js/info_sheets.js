@@ -317,7 +317,7 @@ If you are concerned about the way this study is being conducted or you wish to 
     {
       type: jsPsychInstructions,
       pages: [
-        `You have completed the study. Please notify the experimenter now.`
+        `You have completed the study. You can work quitely on your own now.`
       ]
     }
   ],
