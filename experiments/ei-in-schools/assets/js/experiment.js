@@ -139,291 +139,259 @@ var faces_block = {
 
 // Pictures Task
 
+// Helper to build a 1–5 image picker for an emotion
+function emotionPicker(emotion) {
+  const mk = (v) => ({
+    value: String(v),
+    text: String(v),
+    imageLink: `assets/img/faces/${emotion}+${v}.jpg`
+  });
+  return {
+    type: "imagepicker",
+    name: emotion,
+    title: emotion,
+    isRequired: require_response,
+    choices: [mk(1), mk(2), mk(3), mk(4), mk(5)],
+    colCount: 5,
+    multiSelect: false,
+    showLabel: true,
+    imageWidth: 60,
+    imageHeight: 60
+  };
+}
 
+// inject once
+function ensureSurveyGreyBg(){
+  if (document.getElementById('survey-grey-bg')) return;
+  const s = document.createElement('style');
+  s.id = 'survey-grey-bg';
+  s.textContent = `
+    /* Backgrounds */
+    .jspsych-content,
+    .jspsych-survey-container,
+    .jspsych-survey-container .sd-root-modern,
+    .jspsych-survey-container .sd-body { background-color:#A3A3A3 !important; }
 
+    .jspsych-survey-container .sd-container-modern,
+    .jspsych-survey-container .sd-page {
+      box-shadow:none !important;
+    }
+
+    /* The white “cards” around each question */
+    .jspsych-survey-container .sd-element--with-frame {
+      box-shadow:none !important;
+      border:1px solid rgba(0,0,0,0.08) !important;  /* or 'none' to remove line entirely */
+      padding:8px 12px !important;                   /* ↓ was ~32/40 */
+      border-radius:8px !important;
+    }
+
+    /* Reduce vertical padding within the question row */
+    .jspsych-survey-container .sd-row__question { padding:6px 0 !important; }
+
+    /* Tighten title/content spacing */
+    .jspsych-survey-container .sd-question--title-top .sd-question__content {
+      margin-top:6px !important;                     /* ↓ shrink gap under title (emotion label) */
+    }
+    .jspsych-survey-container .sd-question__title { margin-bottom:4px !important; }
+
+    /* Make imagepicker itself more compact */
+    .jspsych-survey-container .sd-imagepicker { min-height:auto !important; }
+    .jspsych-survey-container .sd-imagepicker__item-container { padding:2px 0 !important; }
+    .jspsych-survey-container .sd-imagepicker__item { margin:4px 10px !important; }
+    .jspsych-survey-container .sd-imagepicker__image {
+      max-height:48px !important; width:auto !important;   /* adjust to taste */
+    }
+
+    /* Optional: remove the border entirely for a flat list */
+    /* .jspsych-survey-container .sd-element--with-frame { border:none !important; } */
+  `;
+  document.head.appendChild(s);
+}
+// Pictures Task with background + centered header images
 var pictures_block = {
   timeline: [
-    {type: jsPsychSurveyMultiChoice,
+
+    // Q1
+    {
+      type: jsPsychSurvey,
+      on_load: function(){
+        document.body.style.backgroundColor = "#A3A3A3";
+         ensureSurveyGreyBg();
+      },
       on_finish: function(data){
         data.task = "Pictures";
         data.branch = "Perceiving Emotions";
         data.question = "Q1";
       },
-      preamble: "<img src = 'assets/img/Photo1.jpg'></img><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3>",
-      questions: [
-        {
-          prompt: "<p style = 'text-align:left;'>Happiness<p>", 
-          name: 'Happiness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }, 
-        {
-          prompt: "<p style = 'text-align:left;'>Sadness</p>", 
-          name: 'Sadness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Fear</p>", 
-          name: 'Fear',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Anger</p>", 
-          name: 'Anger',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Disgust</p>", 
-          name: 'Disgust',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }
-      ],
+      survey_json: {
+        allowHtml: true,
+        elements: [
+          {
+            type: "html",
+            html: "<div style='text-align:center;'><img src='assets/img/Photo1.jpg' style='max-height:250px;'><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3></div>"
+          },
+          emotionPicker("Happiness"),
+          emotionPicker("Sadness"),
+          emotionPicker("Fear"),
+          emotionPicker("Anger"),
+          emotionPicker("Disgust")
+        ]
+      }
     },
 
-    {type: jsPsychSurveyMultiChoice,
+    // Q2
+    {
+      type: jsPsychSurvey,
+      on_load: function(){
+        document.body.style.backgroundColor = "#A3A3A3";
+      },
       on_finish: function(data){
         data.task = "Pictures";
         data.branch = "Perceiving Emotions";
         data.question = "Q2";
       },
-      preamble: "<img src = 'assets/img/Photo2.jpg'></img><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3>",
-      questions: [
-        {
-          prompt: "<p style = 'text-align:left;'>Sadness<p>", 
-          name: 'Sadness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }, 
-        {
-          prompt: "<p style = 'text-align:left;'>Anger</p>", 
-          name: 'Anger', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Surprise</p>", 
-          name: 'Surprise',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Happiness</p>", 
-          name: 'Happiness',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Excitement</p>", 
-          name: 'Excitement',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }
-      ],
+      survey_json: {
+        allowHtml: true,
+        elements: [
+          {
+            type: "html",
+            html: "<div style='text-align:center;'><img src='assets/img/Photo2.jpg' style='max-height:250px;'><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3></div>"
+          },
+          emotionPicker("Sadness"),
+          emotionPicker("Anger"),
+          emotionPicker("Surprise"),
+          emotionPicker("Happiness"),
+          emotionPicker("Excitement")
+        ]
+      }
     },
 
-    {type: jsPsychSurveyMultiChoice,
+    // Q3
+    {
+      type: jsPsychSurvey,
+      on_load: function(){
+        document.body.style.backgroundColor = "#A3A3A3";
+      },
       on_finish: function(data){
         data.task = "Pictures";
         data.branch = "Perceiving Emotions";
         data.question = "Q3";
       },
-      preamble: "<img src = 'assets/img/Photo3.jpg'></img><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3>",
-      questions: [
-        {
-          prompt: "<p style = 'text-align:left;'>Happiness<p>", 
-          name: 'Happiness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }, 
-        {
-          prompt: "<p style = 'text-align:left;'>Fear</p>", 
-          name: 'Fear', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Anger</p>", 
-          name: 'Anger',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Surprise</p>", 
-          name: 'Surprise',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Disgust</p>", 
-          name: 'Disgust',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }
-      ],
+      survey_json: {
+        allowHtml: true,
+        elements: [
+          {
+            type: "html",
+            html: "<div style='text-align:center;'><img src='assets/img/Photo3.jpg' style='max-height:250px;'><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3></div>"
+          },
+          emotionPicker("Happiness"),
+          emotionPicker("Fear"),
+          emotionPicker("Anger"),
+          emotionPicker("Surprise"),
+          emotionPicker("Disgust")
+        ]
+      }
     },
 
-
-    {type: jsPsychSurveyMultiChoice,
+    // Q4
+    {
+      type: jsPsychSurvey,
+      on_load: function(){
+        document.body.style.backgroundColor = "#A3A3A3";
+      },
       on_finish: function(data){
         data.task = "Pictures";
         data.branch = "Perceiving Emotions";
         data.question = "Q4";
       },
-      preamble: "<img src = 'assets/img/Art1.jpg'></img><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3>",
-      questions: [
-        {
-          prompt: "<p style = 'text-align:left;'>Sadness<p>", 
-          name: 'Sadness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }, 
-        {
-          prompt: "<p style = 'text-align:left;'>Fear</p>", 
-          name: 'Fear', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Anger</p>", 
-          name: 'Anger',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Surprise</p>", 
-          name: 'Surprise',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Disgust</p>", 
-          name: 'Disgust',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }
-      ],
+      survey_json: {
+        allowHtml: true,
+        elements: [
+          {
+            type: "html",
+            html: "<div style='text-align:center;'><img src='assets/img/Art1.jpg' style='max-height:250px;'><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3></div>"
+          },
+          emotionPicker("Sadness"),
+          emotionPicker("Fear"),
+          emotionPicker("Anger"),
+          emotionPicker("Surprise"),
+          emotionPicker("Disgust")
+        ]
+      }
     },
 
-
-    {type: jsPsychSurveyMultiChoice,
+    // Q5
+    {
+      type: jsPsychSurvey,
+      on_load: function(){
+        document.body.style.backgroundColor = "#A3A3A3";
+      },
       on_finish: function(data){
         data.task = "Pictures";
         data.branch = "Perceiving Emotions";
         data.question = "Q5";
       },
-      preamble: "<img src = 'assets/img/Art2.jpg'></img><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3>",
-      questions: [
-        {
-          prompt: "<p style = 'text-align:left;'>Happiness<p>", 
-          name: 'Happiness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }, 
-        {
-          prompt: "<p style = 'text-align:left;'>Sadness</p>", 
-          name: 'Sadness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Fear</p>", 
-          name: 'Fear',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Anger</p>", 
-          name: 'Anger',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Disgust</p>", 
-          name: 'Disgust',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }
-      ],
+      survey_json: {
+        allowHtml: true,
+        elements: [
+          {
+            type: "html",
+            html: "<div style='text-align:center;'><img src='assets/img/Art2.jpg' style='max-height:250px;'><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3></div>"
+          },
+          emotionPicker("Happiness"),
+          emotionPicker("Sadness"),
+          emotionPicker("Fear"),
+          emotionPicker("Anger"),
+          emotionPicker("Disgust")
+        ]
+      }
     },
 
-
-    {type: jsPsychSurveyMultiChoice,
+    // Q6
+    {
+      type: jsPsychSurvey,
+      on_load: function(){
+        document.body.style.backgroundColor = "#A3A3A3";
+      },
       on_finish: function(data){
         data.task = "Pictures";
         data.branch = "Perceiving Emotions";
         data.question = "Q6";
       },
-      preamble: "<img src = 'assets/img/Art3.jpg'></img><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3>",
-      questions: [
-        {
-          prompt: "<p style = 'text-align:left;'>Happiness<p>", 
-          name: 'Happiness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }, 
-        {
-          prompt: "<p style = 'text-align:left;'>Sadness</p>", 
-          name: 'Sadness', 
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Anger</p>", 
-          name: 'Anger',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Surprise</p>", 
-          name: 'Surprise',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        },
-        {
-          prompt: "<p style = 'text-align:left;'>Disgust</p>", 
-          name: 'Disgust',  
-          options: ['1', '2', '3', '4', '5'], 
-          required: require_response,
-          horizontal: true
-        }
-      ],
+      survey_json: {
+        allowHtml: true,
+        elements: [
+          {
+            type: "html",
+            html: "<div style='text-align:center;'><img src='assets/img/Art3.jpg' style='max-height:250px;'><h3>INSTRUCTIONS: How much are the feelings below expressed by this picture? (Select a response for each feeling)</h3></div>"
+          },
+          emotionPicker("Happiness"),
+          emotionPicker("Sadness"),
+          emotionPicker("Anger"),
+          emotionPicker("Surprise"),
+          emotionPicker("Disgust")
+        ]
+      }
     }
-  ]
-  
+
+  ],
+   on_timeline_finish: function(){
+    // reset <body> background
+    document.body.style.backgroundColor = "#A3A3A3";
+
+    // if you injected a style override for survey background, remove it
+    const s = document.getElementById('survey-grey-bg');
+    if (s) s.remove();
+  }
 };
+
+
+
+
+
+
+
+
 
 
 /* 
@@ -440,7 +408,7 @@ var facilitation_block = {
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
       preamble: "<h3>INSTRUCTIONS: Please select a response for each item.</h3><p>1. What mood(s) might be helpful to feel when creating new, exciting decorations for a birthday party?</p>",
-      labels: ["1 (Not useful", "2", "3", "4", "5 (Useful)"],
+      labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
         {name: 'Annoyance',   anchors: ['Annoyance',   '']},
         {name: 'Boredom',       anchors: ['Boredom',        '']},
@@ -459,7 +427,7 @@ var facilitation_block = {
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
       preamble: "<p>2. What mood(s) might be helpful to feel when composing an inspiring military march?</p>",
-      labels: ["1 (Not useful", "2", "3", "4", "5 (Useful)"],
+      labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
         {name: 'Anger',   anchors: ['Anger',   '']},
         {name: 'Excitement',       anchors: ['Excitement',        '']},
@@ -479,7 +447,7 @@ var facilitation_block = {
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
       preamble: "<p>3. What mood(s) might be helpful to feel when following a very complicated, demanding, cooking recipe?</p>",
-      labels: ["1 (Not useful", "2", "3", "4", "5 (Useful)"],
+      labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
         {name: 'Tension',   anchors: ['Tension',   '']},
         {name: 'Sorrow',       anchors: ['Sorrow',        '']},
@@ -499,7 +467,7 @@ var facilitation_block = {
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
       preamble: "<p>4. What mood(s) might be helpful when figuring out what caused a fight among three young children? Each of the three children is telling a different story about how the fight started. Figuring out what happened requires attending to the details of the stories and weighing many facts.</p>",
-      labels: ["1 (Not useful", "2", "3", "4", "5 (Useful)"],
+      labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
         {name: 'Happiness',   anchors: ['Happiness',   '']},
         {name: 'Surprise',       anchors: ['Surprise',        '']},
@@ -519,7 +487,7 @@ var facilitation_block = {
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
       preamble: "<p>5. What mood(s) might be helpful for a doctor to feel when selecting a treatment plan for a patient with a cancerous tumour? The doctor must apply several known, but conflicting principles in the treatment of the tumour.</p>",
-      labels: ["1 (Not useful", "2", "3", "4", "5 (Useful)"],
+      labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
         {name: 'Happiness',   anchors: ['Happiness',   '']},
         {name: 'Neutral Mood',       anchors: ['Neutral Mood',        '']},
