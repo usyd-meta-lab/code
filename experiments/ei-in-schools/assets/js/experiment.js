@@ -45,20 +45,20 @@ require_response = false;
 
 
 var msceit_instructions = {
-    type: jsPsychInstructions,
-    on_load: function(){
-         document.body.style.backgroundColor = "#A3A3A3";
-    },
-    pages: [
+  type: jsPsychInstructions,
+  on_load: function(){
+    document.body.style.backgroundColor = "#A3A3A3";
+  },
+  pages: [
     `
 <div style="text-align: left; padding-left: 20px; max-width: 70ch; margin: auto;">
-
+    
   <h2>Instructions</h2>
-
+    
   <p>Welcome, and thank you for taking part in this study.<br>
   You are about to complete the Mayer&#8211;Salovey&#8211;Caruso Emotional Intelligence Test (MSCEIT). 
   This test is designed to measure different ways in which people understand, use, and manage emotions.</p>
-
+    
   <ul>
     <li>The test is <strong>not a measure of personality or general intelligence</strong>, but rather of specific emotional abilities.</li>
     <li>There are several types of questions, such as:
@@ -73,14 +73,14 @@ var msceit_instructions = {
     <li>There are no trick questions. The aim is to record your <strong>first, honest judgment</strong>. Try not to overthink your answers.</li>
     <li>Work at a steady pace. While there is no strict time limit for most sections, the whole test usually takes about <strong>30&#8211;45 minutes</strong> to complete.</li>
   </ul>
-
+    
   <p>Please answer <strong>as carefully and honestly as possible</strong>, since the value of the test depends on your genuine responses.</p>
-
+    
 </div>
     `
-    ],
-    show_clickable_nav: true,
-    allow_backward: false
+  ],
+  show_clickable_nav: true,
+  allow_backward: false
 }
 
 
@@ -124,8 +124,35 @@ var faces_block = {
         data.stimulus = jsPsych.evaluateTimelineVariable('face');
         
       }
+    },
+    
+    // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 1){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
     }
     
+
+
+
+
   ], 
   timeline_variables: [
     {face: 'Face1'},
@@ -171,12 +198,12 @@ function ensureSurveyGreyBg(){
     .jspsych-survey-container,
     .jspsych-survey-container .sd-root-modern,
     .jspsych-survey-container .sd-body { background-color:#A3A3A3 !important; }
-
+  
     .jspsych-survey-container .sd-container-modern,
     .jspsych-survey-container .sd-page {
       box-shadow:none !important;
     }
-
+  
     /* The white “cards” around each question */
     .jspsych-survey-container .sd-element--with-frame {
       box-shadow:none !important;
@@ -184,16 +211,16 @@ function ensureSurveyGreyBg(){
       padding:8px 12px !important;                   /* ↓ was ~32/40 */
       border-radius:8px !important;
     }
-
+  
     /* Reduce vertical padding within the question row */
     .jspsych-survey-container .sd-row__question { padding:6px 0 !important; }
-
+  
     /* Tighten title/content spacing */
     .jspsych-survey-container .sd-question--title-top .sd-question__content {
       margin-top:6px !important;                     /* ↓ shrink gap under title (emotion label) */
     }
     .jspsych-survey-container .sd-question__title { margin-bottom:4px !important; }
-
+  
     /* Make imagepicker itself more compact */
     .jspsych-survey-container .sd-imagepicker { min-height:auto !important; }
     .jspsych-survey-container .sd-imagepicker__item-container { padding:2px 0 !important; }
@@ -201,7 +228,7 @@ function ensureSurveyGreyBg(){
     .jspsych-survey-container .sd-imagepicker__image {
       max-height:48px !important; width:auto !important;   /* adjust to taste */
     }
-
+  
     /* Optional: remove the border entirely for a flat list */
     /* .jspsych-survey-container .sd-element--with-frame { border:none !important; } */
   `;
@@ -210,13 +237,13 @@ function ensureSurveyGreyBg(){
 // Pictures Task with background + centered header images
 var pictures_block = {
   timeline: [
-
+    
     // Q1
     {
       type: jsPsychSurvey,
       on_load: function(){
         document.body.style.backgroundColor = "#A3A3A3";
-         ensureSurveyGreyBg();
+        ensureSurveyGreyBg();
       },
       on_finish: function(data){
         data.task = "Pictures";
@@ -238,7 +265,31 @@ var pictures_block = {
         ]
       }
     },
+    
 
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 1){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
     // Q2
     {
       type: jsPsychSurvey,
@@ -265,7 +316,30 @@ var pictures_block = {
         ]
       }
     },
+    
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
 
+        if(cr_block == 1){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
     // Q3
     {
       type: jsPsychSurvey,
@@ -292,7 +366,30 @@ var pictures_block = {
         ]
       }
     },
+    
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
 
+        if(cr_block == 1){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
     // Q4
     {
       type: jsPsychSurvey,
@@ -319,7 +416,30 @@ var pictures_block = {
         ]
       }
     },
+    
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
 
+        if(cr_block == 1){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
     // Q5
     {
       type: jsPsychSurvey,
@@ -347,6 +467,30 @@ var pictures_block = {
       }
     },
 
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 1){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
+    
     // Q6
     {
       type: jsPsychSurvey,
@@ -372,13 +516,37 @@ var pictures_block = {
           emotionPicker("Disgust")
         ]
       }
-    }
+    },
 
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 1){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
+    
   ],
-   on_timeline_finish: function(){
+  on_timeline_finish: function(){
     // reset <body> background
     document.body.style.backgroundColor = "#A3A3A3";
-
+    
     // if you injected a style override for survey background, remove it
     const s = document.getElementById('survey-grey-bg');
     if (s) s.remove();
@@ -423,6 +591,30 @@ var facilitation_block = {
       }
     },
     
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
+
     // Q2
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
@@ -439,6 +631,29 @@ var facilitation_block = {
         data.branch = "Using Emotions";
         data.question = "Q2";
         
+      }
+    },
+    
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
       }
     },
     
@@ -462,6 +677,29 @@ var facilitation_block = {
       }
     },
     
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
     
     // Q4
     {type: jsPsychSurveyMatrix,
@@ -482,7 +720,30 @@ var facilitation_block = {
       }
     },
     
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
     
+
     // Q5
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
@@ -501,6 +762,29 @@ var facilitation_block = {
         
       }
     },
+
+         // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    }
   ]
   
 }
@@ -532,6 +816,29 @@ var sensations_block = {
       }
     },
     
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
+    
     // Q2
     {type: jsPsychSurveyMatrix,
       scale_width: 800,
@@ -548,6 +855,29 @@ var sensations_block = {
         data.branch = "Using Emotions";
         data.question = "Q2";
         
+      }
+    },
+    
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
       }
     },
     
@@ -571,6 +901,28 @@ var sensations_block = {
       }
     },
     
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
     
     // Q4
     {type: jsPsychSurveyMatrix,
@@ -591,6 +943,28 @@ var sensations_block = {
       }
     },
     
+     // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
     
     // Q5
     {type: jsPsychSurveyMatrix,
@@ -610,6 +984,29 @@ var sensations_block = {
         
       }
     },
+
+         // Confidence Rating
+    {
+      timeline: [
+        {
+          type: jsPsychConfidenceRating,
+          prompt: "<h3>Rate your confidence:</h3>",
+          n_points: 6,
+          tick_labels: ["Guessing", "", "", "", "", "Certain"],
+          require_response: false,
+          button_label: "Submit"
+        }
+      ],
+      conditional_function: function(){
+
+        if(cr_block == 2){
+            return true;
+        } else {
+            return false;
+        }
+
+      }
+    },
   ]
   
 }
@@ -621,280 +1018,782 @@ var sensations_block = {
 
 // Changes Task 
 
-var changes_block = {
+// Reusable confidence rating block (shown only when cr_block == 2)
+var confidence_between_items = {
   timeline: [
-    {type: jsPsychSurveyMultiChoice,
-      on_finish: function(data){
-        data.task = "Changes";
-        data.branch = "Understanding Emotions";
-      },
-      questions: [
-        {
-          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>1. Marjorie felt more and more ashamed, and began to feel worthless. She then felt ........", 
-          name: 'changes_Q1', 
-          options: ['overwhelmed', 'depressed', 'ashamed', 'self-conscious', 'jittery'], 
-          required: false
-        }, 
-        {
-          prompt: "2. Kenji felt content as he thought of his life, and the more he thought about the good things he had done and the joy his acts had brought to others, the more he felt .....", 
-          name: 'changes_Q2', 
-          options: ['surprised', 'depressed', 'acceptance', 'happiness', 'amazement'], 
-          required: false
-        },
-        {
-          prompt: "3. Natalie had never been more surprised in her life. But as she recovered from the shock of the loss and realised she could gain some advantage from the situation if she planned carefully, she became .....", 
-          name: 'changes_Q3', 
-          options: ['amazed', 'confused', 'denying of the situation', 'expectant', 'pensive'], 
-          required: false
-        }, 
-        {
-          prompt: "4. Nelson was saddened by the news from home, and wanted to express his sincere regret. When he heard that he had not been told right away and that matters were worse than he at first thought, he felt ......", 
-          name: 'changes_Q4', 
-          options: ['anger and surprise', 'sadness and anticipation', 'shock and regret', 'fear and loathing', 'anger and sorrow'], 
-          required: false
-        },
-        {
-          prompt: "5. Rashad is usually quite happy at work and things also go well for him at home. He thought that he and his co-workers were generally fairly paid and treated well.<br>Today, everyone in his unit received a modest across-the-board pay increase as part of corporate-wide adjustments in salary. Rashad felt ....", 
-          name: 'changes_Q5', 
-          options: ['surprised and shocked', 'peaceful and quiet', 'content and elated', 'humbled and guilty', 'proud and dominant'], 
-          required: false
-        }
-      ],
-    },
-    
-    {type: jsPsychSurveyMultiChoice,
-      on_finish: function(data){
-        data.task = "Changes";
-        data.branch = "Understanding Emotions";
-      },
-      questions: [
-        {
-          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>6. Glenda loved Jake, who she felt belonged only to her. She began to see him as perfect for her, and close to perfection in general. She ....", 
-          name: 'changes_Q6', 
-          options: ['respected him', 'admired him', 'envied him', 'adored him', 'resented him'], 
-          required: false
-        }, 
-        {
-          prompt: "7. Tatiana was annoyed that a co-worker took credit for a project, and when he did it again she felt .....", 
-          name: 'changes_Q7', 
-          options: ['anger', 'annoyance', 'frustration', 'startled', 'depression'], 
-          required: false
-        },
-        {
-          prompt: "8. After Charlie's car was stolen, he installed a new car alarm in his new car. When his new car was also stolen, he first felt shock and surprise, and then .....", 
-          name: 'changes_Q8', 
-          options: ['amazement and astonishment', 'helplessness, despair and anger', 'anger and disgust', 'jealousy and envy', 'depression and contempt'], 
-          required: false
-        }, 
-        {
-          prompt: "9. When Steve discovered that several students were cheating on exams, he thought it was morally wrong. When he told the teacher, the teacher said there was nothing he could do about it.<br>Steve planned to pursue the matter with a school administrator because he felt ..... by what happened", 
-          name: 'changes_Q9', 
-          options: ['enlivened', 'enraged', 'disgusted', 'depressed', 'saddened'], 
-          required: false
-        },
-        {
-          prompt: "10. Matt had been hurt by one of his friends and was feeling angry. Matt told his friend how he felt, and when the friend did it again, Matt became .....", 
-          name: 'changes_10', 
-          options: ['angry', 'fearful', 'very annoyed', 'worried', 'enraged'], 
-          required: false
-        }
-      ],
-    },
-    
-    {type: jsPsychSurveyMultiChoice,
-      on_finish: function(data){
-        data.task = "Changes";
-        data.branch = "Understanding Emotions";
-      },
-      questions: [
-        {
-          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>11. Theresa watched television so as to follow a hurricane's progress up the coast where her parents lived. As the hurricane moved towards her parent's house, she felt anxiety and helplessness.<br>At the last minute, however, it turned away leaving that area of the coastline unharmed. She felt .....", 
-          name: 'changes_Q11', 
-          options: ['relief and gratitude', 'surprise and shock', 'tense and relieved', 'anticipation and anxiety', 'anticipation and calmness'], 
-          required: false
-        }, 
-        {
-          prompt: "12. A woman who felt secure and accepted later felt depressed. What happened in between?", 
-          name: 'changes_Q12', 
-          options: ['she received a compliment intended for someone else', 'she discovered her husband was cheating on her', 'a friend became ill', 'a package she mailed to a friend was delivered to the wrong person', 'she was frustrated by a bad job she did on the project'], 
-          required: false
-        },
-        {
-          prompt: "13. A child who was happily anticipating his birthday later felt sad. What most likely happened in between?", 
-          name: 'changes_Q13', 
-          options: ['a bully insulted him and he fought back', 'two friends who he was hoping would come never made it to the party', 'he ate too much cake', 'his mother embarrassed him in front of the other children', 'his father accused him of something he didn&apos;t do'], 
-          required: false
-        }, 
-        {
-          prompt: "14. A middle-aged woman was happy and shortly after felt disapproving. What most likely happened in between?", 
-          name: 'changes_Q14', 
-          options: ['her son injured himself slightly at work', 'she realised she had hurt a close friend&apos;s feelings', 'her daughter-in-law was late for a family dinner', 'her husband criticised her', 'she lost a book that was important to her'], 
-          required: false
-        },
-        {
-          prompt: "15. A man was feeling rested and then felt admiration. What happened in between?", 
-          name: 'changes_Q15', 
-          options: ['while resting, the man solved an important problem at work', 'the man heard a story about a sports hero who set a new world record', 'his friend called to say he had just purchased a new sports car at a great price', 'a package arrived with a gift from his mother', 'his doctor called to say his checkup indicated he was healthy'], 
-          required: false
-        }
-      ],
-    },
-    
-    {type: jsPsychSurveyMultiChoice,
-      on_finish: function(data){
-        data.task = "Changes";
-        data.branch = "Understanding Emotions";
-      },
-      questions: [
-        {
-          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>16. A woman felt anticipation and then she felt love. What happened in between?", 
-          name: 'changes_Q16', 
-          options: ['she gave a donation and thought about the people she would help', 'she bought a dress that was very flattering', 'she read a fan magazine about a star she found very appealing', 'her mother called to tell her that she was sending her a birthday gift that would be a surprise', 'she went on a date and discovered many things in common with an attractive man'], 
-          required: false
-        }, 
-        {
-          prompt: "17. An executive in a corporation felt displeased and then resentful. What happened in between?", 
-          name: 'changes_Q17', 
-          options: ['a subordinate failed to achieve his goals for the period', 'another officer in the company, who he believed to be incompetent, won a pay increase much larger than his own', 'he read a news item about people in another part of the world living in poverty and how a major charity was facing obstacles in their relief efforts', 'his wife was helping his children with their homework', 'no one seemed to like him'], 
-          required: false
-        },
-        {
-          prompt: "18. A woman felt angry and then felt guilty. What happened in between?", 
-          name: 'changes_Q18', 
-          options: ['she lost the phone number of a friend who was very close to her', 'she didn&apos;t finish a job as well as she hoped to because she didn&apos;t have enough time', 'she expressed anger at her friend, who she then discovered hadn &apos;t done anything to hurt her', 'she lost a close friend', 'she was angry that someone gossiped about her, and then discovered that others were saying the same thing'], 
-          required: false
-        }, 
-        {
-          prompt: "19. A man liked his friend and then despised him. What happened in between?", 
-          name: 'changes_Q19', 
-          options: ['his friend lost an expensive book he loaned him', 'his friend betrayed his wife', 'his friend won a raise he didn &apos;t deserve', 'his friend said he was moving away', 'the man felt he had hurt his friend and it was partially his friend &apos;s fault'], 
-          required: false
-        },
-        {
-          prompt: "20. A woman loved someone and then felt secure. What happened in between?", 
-          name: 'changes_Q20', 
-          options: ['she learned the other person loved her in return', 'she decided not to express her feelings', 'her love went away', 'she told the other person that she loved him', 'her love itself brought about security'], 
-          required: false
-        }
-      ],
+    {
+      type: jsPsychConfidenceRating,
+      prompt: "<h3>Rate your confidence:</h3>",
+      n_points: 6,
+      tick_labels: ["Guessing", "", "", "", "", "Certain"],
+      require_response: false,
+      button_label: "Submit"
     }
-  ]
-  
+  ],
+  conditional_function: function () {
+    if (cr_block == 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 };
 
+var changes_block = {
+  timeline: [
+    // Q1
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>1. Marjorie felt more and more ashamed, and began to feel worthless. She then felt ........",
+          name: "changes_Q1",
+          options: ["overwhelmed", "depressed", "ashamed", "self-conscious", "jittery"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q2
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "2. Kenji felt content as he thought of his life, and the more he thought about the good things he had done and the joy his acts had brought to others, the more he felt .....",
+          name: "changes_Q2",
+          options: ["surprised", "depressed", "acceptance", "happiness", "amazement"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q3
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "3. Natalie had never been more surprised in her life. But as she recovered from the shock of the loss and realised she could gain some advantage from the situation if she planned carefully, she became .....",
+          name: "changes_Q3",
+          options: ["amazed", "confused", "denying of the situation", "expectant", "pensive"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q4
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "4. Nelson was saddened by the news from home, and wanted to express his sincere regret. When he heard that he had not been told right away and that matters were worse than he at first thought, he felt ......",
+          name: "changes_Q4",
+          options: ["anger and surprise", "sadness and anticipation", "shock and regret", "fear and loathing", "anger and sorrow"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q5
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "5. Rashad is usually quite happy at work and things also go well for him at home. He thought that he and his co-workers were generally fairly paid and treated well.<br>Today, everyone in his unit received a modest across-the-board pay increase as part of corporate-wide adjustments in salary. Rashad felt ....",
+          name: "changes_Q5",
+          options: ["surprised and shocked", "peaceful and quiet", "content and elated", "humbled and guilty", "proud and dominant"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q6
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "6. Glenda loved Jake, who she felt belonged only to her. She began to see him as perfect for her, and close to perfection in general. She ....",
+          name: "changes_Q6",
+          options: ["respected him", "admired him", "envied him", "adored him", "resented him"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q7
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "7. Tatiana was annoyed that a co-worker took credit for a project, and when he did it again she felt .....",
+          name: "changes_Q7",
+          options: ["anger", "annoyance", "frustration", "startled", "depression"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q8
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "8. After Charlie's car was stolen, he installed a new car alarm in his new car. When his new car was also stolen, he first felt shock and surprise, and then .....",
+          name: "changes_Q8",
+          options: [
+            "amazement and astonishment",
+            "helplessness, despair and anger",
+            "anger and disgust",
+            "jealousy and envy",
+            "depression and contempt"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q9
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "9. When Steve discovered that several students were cheating on exams, he thought it was morally wrong. When he told the teacher, the teacher said there was nothing he could do about it.<br>Steve planned to pursue the matter with a school administrator because he felt ..... by what happened",
+          name: "changes_Q9",
+          options: ["enlivened", "enraged", "disgusted", "depressed", "saddened"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q10
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "10. Matt had been hurt by one of his friends and was feeling angry. Matt told his friend how he felt, and when the friend did it again, Matt became .....",
+          name: "changes_10",
+          options: ["angry", "fearful", "very annoyed", "worried", "enraged"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q11
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "11. Theresa watched television so as to follow a hurricane's progress up the coast where her parents lived. As the hurricane moved towards her parent's house, she felt anxiety and helplessness.<br>At the last minute, however, it turned away leaving that area of the coastline unharmed. She felt .....",
+          name: "changes_Q11",
+          options: ["relief and gratitude", "surprise and shock", "tense and relieved", "anticipation and anxiety", "anticipation and calmness"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q12
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "12. A woman who felt secure and accepted later felt depressed. What happened in between?",
+          name: "changes_Q12",
+          options: [
+            "she received a compliment intended for someone else",
+            "she discovered her husband was cheating on her",
+            "a friend became ill",
+            "a package she mailed to a friend was delivered to the wrong person",
+            "she was frustrated by a bad job she did on the project"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q13
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "13. A child who was happily anticipating his birthday later felt sad. What most likely happened in between?",
+          name: "changes_Q13",
+          options: [
+            "a bully insulted him and he fought back",
+            "two friends who he was hoping would come never made it to the party",
+            "he ate too much cake",
+            "his mother embarrassed him in front of the other children",
+            "his father accused him of something he didn&apos;t do"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q14
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "14. A middle-aged woman was happy and shortly after felt disapproving. What most likely happened in between?",
+          name: "changes_Q14",
+          options: [
+            "her son injured himself slightly at work",
+            "she realised she had hurt a close friend&apos;s feelings",
+            "her daughter-in-law was late for a family dinner",
+            "her husband criticised her",
+            "she lost a book that was important to her"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q15
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "15. A man was feeling rested and then felt admiration. What happened in between?",
+          name: "changes_Q15",
+          options: [
+            "while resting, the man solved an important problem at work",
+            "the man heard a story about a sports hero who set a new world record",
+            "his friend called to say he had just purchased a new sports car at a great price",
+            "a package arrived with a gift from his mother",
+            "his doctor called to say his checkup indicated he was healthy"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q16
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "16. A woman felt anticipation and then she felt love. What happened in between?",
+          name: "changes_Q16",
+          options: [
+            "she gave a donation and thought about the people she would help",
+            "she bought a dress that was very flattering",
+            "she read a fan magazine about a star she found very appealing",
+            "her mother called to tell her that she was sending her a birthday gift that would be a surprise",
+            "she went on a date and discovered many things in common with an attractive man"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q17
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "17. An executive in a corporation felt displeased and then resentful. What happened in between?",
+          name: "changes_Q17",
+          options: [
+            "a subordinate failed to achieve his goals for the period",
+            "another officer in the company, who he believed to be incompetent, won a pay increase much larger than his own",
+            "he read a news item about people in another part of the world living in poverty and how a major charity was facing obstacles in their relief efforts",
+            "his wife was helping his children with their homework",
+            "no one seemed to like him"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q18
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "18. A woman felt angry and then felt guilty. What happened in between?",
+          name: "changes_Q18",
+          options: [
+            "she lost the phone number of a friend who was very close to her",
+            "she didn&apos;t finish a job as well as she hoped to because she didn&apos;t have enough time",
+            "she expressed anger at her friend, who she then discovered hadn &apos;t done anything to hurt her",
+            "she lost a close friend",
+            "she was angry that someone gossiped about her, and then discovered that others were saying the same thing"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR
+    confidence_between_items,
+
+    // Q19
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "19. A man liked his friend and then despised him. What happened in between?",
+          name: "changes_Q19",
+          options: [
+            "his friend lost an expensive book he loaned him",
+            "his friend betrayed his wife",
+            "his friend won a raise he didn &apos;t deserve",
+            "his friend said he was moving away",
+            "the man felt he had hurt his friend and it was partially his friend &apos;s fault"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    // CR (final between Q19 and Q20)
+    confidence_between_items,
+
+    // Q20
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "20. A woman loved someone and then felt secure. What happened in between?",
+          name: "changes_Q20",
+          options: [
+            "she learned the other person loved her in return",
+            "she decided not to express her feelings",
+            "her love went away",
+            "she told the other person that she loved him",
+            "her love itself brought about security"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Changes";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items
+  ]
+};
 
 
 // Blends task
 
 var blends_block = {
   timeline: [
-    {type: jsPsychSurveyMultiChoice,
-      on_finish: function(data){
+    // Q1
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt:
+            "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>1. A feeling of concern most likely combines the emotions of .....",
+          name: "Q1",
+          options: [
+            "love, anxiety, surprise, anger",
+            "surprise, pride, anger, fear",
+            "acceptance, anxiety, fear, anticipation",
+            "fear, joy, surprise, embarrassment",
+            "anxiety, caring, anticipation"
+          ],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
         data.task = "Blends";
         data.branch = "Understanding Emotions";
-      },
-      questions: [
-        {
-          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>1. A feeling of concern most likely combines the emotions of .....", 
-          name: 'Q1', 
-          options: ['love, anxiety, surprise, anger', 'surprise, pride, anger, fear', 'acceptance, anxiety, fear, anticipation', 'fear, joy, surprise, embarrassment', 'anxiety, caring, anticipation'], 
-          required: false
-        }, 
-        {
-          prompt: '2. Another word for "consistently anticipating pleasure" is.....',
-          name: 'Q2', 
-          options: ['optimism', 'happiness', 'contentment', 'joy', 'surprise'], 
-          required: false
-        },
-        {
-          prompt: "3. Acceptance, joy and warmth often combine to form .....", 
-          name: 'Q3', 
-          options: ['love', 'amazement', 'anticipation', 'contentment', 'acceptance'], 
-          required: false
-        }, 
-        {
-          prompt: "4. Combining the feelings of disgust and anger results in .....", 
-          name: 'Q4', 
-          options: ['guilt', 'rage', 'shame', 'hatred', 'contempt'], 
-          required: false
-        }
-      ],
-    },
-    
-    {type: jsPsychSurveyMultiChoice,
-      on_finish: function(data){
-        data.task = "Changes";
-        data.branch = "Understanding Emotions";
-      },
-      questions: [
-        {
-          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>5. A sad surprise leads to .....", 
-          name: 'Q5', 
-          options: ['disappointment', 'amazement', 'anger', 'fear', 'regret'], 
-          required: false
-        }, 
-        {
-          prompt: "6. Sadness, guilt and regret combine to form .....", 
-          name: 'Q6', 
-          options: ['grief', 'annoyance', 'depression', 'remorse', 'misery'], 
-          required: false
-        },
-        {
-          prompt: "7. Relaxation, security and serenity are all parts of .....", 
-          name: 'Q7', 
-          options: ['love', 'fatigue', 'expectancy', 'calmness', 'anticipation'], 
-          required: false
-        }, 
-        {
-          prompt: "8. Fear, surprise and embarrassment are all part of .....", 
-          name: 'Q8', 
-          options: ['esteem', 'awe', 'puzzlement', 'respect', 'sympathy'], 
-          required: false
-        }
-      ],
+      }
     },
 
-    {type: jsPsychSurveyMultiChoice,
-      on_finish: function(data){
-        data.task = "Changes";
-        data.branch = "Understanding Emotions";
-      },
+    confidence_between_items,
+
+    // Q2
+    {
+      type: jsPsychSurveyMultiChoice,
       questions: [
         {
-          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>9. Shame, surprise and embarrassment are all part of .....", 
-          name: 'Q9', 
-          options: ['jealousy', 'sadness', 'guilt', 'envy', 'humiliation'], 
-          required: false
-        }, 
-        {
-          prompt: "10. Admiration, love and anxiety are all part of .....", 
-          name: 'Q10', 
-          options: ['jealousy', 'sadness', 'malice', 'pride', 'worry'], 
-          required: false
-        },
-        {
-          prompt: "11. Joy, excitement and uncertainty are all part of .....", 
-          name: 'Q11', 
-          options: ['liveliness', 'anticipation', 'anxiety', 'calmness', 'serenity'], 
-          required: false
-        }, 
-        {
-          prompt: "12. Sadness and satisfaction are  both sometimes part of the feeling of .....", 
-          name: 'Q12', 
-          options: ['nostalgia', 'anxiety', 'anticipation', 'depression', 'contempt'], 
+          prompt: '2. Another word for "consistently anticipating pleasure" is.....',
+          name: "Q2",
+          options: ["optimism", "happiness", "contentment", "joy", "surprise"],
           required: false
         }
       ],
-    }
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q3
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "3. Acceptance, joy and warmth often combine to form .....",
+          name: "Q3",
+          options: ["love", "amazement", "anticipation", "contentment", "acceptance"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q4
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "4. Combining the feelings of disgust and anger results in .....",
+          name: "Q4",
+          options: ["guilt", "rage", "shame", "hatred", "contempt"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q5
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>5. A sad surprise leads to .....",
+          name: "Q5",
+          options: ["disappointment", "amazement", "anger", "fear", "regret"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q6
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "6. Sadness, guilt and regret combine to form .....",
+          name: "Q6",
+          options: ["grief", "annoyance", "depression", "remorse", "misery"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q7
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "7. Relaxation, security and serenity are all parts of .....",
+          name: "Q7",
+          options: ["love", "fatigue", "expectancy", "calmness", "anticipation"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q8
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "8. Fear, surprise and embarrassment are all part of .....",
+          name: "Q8",
+          options: ["esteem", "awe", "puzzlement", "respect", "sympathy"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q9
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>9. Shame, surprise and embarrassment are all part of .....",
+          name: "Q9",
+          options: ["jealousy", "sadness", "guilt", "envy", "humiliation"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q10
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "10. Admiration, love and anxiety are all part of .....",
+          name: "Q10",
+          options: ["jealousy", "sadness", "malice", "pride", "worry"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q11
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "11. Joy, excitement and uncertainty are all part of .....",
+          name: "Q11",
+          options: ["liveliness", "anticipation", "anxiety", "calmness", "serenity"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items,
+
+    // Q12
+    {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {
+          prompt: "12. Sadness and satisfaction are  both sometimes part of the feeling of .....",
+          name: "Q12",
+          options: ["nostalgia", "anxiety", "anticipation", "depression", "contempt"],
+          required: false
+        }
+      ],
+      on_finish: function (data) {
+        data.task = "Blends";
+        data.branch = "Understanding Emotions";
+      }
+    },
+
+    confidence_between_items
   ]
-  
 };
+
 
 /* 
 ===============================================================
 =              4.	Managing Emotions            =
 ===============================================================
 */
+
+
+
+// Reusable confidence rating block (shown only when cr_block == 4)
+var confidence_between_items_4 = {
+  timeline: [
+    {
+      type: jsPsychConfidenceRating,
+      prompt: "<h3>Rate your confidence:</h3>",
+      n_points: 6,
+      tick_labels: ["Guessing", "", "", "", "", "Certain"],
+      require_response: false,
+      button_label: "Submit"
+    }
+  ],
+  conditional_function: function () {
+    if (cr_block == 4) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 
 // Emotion Management Task
 
@@ -939,7 +1838,9 @@ var management_block = {
         },
       ],
     },
-    
+
+    confidence_between_items_4,
+
     {type: jsPsychSurveyMultiChoice,
       on_finish: function(data){
         data.task = "Management";
@@ -978,6 +1879,9 @@ var management_block = {
         },
       ],
     },
+    
+    confidence_between_items_4,
+
     
     {type: jsPsychSurveyMultiChoice,
       on_finish: function(data){
@@ -1018,6 +1922,9 @@ var management_block = {
       ],
     },
     
+    confidence_between_items_4,
+
+    
     {type: jsPsychSurveyMultiChoice,
       on_finish: function(data){
         data.task = "Management";
@@ -1057,6 +1964,9 @@ var management_block = {
       ],
     },
     
+    confidence_between_items_4,
+
+    
     {type: jsPsychSurveyMultiChoice,
       on_finish: function(data){
         data.task = "Management";
@@ -1094,7 +2004,11 @@ var management_block = {
           horizontal: true
         },
       ],
-    }
+    },
+
+    confidence_between_items_4
+
+    
   ]
 }
 
@@ -1136,7 +2050,10 @@ var relationships_block = {
         }
       ],
     },
+    
+    confidence_between_items_4,
 
+    
     {type: jsPsychSurveyMultiChoice,
       on_finish: function(data){
         data.task = "Relationships";
@@ -1168,7 +2085,10 @@ var relationships_block = {
         }
       ],
     },
+    
+    confidence_between_items_4,
 
+    
     {type: jsPsychSurveyMultiChoice,
       on_finish: function(data){
         data.task = "Relationships";
@@ -1197,7 +2117,11 @@ var relationships_block = {
           options: ['Very ineffective', 'Somewhat ineffective', 'Neutral', 'Somewhat effective', 'Very effective'], 
           required: require_response,
           horizontal: true
-    }
+        }
       ],
-    }
+    },
+
+    confidence_between_items_4
+
+    
   ]}

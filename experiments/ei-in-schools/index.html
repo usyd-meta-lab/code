@@ -112,7 +112,14 @@ let provide_feedback;       // Tracks feedback mode (true during practice, false
   
   
 
-
+  /* 
+  ===============================================================
+  =                Set one EI branch to include CR                =
+  ===============================================================
+  */
+  
+const cr_block = jsPsych.randomization.sampleWithReplacement([1,2,3,4], 1)[0];
+jsPsych.data.addProperties({ cr_block: cr_block });
 
   /* 
   ===============================================================
@@ -128,26 +135,26 @@ let provide_feedback;       // Tracks feedback mode (true during practice, false
   browser_check,
   participant_info_school,
   school_consent,
-  demographics,        
-   enter_fullscreen,  
-  msceit_instructions,
-  faces_block,
-  facilitation_block,
-  changes_block,
-  management_block,
-  pictures_block,
-  sensations_block,
-  blends_block,
-  relationships_block,
-  instructions,
-  practice_block,
-  conf_instruc, 
-  test_start,
-  test_blocks,
-  debug,
-  save_data,
-  DEBRIEF_School,
-  study_complete_notification
+   demographics,        
+    enter_fullscreen,  
+   msceit_instructions,
+   faces_block,
+   facilitation_block,
+   changes_block,
+   management_block,
+    pictures_block,
+   sensations_block,
+   blends_block,
+   relationships_block,
+   instructions,
+   practice_block,
+   conf_instruc, 
+   test_start,
+   test_blocks,
+   debug,
+   save_data,
+   DEBRIEF_School,
+   study_complete_notification
   ];
   
   
