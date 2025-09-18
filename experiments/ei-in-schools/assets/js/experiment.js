@@ -35,7 +35,7 @@ Branch 4: Managing Emotions
 
 
 
-require_response = false;
+require_response = true;
 
 /* 
 ===============================================================
@@ -111,11 +111,11 @@ var faces_block = {
       preamble: function(){return "<img src = 'assets/img/" + jsPsych.evaluateTimelineVariable('face') + ".jpg'></img><p>How much is each feeling below expressed by this face? (i.e. Select a response from 1-5, where 1 = no feeling and 5 = extreme feeling)</p>"},
       labels: ["1", "2", "3", "4", "5"],
       questions: [
-        {name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
-        {name: 'Fear',       anchors: ['No fear',        'Extreme fear']},
-        {name: 'Surprise',   anchors: ['No surprise',    'Extreme surprise']},
-        {name: 'Disgust',    anchors: ['No disgust',     'Extreme disgust']},
-        {name: 'Excitement', anchors: ['No excitement',  'Extreme excitement']},
+        {required: true, name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
+        {required: true, name: 'Fear',       anchors: ['No fear',        'Extreme fear']},
+        {required: true, name: 'Surprise',   anchors: ['No surprise',    'Extreme surprise']},
+        {required: true, name: 'Disgust',    anchors: ['No disgust',     'Extreme disgust']},
+        {required: true, name: 'Excitement', anchors: ['No excitement',  'Extreme excitement']},
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -134,7 +134,7 @@ var faces_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -275,7 +275,7 @@ var pictures_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -325,7 +325,7 @@ var pictures_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -375,7 +375,7 @@ var pictures_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -425,7 +425,7 @@ var pictures_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -475,7 +475,7 @@ var pictures_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -526,7 +526,7 @@ var pictures_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -578,9 +578,9 @@ var facilitation_block = {
       preamble: "<h3>INSTRUCTIONS: Please select a response for each item.</h3><p>1. What mood(s) might be helpful to feel when creating new, exciting decorations for a birthday party?</p>",
       labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
-        {name: 'Annoyance',   anchors: ['Annoyance',   '']},
-        {name: 'Boredom',       anchors: ['Boredom',        '']},
-        {name: 'Joy',   anchors: ['Joy',    '']}
+        {required: true, name: 'Annoyance',   anchors: ['Annoyance',   '']},
+        {required: true, name: 'Boredom',       anchors: ['Boredom',        '']},
+        {required: true, name: 'Joy',   anchors: ['Joy',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -599,7 +599,7 @@ var facilitation_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -621,9 +621,9 @@ var facilitation_block = {
       preamble: "<p>2. What mood(s) might be helpful to feel when composing an inspiring military march?</p>",
       labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
-        {name: 'Anger',   anchors: ['Anger',   '']},
-        {name: 'Excitement',       anchors: ['Excitement',        '']},
-        {name: 'Frustration',   anchors: ['Frustration',    '']}
+        {required: true, name: 'Anger',   anchors: ['Anger',   '']},
+        {required: true, name: 'Excitement',       anchors: ['Excitement',        '']},
+        {required: true, name: 'Frustration',   anchors: ['Frustration',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -642,7 +642,7 @@ var facilitation_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -664,9 +664,9 @@ var facilitation_block = {
       preamble: "<p>3. What mood(s) might be helpful to feel when following a very complicated, demanding, cooking recipe?</p>",
       labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
-        {name: 'Tension',   anchors: ['Tension',   '']},
-        {name: 'Sorrow',       anchors: ['Sorrow',        '']},
-        {name: 'Neutral Mood',   anchors: ['Neutral Mood',    '']}
+        {required: true, name: 'Tension',   anchors: ['Tension',   '']},
+        {required: true, name: 'Sorrow',       anchors: ['Sorrow',        '']},
+        {required: true, name: 'Neutral Mood',   anchors: ['Neutral Mood',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -685,7 +685,7 @@ var facilitation_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -707,9 +707,9 @@ var facilitation_block = {
       preamble: "<p>4. What mood(s) might be helpful when figuring out what caused a fight among three young children? Each of the three children is telling a different story about how the fight started. Figuring out what happened requires attending to the details of the stories and weighing many facts.</p>",
       labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
-        {name: 'Happiness',   anchors: ['Happiness',   '']},
-        {name: 'Surprise',       anchors: ['Surprise',        '']},
-        {name: 'Sadness',   anchors: ['Sadness',    '']}
+        {required: true, name: 'Happiness',   anchors: ['Happiness',   '']},
+        {required: true, name: 'Surprise',       anchors: ['Surprise',        '']},
+        {required: true, name: 'Sadness',   anchors: ['Sadness',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -728,7 +728,7 @@ var facilitation_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -750,9 +750,9 @@ var facilitation_block = {
       preamble: "<p>5. What mood(s) might be helpful for a doctor to feel when selecting a treatment plan for a patient with a cancerous tumour? The doctor must apply several known, but conflicting principles in the treatment of the tumour.</p>",
       labels: ["1 (Not useful)", "2", "3", "4", "5 (Useful)"],
       questions: [
-        {name: 'Happiness',   anchors: ['Happiness',   '']},
-        {name: 'Neutral Mood',       anchors: ['Neutral Mood',        '']},
-        {name: 'Anger and defiance',   anchors: ['Anger and defiance',    '']}
+        {required: true, name: 'Happiness',   anchors: ['Happiness',   '']},
+        {required: true, name: 'Neutral Mood',       anchors: ['Neutral Mood',        '']},
+        {required: true, name: 'Anger and defiance',   anchors: ['Anger and defiance',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -771,7 +771,7 @@ var facilitation_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -803,9 +803,9 @@ var sensations_block = {
       preamble: "<h3>INSTRUCTIONS: For each item below, you are asked to imagine feeling a certain way. Answer as best as you can, even if you are unable to imagine the feeling.</h3><p>1. Imagine feeling guilty that you forgot to visit a close friend who has a serious illness. In the middle of the day you realise you completely forgot to visit your friend at the hospital. How much is the feeling of guilt like each of the following?</p>",
       labels: ["1 (Not alike)", "2", "3", "4", "5 (Very much alike)"],
       questions: [
-        {name: 'cold',   anchors: ['cold',   '']},
-        {name: 'blue',       anchors: ['blue',        '']},
-        {name: 'sweet',   anchors: ['sweet',    '']}
+        {required: true, name: 'cold',   anchors: ['cold',   '']},
+        {required: true, name: 'blue',       anchors: ['blue',        '']},
+        {required: true, name: 'sweet',   anchors: ['sweet',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -824,7 +824,7 @@ var sensations_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -845,9 +845,9 @@ var sensations_block = {
       preamble: "<p>2. Imagine feeling content on a wonderful day, with terrific news about your job and family. How much is the feeling of contentment like each of the following sensations?</p>",
       labels: ["1 (Not alike)", "2", "3", "4", "5 (Very much alike)"],
       questions: [
-        {name: 'warm',   anchors: ['warm',   '']},
-        {name: 'purple',       anchors: ['purple',        '']},
-        {name: 'salty',   anchors: ['salty',    '']}
+        {required: true, name: 'warm',   anchors: ['warm',   '']},
+        {required: true, name: 'purple',       anchors: ['purple',        '']},
+        {required: true, name: 'salty',   anchors: ['salty',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -866,7 +866,7 @@ var sensations_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -888,9 +888,9 @@ var sensations_block = {
       preamble: "<p>3. Imagine you are feeling cold, slow and sharp. How much is that feeling like each of the following?</p>",
       labels: ["1 (Not alike)", "2", "3", "4", "5 (Very much alike)"],
       questions: [
-        {name: 'challenged',   anchors: ['challenged',   '']},
-        {name: 'isolated',       anchors: ['isolated',        '']},
-        {name: 'surprised',   anchors: ['surprised',    '']}
+        {required: true, name: 'challenged',   anchors: ['challenged',   '']},
+        {required: true, name: 'isolated',       anchors: ['isolated',        '']},
+        {required: true, name: 'surprised',   anchors: ['surprised',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -909,7 +909,7 @@ var sensations_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -930,9 +930,9 @@ var sensations_block = {
       preamble: "<p>4. Imagine you are feeling loud, large, delicate and bright green. How much is that feeling like each of the following?</p>",
       labels: ["1 (Not alike)", "2", "3", "4", "5 (Very much alike)"],
       questions: [
-        {name: 'excited',   anchors: ['excited',   '']},
-        {name: 'jealous',       anchors: ['jealous',        '']},
-        {name: 'afraid',   anchors: ['afraid',    '']}
+        {required: true, name: 'excited',   anchors: ['excited',   '']},
+        {required: true, name: 'jealous',       anchors: ['jealous',        '']},
+        {required: true, name: 'afraid',   anchors: ['afraid',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -951,7 +951,7 @@ var sensations_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -972,9 +972,9 @@ var sensations_block = {
       preamble: "<p>5. Imagine you are feeling closed, dark, and numb. How much is that feeling like each of the following?</p>",
       labels: ["1 (Not alike)", "2", "3", "4", "5 (Very much alike)"],
       questions: [
-        {name: 'sad',   anchors: ['sad',   '']},
-        {name: 'content',       anchors: ['content',        '']},
-        {name: 'calm',   anchors: ['calm',    '']}
+        {required: true, name: 'sad',   anchors: ['sad',   '']},
+        {required: true, name: 'content',       anchors: ['content',        '']},
+        {required: true, name: 'calm',   anchors: ['calm',    '']}
       ],
       randomize_question_order: false,
       on_finish: function(data){
@@ -993,7 +993,7 @@ var sensations_block = {
           prompt: "<h3>Rate your confidence:</h3>",
           n_points: 6,
           tick_labels: ["Guessing", "", "", "", "", "Certain"],
-          require_response: false,
+          require_response: true,
           button_label: "Submit"
         }
       ],
@@ -1026,7 +1026,7 @@ var confidence_between_items = {
       prompt: "<h3>Rate your confidence:</h3>",
       n_points: 6,
       tick_labels: ["Guessing", "", "", "", "", "Certain"],
-      require_response: false,
+      require_response: true,
       button_label: "Submit"
     }
   ],
@@ -1050,7 +1050,7 @@ var changes_block = {
             "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>1. Marjorie felt more and more ashamed, and began to feel worthless. She then felt ........",
           name: "changes_Q1",
           options: ["overwhelmed", "depressed", "ashamed", "self-conscious", "jittery"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1071,7 +1071,7 @@ var changes_block = {
             "2. Kenji felt content as he thought of his life, and the more he thought about the good things he had done and the joy his acts had brought to others, the more he felt .....",
           name: "changes_Q2",
           options: ["surprised", "depressed", "acceptance", "happiness", "amazement"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1092,7 +1092,7 @@ var changes_block = {
             "3. Natalie had never been more surprised in her life. But as she recovered from the shock of the loss and realised she could gain some advantage from the situation if she planned carefully, she became .....",
           name: "changes_Q3",
           options: ["amazed", "confused", "denying of the situation", "expectant", "pensive"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1113,7 +1113,7 @@ var changes_block = {
             "4. Nelson was saddened by the news from home, and wanted to express his sincere regret. When he heard that he had not been told right away and that matters were worse than he at first thought, he felt ......",
           name: "changes_Q4",
           options: ["anger and surprise", "sadness and anticipation", "shock and regret", "fear and loathing", "anger and sorrow"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1134,7 +1134,7 @@ var changes_block = {
             "5. Rashad is usually quite happy at work and things also go well for him at home. He thought that he and his co-workers were generally fairly paid and treated well.<br>Today, everyone in his unit received a modest across-the-board pay increase as part of corporate-wide adjustments in salary. Rashad felt ....",
           name: "changes_Q5",
           options: ["surprised and shocked", "peaceful and quiet", "content and elated", "humbled and guilty", "proud and dominant"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1155,7 +1155,7 @@ var changes_block = {
             "6. Glenda loved Jake, who she felt belonged only to her. She began to see him as perfect for her, and close to perfection in general. She ....",
           name: "changes_Q6",
           options: ["respected him", "admired him", "envied him", "adored him", "resented him"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1176,7 +1176,7 @@ var changes_block = {
             "7. Tatiana was annoyed that a co-worker took credit for a project, and when he did it again she felt .....",
           name: "changes_Q7",
           options: ["anger", "annoyance", "frustration", "startled", "depression"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1203,7 +1203,7 @@ var changes_block = {
             "jealousy and envy",
             "depression and contempt"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1224,7 +1224,7 @@ var changes_block = {
             "9. When Steve discovered that several students were cheating on exams, he thought it was morally wrong. When he told the teacher, the teacher said there was nothing he could do about it.<br>Steve planned to pursue the matter with a school administrator because he felt ..... by what happened",
           name: "changes_Q9",
           options: ["enlivened", "enraged", "disgusted", "depressed", "saddened"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1245,7 +1245,7 @@ var changes_block = {
             "10. Matt had been hurt by one of his friends and was feeling angry. Matt told his friend how he felt, and when the friend did it again, Matt became .....",
           name: "changes_10",
           options: ["angry", "fearful", "very annoyed", "worried", "enraged"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1266,7 +1266,7 @@ var changes_block = {
             "11. Theresa watched television so as to follow a hurricane's progress up the coast where her parents lived. As the hurricane moved towards her parent's house, she felt anxiety and helplessness.<br>At the last minute, however, it turned away leaving that area of the coastline unharmed. She felt .....",
           name: "changes_Q11",
           options: ["relief and gratitude", "surprise and shock", "tense and relieved", "anticipation and anxiety", "anticipation and calmness"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1293,7 +1293,7 @@ var changes_block = {
             "a package she mailed to a friend was delivered to the wrong person",
             "she was frustrated by a bad job she did on the project"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1320,7 +1320,7 @@ var changes_block = {
             "his mother embarrassed him in front of the other children",
             "his father accused him of something he didn&apos;t do"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1347,7 +1347,7 @@ var changes_block = {
             "her husband criticised her",
             "she lost a book that was important to her"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1374,7 +1374,7 @@ var changes_block = {
             "a package arrived with a gift from his mother",
             "his doctor called to say his checkup indicated he was healthy"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1401,7 +1401,7 @@ var changes_block = {
             "her mother called to tell her that she was sending her a birthday gift that would be a surprise",
             "she went on a date and discovered many things in common with an attractive man"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1428,7 +1428,7 @@ var changes_block = {
             "his wife was helping his children with their homework",
             "no one seemed to like him"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1455,7 +1455,7 @@ var changes_block = {
             "she lost a close friend",
             "she was angry that someone gossiped about her, and then discovered that others were saying the same thing"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1482,7 +1482,7 @@ var changes_block = {
             "his friend said he was moving away",
             "the man felt he had hurt his friend and it was partially his friend &apos;s fault"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1509,7 +1509,7 @@ var changes_block = {
             "she told the other person that she loved him",
             "her love itself brought about security"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1542,7 +1542,7 @@ var blends_block = {
             "fear, joy, surprise, embarrassment",
             "anxiety, caring, anticipation"
           ],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1561,7 +1561,7 @@ var blends_block = {
           prompt: '2. Another word for "consistently anticipating pleasure" is.....',
           name: "Q2",
           options: ["optimism", "happiness", "contentment", "joy", "surprise"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1580,7 +1580,7 @@ var blends_block = {
           prompt: "3. Acceptance, joy and warmth often combine to form .....",
           name: "Q3",
           options: ["love", "amazement", "anticipation", "contentment", "acceptance"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1599,7 +1599,7 @@ var blends_block = {
           prompt: "4. Combining the feelings of disgust and anger results in .....",
           name: "Q4",
           options: ["guilt", "rage", "shame", "hatred", "contempt"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1618,7 +1618,7 @@ var blends_block = {
           prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>5. A sad surprise leads to .....",
           name: "Q5",
           options: ["disappointment", "amazement", "anger", "fear", "regret"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1637,7 +1637,7 @@ var blends_block = {
           prompt: "6. Sadness, guilt and regret combine to form .....",
           name: "Q6",
           options: ["grief", "annoyance", "depression", "remorse", "misery"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1656,7 +1656,7 @@ var blends_block = {
           prompt: "7. Relaxation, security and serenity are all parts of .....",
           name: "Q7",
           options: ["love", "fatigue", "expectancy", "calmness", "anticipation"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1675,7 +1675,7 @@ var blends_block = {
           prompt: "8. Fear, surprise and embarrassment are all part of .....",
           name: "Q8",
           options: ["esteem", "awe", "puzzlement", "respect", "sympathy"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1694,7 +1694,7 @@ var blends_block = {
           prompt: "<h3>INSTRUCTIONS: Select the best alternative for each of these questions</h3>9. Shame, surprise and embarrassment are all part of .....",
           name: "Q9",
           options: ["jealousy", "sadness", "guilt", "envy", "humiliation"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1713,7 +1713,7 @@ var blends_block = {
           prompt: "10. Admiration, love and anxiety are all part of .....",
           name: "Q10",
           options: ["jealousy", "sadness", "malice", "pride", "worry"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1732,7 +1732,7 @@ var blends_block = {
           prompt: "11. Joy, excitement and uncertainty are all part of .....",
           name: "Q11",
           options: ["liveliness", "anticipation", "anxiety", "calmness", "serenity"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1751,7 +1751,7 @@ var blends_block = {
           prompt: "12. Sadness and satisfaction are  both sometimes part of the feeling of .....",
           name: "Q12",
           options: ["nostalgia", "anxiety", "anticipation", "depression", "contempt"],
-          required: false
+          required: true
         }
       ],
       on_finish: function (data) {
@@ -1781,7 +1781,7 @@ var confidence_between_items_4 = {
       prompt: "<h3>Rate your confidence:</h3>",
       n_points: 6,
       tick_labels: ["Guessing", "", "", "", "", "Certain"],
-      require_response: false,
+      require_response: true,
       button_label: "Submit"
     }
   ],
