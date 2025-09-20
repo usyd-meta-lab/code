@@ -506,7 +506,7 @@ var augmentTimeline = function(timeline){
     
     
     
-    console.log(timeline)
+
     
     
     return timeline
