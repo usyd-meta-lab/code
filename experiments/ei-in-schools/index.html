@@ -138,6 +138,7 @@
   demographics,        
   enter_fullscreen,  
   msceit_instructions,
+  conf_instruc,
   faces_block,
   facilitation_block,
   changes_block,
@@ -148,7 +149,6 @@
   relationships_block,
   instructions,
   practice_block,
-  conf_instruc, 
   test_start,
   test_blocks,
   debug,
@@ -167,7 +167,7 @@
   async function createExperiment() {
     const condition = await jsPsychPipe.getCondition(DataPipe_ID);
     jsPsych.data.addProperties({ condition: condition });
-    
+    console.log("Condition= ", condition)
     // If you have different conditions, you could add them here:
     if (condition == 0) {
       jsPsych.run(condition_1_timeline);
