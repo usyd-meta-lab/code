@@ -120,7 +120,7 @@
   
   const cr_block = jsPsych.randomization.sampleWithReplacement([1,2,3,4], 1)[0];
   jsPsych.data.addProperties({ cr_block: cr_block });
-  
+  console.log("Condition= ", cr_block)
   /* 
   ===============================================================
   =                 BUILD AND RUN THE EXPERIMENT                =
@@ -167,7 +167,7 @@
   async function createExperiment() {
     const condition = await jsPsychPipe.getCondition(DataPipe_ID);
     jsPsych.data.addProperties({ condition: condition });
-    console.log("Condition= ", condition)
+    
     // If you have different conditions, you could add them here:
     if (condition == 0) {
       jsPsych.run(condition_1_timeline);
