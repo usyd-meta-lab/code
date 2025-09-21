@@ -90,7 +90,7 @@
   const accuracy_criterion = .55; // Accuracy cut-off for manual data review
   const local_save = false; //If true, no data will be pushed to the server; instead a local csv is saved and no redirect to Prolific/SONA will occur.
   const in_lab = true; //If true a SONA ID will be randomly generated and no redirect will occur; instead, a notify expeirmenter screen will show after the debrief
-  
+  let condition;
   
   // Dot task paramaters
   let no_trials = 42;         // Number of trials in each main block
@@ -118,9 +118,7 @@
   ===============================================================
   */
   
-  const cr_block = jsPsych.randomization.sampleWithReplacement([1,2,3,4], 1)[0];
-  jsPsych.data.addProperties({ cr_block: cr_block });
-  console.log("Condition= ", cr_block)
+  
   /* 
   ===============================================================
   =                 BUILD AND RUN THE EXPERIMENT                =
@@ -131,31 +129,6 @@
   * Full timeline for Condition 1. 
   * (You can create separate timelines/conditions if desired.)
   */
-  const condition_1_timeline = [
-  browser_check,
-  participant_info_school,
-  school_consent,
-  demographics,        
-  enter_fullscreen,  
-  msceit_instructions,
-  conf_instruc,
-  faces_block,
-  facilitation_block,
-  changes_block,
-  management_block,
-  pictures_block,
-  sensations_block,
-  blends_block,
-  relationships_block,
-  instructions,
-  practice_block,
-  test_start,
-  test_blocks,
-  debug,
-  save_data,
-  DEBRIEF_School,
-  study_complete_notification
-  ];
   
   
   
@@ -165,8 +138,53 @@
   * conditions, you could simply run condition_1_timeline directly.
   */
   async function createExperiment() {
-    const condition = await jsPsychPipe.getCondition(DataPipe_ID);
+    condition = await jsPsychPipe.getCondition(DataPipe_ID);
     jsPsych.data.addProperties({ condition: condition });
+    console.log("Condition from data pipe = ", condition)
+    
+    const cr_block = condition+1;
+    jsPsych.data.addProperties({ cr_block: cr_block });
+    console.log("cr_block = ", cr_block)
+    
+    faces_block = make_MSCEIT_1(cr_block)
+    facilitation_block = make_MSCEIT_3(cr_block)
+    changes_block = make_MSCEIT_5(cr_block)
+    management_block = make_MSCEIT_7(cr_block)
+    pictures_block = make_MSCEIT_2(cr_block)
+    sensations_block = make_MSCEIT_4(cr_block)
+    blends_block = make_MSCEIT_6(cr_block)
+    relationships_block = make_MSCEIT_8(cr_block)
+    
+    
+    const condition_1_timeline = [
+    browser_check,
+    participant_info_school,
+    school_consent,
+    demographics,        
+    enter_fullscreen,  
+    msceit_instructions,
+    conf_instruc,
+    faces_block,
+    facilitation_block,
+    changes_block,
+    management_block,
+    pictures_block,
+    sensations_block,
+    blends_block,
+    relationships_block,
+    instructions,
+    practice_block,
+    test_start,
+    test_blocks,
+    debug,
+    save_data,
+    DEBRIEF_School,
+    study_complete_notification
+    ];
+    
+    
+    
+    
     
     // If you have different conditions, you could add them here:
     if (condition == 0) {

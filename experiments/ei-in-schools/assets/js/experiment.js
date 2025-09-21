@@ -95,39 +95,9 @@ var msceit_instructions = {
 
 // Faces Task
 
-
-var likert_scale = [
-  "1", 
-  "2", 
-  "3", 
-  "4", 
-  "5"
-];
-
-var faces_block = {
-  timeline: [
-    {type: jsPsychSurveyMatrix,
-      scale_width: 800,
-      preamble: function(){return "<img src = 'assets/img/" + jsPsych.evaluateTimelineVariable('face') + ".jpg'></img><p>How much is each feeling below expressed by this face? (i.e. Select a response from 1-5, where 1 = no feeling and 5 = extreme feeling)</p>"},
-      labels: ["1", "2", "3", "4", "5"],
-      questions: [
-        {required: true, name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
-        {required: true, name: 'Fear',       anchors: ['No fear',        'Extreme fear']},
-        {required: true, name: 'Surprise',   anchors: ['No surprise',    'Extreme surprise']},
-        {required: true, name: 'Disgust',    anchors: ['No disgust',     'Extreme disgust']},
-        {required: true, name: 'Excitement', anchors: ['No excitement',  'Extreme excitement']},
-      ],
-      randomize_question_order: false,
-      on_finish: function(data){
-        data.task = "Faces";
-        data.branch = "Perceiving Emotions";
-        data.stimulus = jsPsych.evaluateTimelineVariable('face');
-        
-      }
-    },
-    
-    // Confidence Rating
-    {
+make_MSCEIT_1 = function(cr_block){
+     // Confidence Rating
+var confidence_rating_stream1 = {
       timeline: [
         {
           type: jsPsychConfidenceRating,
@@ -148,23 +118,106 @@ var faces_block = {
 
       }
     }
-    
 
 
-
-
-  ], 
-  timeline_variables: [
-    {face: 'Face1'},
-    {face: 'Face2'},
-    {face: 'Face3'},
-    {face: 'Face4'},
-  ]
+var faces_block = {
+    timeline: [
+        // Q1
+        {
+            type: jsPsychSurveyMatrix,
+            scale_width: 800,
+            preamble: function(){return "<img src = 'assets/img/Face1.jpg'></img><p>How much is each feeling below expressed by this face? (i.e. Select a response from 1-5, where 1 = no feeling and 5 = extreme feeling)</p>"},
+            labels: ["1", "2", "3", "4", "5"],
+            questions: [
+                {required: true, name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
+                {required: true, name: 'Fear',       anchors: ['No fear',        'Extreme fear']},
+                {required: true, name: 'Surprise',   anchors: ['No surprise',    'Extreme surprise']},
+                {required: true, name: 'Disgust',    anchors: ['No disgust',     'Extreme disgust']},
+                {required: true, name: 'Excitement', anchors: ['No excitement',  'Extreme excitement']},
+            ],
+            randomize_question_order: false,
+            on_finish: function(data){
+                data.task = "Faces";
+                data.branch = "Perceiving Emotions";
+                data.stimulus = 'Face1'   
+            }           
+        },
+        confidence_rating_stream1,
+         // Q2
+        {
+            type: jsPsychSurveyMatrix,
+            scale_width: 800,
+            preamble: function(){return "<img src = 'assets/img/Face2.jpg'></img><p>How much is each feeling below expressed by this face? (i.e. Select a response from 1-5, where 1 = no feeling and 5 = extreme feeling)</p>"},
+            labels: ["1", "2", "3", "4", "5"],
+            questions: [
+                {required: true, name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
+                {required: true, name: 'Sadness',       anchors: ['No sadness',        'Extreme sadness']},
+                {required: true, name: 'Fear',   anchors: ['No fear',    'Extreme fear']},
+                {required: true, name: 'Surprise',    anchors: ['No surprise',     'Extreme surprise']},
+                {required: true, name: 'Excitement', anchors: ['No excitement',  'Extreme excitement']},
+            ],
+            randomize_question_order: false,
+            on_finish: function(data){
+                data.task = "Faces";
+                data.branch = "Perceiving Emotions";
+                data.stimulus = 'Face2'   
+            }           
+        },
+        confidence_rating_stream1,
+         // Q3
+        {
+            type: jsPsychSurveyMatrix,
+            scale_width: 800,
+            preamble: function(){return "<img src = 'assets/img/Face3.jpg'></img><p>How much is each feeling below expressed by this face? (i.e. Select a response from 1-5, where 1 = no feeling and 5 = extreme feeling)</p>"},
+            labels: ["1", "2", "3", "4", "5"],
+            questions: [
+                {required: true, name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
+                {required: true, name: 'Sadness',       anchors: ['No sadness',        'Extreme sadness']},
+                {required: true, name: 'Fear',   anchors: ['No fear',    'Extreme fear']},
+                {required: true, name: 'Surprise', anchors: ['No surprise',  'Extreme surprise']},
+                {required: true, name: 'Excitement',    anchors: ['No excitement',     'Extreme excitement']},
+                
+            ],
+            randomize_question_order: false,
+            on_finish: function(data){
+                data.task = "Faces";
+                data.branch = "Perceiving Emotions";
+                data.stimulus = 'Face3'   
+            }           
+        },
+        confidence_rating_stream1,
+         // Q4
+        {
+            type: jsPsychSurveyMatrix,
+            scale_width: 800,
+            preamble: function(){return "<img src = 'assets/img/Face4.jpg'></img><p>How much is each feeling below expressed by this face? (i.e. Select a response from 1-5, where 1 = no feeling and 5 = extreme feeling)</p>"},
+            labels: ["1", "2", "3", "4", "5"],
+            questions: [
+                {required: true, name: 'Happiness',   anchors: ['No happiness',   'Extreme happiness']},
+                {required: true, name: 'Sadness',       anchors: ['No sadness',        'Extreme sadness']},
+                {required: true, name: 'Fear',   anchors: ['No fear',    'Extreme fear']},
+                {required: true, name: 'Anger', anchors: ['No anger',  'Extreme anger']},
+                {required: true, name: 'Disgust',    anchors: ['No disgust',     'Extreme disgust']},
+                
+            ],
+            randomize_question_order: false,
+            on_finish: function(data){
+                data.task = "Faces";
+                data.branch = "Perceiving Emotions";
+                data.stimulus = 'Face4'   
+            }           
+        },
+        confidence_rating_stream1
+    ]
 }
 
 
+return faces_block
+}
+
 
 // Pictures Task
+make_MSCEIT_2 = function(cr_block){
 
 // Helper to build a 1–5 image picker for an emotion
 function emotionPicker(emotion) {
@@ -555,7 +608,8 @@ var pictures_block = {
 
 
 
-
+return pictures_block
+}
 
 
 
@@ -569,7 +623,7 @@ var pictures_block = {
 */
 
 // Facilitation Task 
-
+make_MSCEIT_3 = function(cr_block){
 var facilitation_block = {
   timeline: [
     // Q1
@@ -789,12 +843,13 @@ var facilitation_block = {
   
 }
 
-
+return facilitation_block
+}
 
 
 
 // Sensations Task 
-
+make_MSCEIT_4 = function(cr_block){
 var sensations_block = {
   timeline: [
     // Q1
@@ -1010,6 +1065,10 @@ var sensations_block = {
   ]
   
 }
+
+return sensations_block
+}
+
 /* 
 ===============================================================
 =              3.	Understanding Emotions            =
@@ -1017,6 +1076,8 @@ var sensations_block = {
 */
 
 // Changes Task 
+
+make_MSCEIT_5 = function(cr_block){
 
 // Reusable confidence rating block (shown only when cr_block == 2)
 var confidence_between_items = {
@@ -1522,8 +1583,32 @@ var changes_block = {
   ]
 };
 
+return changes_block
+}
 
 // Blends task
+make_MSCEIT_6 = function(cr_block){
+  
+// Reusable confidence rating block (shown only when cr_block == 2)
+var confidence_between_items = {
+  timeline: [
+    {
+      type: jsPsychConfidenceRating,
+      prompt: "<h3>Rate your confidence:</h3>",
+      n_points: 6,
+      tick_labels: ["Guessing", "", "", "", "", "Certain"],
+      require_response: true,
+      button_label: "Submit"
+    }
+  ],
+  conditional_function: function () {
+    if (cr_block == 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
 
 var blends_block = {
   timeline: [
@@ -1764,6 +1849,8 @@ var blends_block = {
   ]
 };
 
+return blends_block
+}
 
 /* 
 ===============================================================
@@ -1771,7 +1858,7 @@ var blends_block = {
 ===============================================================
 */
 
-
+make_MSCEIT_7 = function(cr_block){
 
 // Reusable confidence rating block (shown only when cr_block == 4)
 var confidence_between_items_4 = {
@@ -2012,10 +2099,34 @@ var management_block = {
   ]
 }
 
-
+return management_block
+}
 
 // Emotional Relationships Task 
 
+
+make_MSCEIT_8 = function(cr_block){
+
+// Reusable confidence rating block (shown only when cr_block == 4)
+var confidence_between_items_4 = {
+  timeline: [
+    {
+      type: jsPsychConfidenceRating,
+      prompt: "<h3>Rate your confidence:</h3>",
+      n_points: 6,
+      tick_labels: ["Guessing", "", "", "", "", "Certain"],
+      require_response: true,
+      button_label: "Submit"
+    }
+  ],
+  conditional_function: function () {
+    if (cr_block == 4) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
 
 var relationships_block = {
   timeline: [
@@ -2125,3 +2236,6 @@ var relationships_block = {
 
     
   ]}
+
+  return relationships_block
+}
