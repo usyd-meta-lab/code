@@ -31,6 +31,20 @@ Branch 4: Managing Emotions
 7.	Emotion Management Task – evaluate the effectiveness of strategies for managing one’s own emotions.
 8.	Emotional Relationships Task – evaluate strategies for managing emotions in others or in social interactions.
 
+
+require_response = false;
+require_response: true,
+required: true
+
+
+Condition	B1	B2
+1	1	2
+2	1	3
+3	1	4
+4	2	3
+5	2	4
+6	3	4
+
 */
 
 
@@ -110,7 +124,7 @@ var confidence_rating_stream1 = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 1){
+        if(cr_block == 1 | cr_block == 2 | cr_block == 3){
             return true;
         } else {
             return false;
@@ -334,7 +348,7 @@ var pictures_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 1){
+        if(cr_block == 1 | cr_block == 2 | cr_block == 3){
             return true;
         } else {
             return false;
@@ -384,7 +398,7 @@ var pictures_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 1){
+        if(cr_block == 1 | cr_block == 2 | cr_block == 3){
             return true;
         } else {
             return false;
@@ -434,7 +448,7 @@ var pictures_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 1){
+        if(cr_block == 1 | cr_block == 2 | cr_block == 3){
             return true;
         } else {
             return false;
@@ -484,7 +498,7 @@ var pictures_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 1){
+        if(cr_block == 1 | cr_block == 2 | cr_block == 3){
             return true;
         } else {
             return false;
@@ -534,7 +548,7 @@ var pictures_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 1){
+        if(cr_block == 1 | cr_block == 2 | cr_block == 3){
             return true;
         } else {
             return false;
@@ -585,7 +599,7 @@ var pictures_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 1){
+        if(cr_block == 1 | cr_block == 2 | cr_block == 3){
             return true;
         } else {
             return false;
@@ -659,7 +673,7 @@ var facilitation_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -702,7 +716,7 @@ var facilitation_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -745,7 +759,7 @@ var facilitation_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -788,7 +802,7 @@ var facilitation_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -831,7 +845,7 @@ var facilitation_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -885,7 +899,7 @@ var sensations_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -927,7 +941,7 @@ var sensations_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -970,7 +984,7 @@ var sensations_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -1012,7 +1026,7 @@ var sensations_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -1054,7 +1068,7 @@ var sensations_block = {
       ],
       conditional_function: function(){
 
-        if(cr_block == 2){
+        if(cr_block == 1 | cr_block == 4 | cr_block == 5){
             return true;
         } else {
             return false;
@@ -1092,7 +1106,7 @@ var confidence_between_items = {
     }
   ],
   conditional_function: function () {
-    if (cr_block == 3) {
+    if (cr_block == 2 | cr_block == 4 | cr_block == 6) {
       return true;
     } else {
       return false;
@@ -1602,7 +1616,7 @@ var confidence_between_items = {
     }
   ],
   conditional_function: function () {
-    if (cr_block == 3) {
+    if (cr_block == 2 | cr_block == 4 | cr_block == 6) {
       return true;
     } else {
       return false;
@@ -1873,7 +1887,7 @@ var confidence_between_items_4 = {
     }
   ],
   conditional_function: function () {
-    if (cr_block == 4) {
+    if (cr_block == 3 | cr_block == 5 | cr_block == 6) {
       return true;
     } else {
       return false;
@@ -2120,7 +2134,7 @@ var confidence_between_items_4 = {
     }
   ],
   conditional_function: function () {
-    if (cr_block == 4) {
+    if (cr_block == 3 | cr_block == 5 | cr_block == 6) {
       return true;
     } else {
       return false;
