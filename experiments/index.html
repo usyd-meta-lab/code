@@ -51,7 +51,7 @@
     @media (max-width: 680px){ .grid{ grid-template-columns: 1fr; } }
     .card {
       border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; background: #fff;
-      display:flex; flex-direction: column; gap: 8px;
+      display:flex; flex-direction: column; gap: 8px; scroll-margin-top: 90px;
     }
     .card h3 { margin: 0; font-size: 18px; line-height: 1.25; }
     .proj-title { margin: 0; font-size: 18px; line-height: 1.25; }
@@ -66,6 +66,12 @@
     /* Apple-like subtle tints & gentle elevation */
     .card { transition: transform 120ms ease, box-shadow 180ms ease, border-color 180ms ease; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
     .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: #d1d5db; }
+    .card:focus { outline: none; }
+    .card.card--selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(30,64,175,0.18), 0 12px 32px rgba(15,23,42,0.16);
+    }
+    .card.card--selected:hover { border-color: var(--accent); }
 
     .card-active  { background: linear-gradient(180deg, #f7fbf9 0%, #ffffff 100%); border-color: #d9efe6; }
     .card-draft   { background: linear-gradient(180deg, #fffaf2 0%, #ffffff 100%); border-color: #f1e3c7; }
@@ -281,6 +287,8 @@
 
     let DATA = [];
     let TAGS = [];
+    let selectedCardId = '';
+    let initialHashHandled = false;
 
     function normalize(x){ return (x ?? '').toString().toLowerCase(); }
 
@@ -323,6 +331,18 @@
       }
       els.empty.hidden = true;
       els.grid.innerHTML = items.map(r => card(r)).join('');
+
+      if(!initialHashHandled){
+        const hashId = readHashFromLocation();
+        if(hashId){
+          setSelectedCard(hashId, { updateHash: false, scroll: true });
+        }else{
+          updateCardSelectionDisplay();
+        }
+        initialHashHandled = true;
+      }else{
+        updateCardSelectionDisplay();
+      }
     }
 
     const chip = (t,i)=> `<span class="chip">${t}<button aria-label="Remove ${t}" onclick="removeTag(${i})">✕</button></span>`;
@@ -337,6 +357,8 @@
     }
 
     function card(x){
+      const cardId = uniqueCardId(x);
+      const statusClass = escapeHTML((x.status || '').toLowerCase());
       const projectTitle = x.project_title || '';
       const experimentTitle = x.title || x.short_title || x.id;
       const desc = x.description || '';
@@ -366,7 +388,7 @@
       );
 
       return `
-        <article class="card card-${escapeHTML((x.status||'').toLowerCase())}">
+        <article id="${cardId}" class="card card-${statusClass}" data-card-id="${cardId}" tabindex="0" aria-selected="false">
           ${titleLinked}
           <div class="meta">
             Status: ${escapeHTML(x.status || '—')}
@@ -400,11 +422,133 @@
         .replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
     }
 
+    const CARD_ID_PATTERN = /^[a-z0-9-]+$/;
+    let CARD_ID_CACHE = new WeakMap();
+    const CARD_ID_USED = new Set();
+
+    function slugify(value){
+      return (value ?? '')
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        || 'experiment';
+    }
+
+    function resetCardIdCaches(){
+      CARD_ID_CACHE = new WeakMap();
+      CARD_ID_USED.clear();
+    }
+
+    function uniqueCardId(record){
+      if(record && CARD_ID_CACHE.has(record)){ return CARD_ID_CACHE.get(record); }
+
+      const base = slugify(record?.id || record?.title || record?.short_title || 'experiment');
+      let candidate = base;
+      let suffix = 2;
+      while(CARD_ID_USED.has(candidate)){
+        candidate = `${base}-${suffix++}`;
+      }
+
+      if(record){ CARD_ID_CACHE.set(record, candidate); }
+      CARD_ID_USED.add(candidate);
+      return candidate;
+    }
+
+    function readHashFromLocation(){
+      const raw = window.location.hash.slice(1);
+      if(!raw){ return ''; }
+      try{
+        const decoded = decodeURIComponent(raw.trim());
+        return CARD_ID_PATTERN.test(decoded) ? decoded : '';
+      }catch{
+        return '';
+      }
+    }
+
+    function clearHash(){
+      try{
+        history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+      }catch{
+        window.location.hash = '';
+      }
+    }
+
+    function updateCardSelectionDisplay(){
+      const cards = els.grid.querySelectorAll('.card');
+      cards.forEach(card => {
+        const isSelected = !!selectedCardId && card.dataset.cardId === selectedCardId;
+        card.classList.toggle('card--selected', isSelected);
+        card.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      });
+    }
+
+    function setSelectedCard(cardId, { updateHash = false, scroll = false } = {}){
+      const nextId = cardId && CARD_ID_PATTERN.test(cardId) ? cardId : '';
+      selectedCardId = nextId;
+      updateCardSelectionDisplay();
+
+      if(!nextId){
+        if(updateHash){ clearHash(); }
+        return;
+      }
+
+      const target = document.getElementById(nextId);
+      if(scroll && target){
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      if(updateHash){
+        try{
+          history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${nextId}`);
+        }catch{
+          window.location.hash = `#${nextId}`;
+        }
+      }
+    }
+
+    function syncSelectionFromHash({ scroll = false } = {}){
+      const hashId = readHashFromLocation();
+      setSelectedCard(hashId, { updateHash: false, scroll });
+    }
+
+    selectedCardId = readHashFromLocation();
+
+    function getCardFromEvent(event){
+      const target = event.target;
+      if(!(target instanceof Element)){ return null; }
+      return target.closest('.card');
+    }
+
+    function handleCardClick(event){
+      const card = getCardFromEvent(event);
+      if(!card){ return; }
+      setSelectedCard(card.dataset.cardId, { updateHash: true });
+    }
+
+    function handleCardFocus(event){
+      const card = getCardFromEvent(event);
+      if(!card){ return; }
+      setSelectedCard(card.dataset.cardId, { updateHash: false });
+    }
+
+    function handleCardKeydown(event){
+      if(event.key !== 'Enter' && event.key !== ' ' && event.key !== 'Spacebar'){ return; }
+      const card = getCardFromEvent(event);
+      if(!card || event.target !== card){ return; }
+      event.preventDefault();
+      setSelectedCard(card.dataset.cardId, { updateHash: true });
+    }
+
     async function init(){
       const candidates = buildCandidates();
       try{
         const { json, url, attempts } = await fetchFirstAvailable(candidates);
         els.src.textContent = url;
+        resetCardIdCaches();
+        initialHashHandled = false;
+        selectedCardId = readHashFromLocation();
         DATA = Array.isArray(json) ? json : [];
         // Derive "last updated" display from max(date_updated/date_created)
         const dates = DATA.map(r => r.date_updated || r.date_created).filter(Boolean).sort().reverse();
@@ -429,6 +573,10 @@
     els.sort.addEventListener('change', render);
     els.tagInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); addTagFromInput(); } });
     els.refresh.addEventListener('click', (e)=>{ e.preventDefault(); init(); });
+    els.grid.addEventListener('click', handleCardClick);
+    els.grid.addEventListener('focusin', handleCardFocus);
+    els.grid.addEventListener('keydown', handleCardKeydown);
+    window.addEventListener('hashchange', ()=>syncSelectionFromHash({ scroll: true }));
 
     // Allow setting catalog via URL ?src=
     (function overrideFromQuery(){
