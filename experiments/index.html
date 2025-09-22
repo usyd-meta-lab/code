@@ -319,6 +319,11 @@
     }
 
     function render(){
+      if(!initialHashHandled && selectedCardId){
+        const targetRecord = CARD_ID_TO_RECORD.get(selectedCardId);
+        ensureFiltersIncludeRecord(targetRecord);
+      }
+
       const items = sortRecords(DATA.filter(recordMatches));
       els.count.textContent = items.length
         ? `${items.length} experiment${items.length===1?'':'s'}`
@@ -333,9 +338,8 @@
       els.grid.innerHTML = items.map(r => card(r)).join('');
 
       if(!initialHashHandled){
-        const hashId = readHashFromLocation();
-        if(hashId){
-          setSelectedCard(hashId, { updateHash: false, scroll: true });
+        if(selectedCardId){
+          setSelectedCard(selectedCardId, { updateHash: false, scroll: true });
         }else{
           updateCardSelectionDisplay();
         }
@@ -424,7 +428,8 @@
 
     const CARD_ID_PATTERN = /^[a-z0-9-]+$/;
     let CARD_ID_CACHE = new WeakMap();
-    const CARD_ID_USED = new Set();
+    let CARD_ID_USED = new Set();
+    let CARD_ID_TO_RECORD = new Map();
 
     function slugify(value){
       return (value ?? '')
@@ -438,7 +443,8 @@
 
     function resetCardIdCaches(){
       CARD_ID_CACHE = new WeakMap();
-      CARD_ID_USED.clear();
+      CARD_ID_USED = new Set();
+      CARD_ID_TO_RECORD = new Map();
     }
 
     function uniqueCardId(record){
@@ -451,9 +457,17 @@
         candidate = `${base}-${suffix++}`;
       }
 
-      if(record){ CARD_ID_CACHE.set(record, candidate); }
+      if(record){
+        CARD_ID_CACHE.set(record, candidate);
+        CARD_ID_TO_RECORD.set(candidate, record);
+      }
       CARD_ID_USED.add(candidate);
       return candidate;
+    }
+
+    function prepareCardIds(records){
+      if(!Array.isArray(records)){ return; }
+      records.forEach(record => { uniqueCardId(record); });
     }
 
     function readHashFromLocation(){
@@ -508,9 +522,19 @@
       }
     }
 
-    function syncSelectionFromHash({ scroll = false } = {}){
-      const hashId = readHashFromLocation();
-      setSelectedCard(hashId, { updateHash: false, scroll });
+    function ensureFiltersIncludeRecord(record){
+      if(!record){ return; }
+      const currentStatus = normalize(els.status.value);
+      const recordStatus = normalize(record?.status);
+      if(currentStatus && currentStatus !== recordStatus){
+        els.status.value = '';
+      }
+    }
+
+    function syncSelectionFromHash(){
+      selectedCardId = readHashFromLocation();
+      initialHashHandled = false;
+      render();
     }
 
     selectedCardId = readHashFromLocation();
@@ -550,6 +574,7 @@
         initialHashHandled = false;
         selectedCardId = readHashFromLocation();
         DATA = Array.isArray(json) ? json : [];
+        prepareCardIds(DATA);
         // Derive "last updated" display from max(date_updated/date_created)
         const dates = DATA.map(r => r.date_updated || r.date_created).filter(Boolean).sort().reverse();
         if(dates[0]) els.updated.textContent = `Updated: ${dates[0]}`;
@@ -576,7 +601,7 @@
     els.grid.addEventListener('click', handleCardClick);
     els.grid.addEventListener('focusin', handleCardFocus);
     els.grid.addEventListener('keydown', handleCardKeydown);
-    window.addEventListener('hashchange', ()=>syncSelectionFromHash({ scroll: true }));
+    window.addEventListener('hashchange', ()=>syncSelectionFromHash());
 
     // Allow setting catalog via URL ?src=
     (function overrideFromQuery(){
