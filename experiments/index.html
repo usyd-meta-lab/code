@@ -184,7 +184,8 @@
         <div>
           <label for="status">Status</label>
           <select id="status">
-            <option value="" selected>active</option>
+            <option value="">All</option>
+            <option value="active" selected>active</option>
             <option>draft</option>
             <option>archived</option>
           </select>
@@ -285,8 +286,8 @@
 
     function recordMatches(r){
       const q = normalize(els.q.value);
-      const stat = els.status.value;
-      const hasStatus = !stat || (r.status === stat);
+      const stat = normalize(els.status.value);
+      const hasStatus = !stat || normalize(r.status) === stat;
 
       const tagOk = TAGS.length === 0 || (Array.isArray(r.tags) && TAGS.every(t => r.tags.map(normalize).includes(normalize(t))));
 
