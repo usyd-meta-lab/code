@@ -1,3 +1,35 @@
+const MIGRATION_ERROR_TEXT =
+  "MigrationError: The global `jsPsych` variable is no longer available in jsPsych v7";
+
+// Prevent noisy jsPsych migration warnings when this utility loads before jsPsych.
+function suppressJsPsychMigrationError() {
+  if (typeof window === "undefined" || window.__jsPsychMigrationErrorSuppressed) return;
+  window.__jsPsychMigrationErrorSuppressed = true;
+
+  window.addEventListener(
+    "error",
+    (event) => {
+      const message = event?.message ?? event?.error?.message;
+      if (typeof message === "string" && message.includes(MIGRATION_ERROR_TEXT)) {
+        event?.preventDefault?.();
+        event.stopImmediatePropagation?.();
+      }
+    },
+    true
+  );
+
+  const originalConsoleError = console.error;
+  console.error = (...args) => {
+    const shouldSkip = args.some((arg) =>
+      typeof arg === "string" && arg.includes(MIGRATION_ERROR_TEXT)
+    );
+    if (shouldSkip) return;
+    originalConsoleError.apply(console, args);
+  };
+}
+
+suppressJsPsychMigrationError();
+
 // Sync condition assignment with optional localStorage persistence
 function assignCondition(
   nConditions = 2,
