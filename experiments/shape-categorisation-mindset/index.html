@@ -78,6 +78,7 @@ const total_blocks = 6;                    // Total number of blocks for instruc
 
 // Global toggles and counters
 let ratings_on = false;      // Enable/disable confidence ratings
+let ratings_on = true;      // Enable/disable confidence ratings
 let trialnum = 1;            // Global trial counter
 let blocknum = 1;            // Global block counter
 let phase = null;            // Current phase ("Training" or "Test")
@@ -581,8 +582,8 @@ const cat_trial = {
       ],
       // Only show confidence ratings when feedback is off and ratings are enabled.
       conditional_function: function() {
-        return (!provide_feedback && ratings_on);
-      }
+        return ratings_on;
+}
     },
 
     /* 3. Feedback (training only) */
@@ -603,6 +604,7 @@ const cat_trial = {
               var ruleMatchCategory = choices[ruleMatchIndex];
               return '<img height = "250" src = '+jsPsych.timelineVariable('category_stimulus')+'></img><br>' +
               "This is a " + ruleMatchCategory;
+    post_trial_gap: 350;
 
             } else {
 
@@ -676,13 +678,12 @@ const cat_trial = {
         data.category = jsPsych.timelineVariable('category');          // Stimulus category
 
         // Save confidence rating if applicable
-        if (!provide_feedback && ratings_on) {
-          const lastConf = jsPsych.data.get().filter({ trial_type: "Confidence Rating" }).last(1).values()[0];
-          data.confidence = lastConf.response;
-          data.feedback = "False";
-        } else {
-          data.feedback = "True";
-        }
+        
+if (ratings_on) {
+  const lastConf = jsPsych.data.get().filter({ trial_type: "Confidence Rating" }).last(1).values()[0];
+  data.confidence = lastConf ? lastConf.response : null;
+}
+data.feedback = provide_feedback ? "True" : "False";
 
         data.trial_type = "Summary Trial";
 
