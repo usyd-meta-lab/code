@@ -3,5 +3,6 @@ window.JSPsychTrialFiles = [
   "src/content/efficacy_rating.js",
   "src/content/instructions.js",
   "src/content/training_trial.js",
+   "src/content/cr_training_trial.js",
   "src/content/welcome.js"
 ];
