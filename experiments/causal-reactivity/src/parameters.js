@@ -8,7 +8,7 @@ Modifiable global parameters used in the template
 // Context
 const DataPipe_ID = "o0Ay5sMc2Vb3";  // The DataPipe ID for where the data should be stored
 const condition = assignCondition(4, { useLocalStorage: false }); // Sets the condition. THe number (e.g. "4") determines the number of conditions possible. The useLocalStorage paramater determines if the condition should reload from local stroage or be ephemeral
-const is_DEBUG = true; // Initalise in debug mode
+const is_DEBUG = false; // Initalise in debug mode
 const task_time = 8; // (minutes) for the PIS
 const in_lab = false; //If true a SONA ID will be randomly generated and no redirect will occur; instead, a notify expeirmenter screen will show after the debrief
 const local_save = false; //If true, no data will be pushed to the server; instead a local csv is saved and no redirect to Prolific/SONA will occur.
