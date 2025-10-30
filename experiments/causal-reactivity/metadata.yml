@@ -1,0 +1,20 @@
+id: causal-reactivity
+version: 1.0.0
+date_created: '2025-10-30'
+title: causal-reactivity/
+project_title: Causal Induction Rating Reactivity
+description: Causal induction task with high and low outcome density crossed with
+  continuous predictions versus binary predictions
+status: active
+authors:
+- Kit S. Double <kit.double@sydney.edu.au>
+tags:
+- reactivity
+- causal learning
+data:
+  datapipe_name: Causal learning Prediction Pilot
+links:
+  osf: https://osf.io/xg8e2
+sample:
+  population: SONA
+date_updated: '2025-10-30'
