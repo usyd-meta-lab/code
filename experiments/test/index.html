@@ -823,10 +823,8 @@
                   method: 'POST',
                   headers: {
                     Authorization: `Bearer ${osfToken}`,
-                    'Content-Type': 'application/json',
                     Accept: 'application/json'
-                  },
-                  body: JSON.stringify({})
+                  }
                 });
                 if (!initResponse.ok) {
                   console.warn('OSF upload initialization failed with status', initResponse.status);
