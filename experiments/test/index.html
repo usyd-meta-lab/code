@@ -642,6 +642,24 @@
         return "";
       }
 
+      async function readOsfError(response) {
+        if (!response || typeof response.text !== "function") return null;
+        try {
+          const clone = response.clone ? response.clone() : response;
+          const payload = await clone.text();
+          if (!payload) return null;
+          try {
+            const asJson = JSON.parse(payload);
+            if (asJson?.errors && Array.isArray(asJson.errors)) return asJson.errors;
+            return asJson;
+          } catch (err) {
+            return payload;
+          }
+        } catch (err) {
+          return null;
+        }
+      }
+
       (async () => {
         const options = experiment.options ?? {};
         const rawCss = typeof options.rawCss === "string" ? options.rawCss : "";
@@ -812,6 +830,8 @@
                 });
                 if (!initResponse.ok) {
                   console.warn('OSF upload initialization failed with status', initResponse.status);
+                  const detail = await readOsfError(initResponse);
+                  if (detail) console.warn('OSF response body:', detail);
                   if (initResponse.status === 401 || initResponse.status === 403) {
                     console.warn('Check that your OSF API token is valid and includes osf.storage write access.');
                   } else if (initResponse.status === 405) {
@@ -839,6 +859,10 @@
                     if (!uploadResponse || !uploadResponse.ok) {
                       const status = uploadResponse ? uploadResponse.status : 'network error';
                       console.warn('OSF file upload failed with status', status);
+                      if (uploadResponse) {
+                        const uploadDetail = await readOsfError(uploadResponse);
+                        if (uploadDetail) console.warn('OSF upload response body:', uploadDetail);
+                      }
                     } else if (finalizeUrl) {
                       await fetch(finalizeUrl, {
                         method: 'POST',
