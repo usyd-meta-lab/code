@@ -818,66 +818,26 @@
               if (!projectId) {
                 console.warn('Could not determine OSF project id from', projectUrl);
               } else {
-                const providerUrl = `https://files.osf.io/v1/resources/${projectId}/providers/osfstorage/?kind=file&name=${encodeURIComponent(fileName)}`;
-                const initResponse = await fetch(providerUrl, {
-                  method: 'POST',
+                const uploadUrl = `https://files.osf.io/v1/resources/${projectId}/providers/osfstorage/?kind=file&name=${encodeURIComponent(fileName)}`;
+                const uploadResponse = await fetch(uploadUrl, {
+                  method: 'PUT',
                   headers: {
                     Authorization: `Bearer ${osfToken}`,
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'text/csv'
                   },
-                  body: JSON.stringify({
-                    kind: 'file',
-                    name: fileName,
-                    conflict: 'replace'
-                  })
+                  body: blob
                 });
-                if (!initResponse.ok) {
-                  console.warn('OSF upload initialization failed with status', initResponse.status);
-                  const detail = await readOsfError(initResponse);
+                if (!uploadResponse.ok) {
+                  console.warn('OSF upload failed with status', uploadResponse.status);
+                  const detail = await readOsfError(uploadResponse);
                   if (detail) console.warn('OSF response body:', detail);
-                  if (initResponse.status === 401 || initResponse.status === 403) {
+                  if (uploadResponse.status === 401 || uploadResponse.status === 403) {
                     console.warn('Check that your OSF API token is valid and includes osf.storage write access.');
-                  } else if (initResponse.status === 405) {
+                  } else if (uploadResponse.status === 405) {
                     console.warn('Received 405 from OSF. Browsers sometimes block the required preflight request when running from local files; hosting the experiment over https:// usually resolves this.');
                   }
                 } else {
-                  const info = await initResponse.json().catch(() => null);
-                  const uploadUrl = info?.data?.attributes?.upload;
-                  const finalizeUrl = info?.data?.links?.upload_finish;
-                  if (!uploadUrl) {
-                    console.warn('OSF upload URL missing in response');
-                  } else {
-                    let uploadResponse = null;
-                    try {
-                      uploadResponse = await fetch(uploadUrl, {
-                        method: 'PUT',
-                        headers: {
-                          'Content-Type': 'text/csv'
-                        },
-                        body: blob
-                      });
-                    } catch (uploadErr) {
-                      console.warn('OSF file upload request failed', uploadErr);
-                    }
-                    if (!uploadResponse || !uploadResponse.ok) {
-                      const status = uploadResponse ? uploadResponse.status : 'network error';
-                      console.warn('OSF file upload failed with status', status);
-                      if (uploadResponse) {
-                        const uploadDetail = await readOsfError(uploadResponse);
-                        if (uploadDetail) console.warn('OSF upload response body:', uploadDetail);
-                      }
-                    } else if (finalizeUrl) {
-                      await fetch(finalizeUrl, {
-                        method: 'POST',
-                        headers: {
-                          Authorization: `Bearer ${osfToken}`
-                        }
-                      }).catch(finalizeErr => {
-                        console.warn('OSF finalize request failed', finalizeErr);
-                      });
-                    }
-                  }
+                  console.log('OSF upload successful');
                 }
               }
             } catch (err) {
