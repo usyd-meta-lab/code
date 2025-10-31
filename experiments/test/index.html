@@ -1,0 +1,871 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Quick Preview</title>
+    <link rel="stylesheet" href="https://unpkg.com/jspsych@8.2.1/css/jspsych.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@3.0.0/css/survey.min.css" />
+    <script src="https://unpkg.com/jspsych@8.2.2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.1.0"></script>
+  </head>
+  <body>
+    <div id="jspsych"></div>
+    <script type="module">
+      const experiment = {
+  "schema_version": "1.0",
+  "meta": {
+    "title": "Quick Preview",
+    "description": "",
+    "seed": 1
+  },
+  "resources": {
+    "jspsychAssets": []
+  },
+  "nodes": [
+    {
+      "id": "trial-1",
+      "kind": "trial",
+      "plugin": "html-button-response",
+      "params": {
+        "stimulus": "<p>Stimulus</p>",
+        "choices": [
+          "Next",
+          "Back"
+        ],
+        "response_ends_trial": true
+      },
+      "name": "Trial 1",
+      "label": "Trial 1"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "trial-1",
+      "name": "Trial 1",
+      "timeline": [
+        "trial-1"
+      ]
+    }
+  ],
+  "options": {
+    "rawJs": "",
+    "rawCss": "",
+    "fullscreen": false,
+    "osfSave": true,
+    "osfProjectUrl": "https://osf.io/xg8e2",
+    "osfApiToken": "yi0RZ05qKDyCq3aqkj4UmfYv5G75nLu2yCW2rsUn20XixZTfO5UGm46GVrNBIHgTumCVFo",
+    "sona": false,
+    "sonaExperimentId": "",
+    "sonaCreditToken": "",
+    "prolific": false,
+    "prolificRedirectCode": "",
+    "localSave": false,
+    "urlParams": "",
+    "variables": []
+  }
+};
+      const pluginMap = {
+        "html-button-response": jsPsychHtmlButtonResponse
+      };
+
+      function hydrate(input) {
+        if (Array.isArray(input)) return input.map(hydrate);
+        if (input && typeof input === "object") {
+          const hydrated = { ...input };
+          if (typeof hydrated.type === "string" && pluginMap[hydrated.type]) {
+            hydrated.type = pluginMap[hydrated.type];
+          }
+          for (const key of Object.keys(hydrated)) {
+            hydrated[key] = hydrate(hydrated[key]);
+          }
+          return hydrated;
+        }
+        return input;
+      }
+
+      function applyCustomCss(css) {
+        let style = document.getElementById('jspsych-builder-style');
+        const content = typeof css === 'string' ? css : '';
+        if (!content.trim()) {
+          if (style) style.remove();
+          return;
+        }
+        if (!style) {
+          style = document.createElement('style');
+          style.id = 'jspsych-builder-style';
+          document.head.appendChild(style);
+        }
+        style.textContent = content;
+      }
+
+      function makeSeededRng(seed) {
+        let s = (seed ?? Date.now()) >>> 0;
+        return function () {
+          s += 0x6D2B79F5;
+          let t = Math.imul(s ^ (s >>> 15), 1 | s);
+          t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function shuffle(arr, rng) {
+        for (let i = arr.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(rng() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function clone(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      const GLOBAL_OBJECT = typeof globalThis !== "undefined" ? globalThis : (typeof window !== "undefined" ? window : {});
+      const ROW_CONTEXT_KEY = "__builderTimelineRow";
+      const TEMPLATE_PATTERN = /{{\s*([^}]+?)\s*}}/g;
+      const rowContextStack = [];
+
+      function coerceExperimentVariableValue(raw) {
+        if (typeof raw !== "string") return raw;
+        const trimmed = raw.trim();
+        if (!trimmed.length) return "";
+        if (trimmed === "true") return true;
+        if (trimmed === "false") return false;
+        if (trimmed === "null") return null;
+        if (trimmed === "undefined") return undefined;
+        if (/^-?\d+(\.\d+)?$/.test(trimmed)) {
+          const parsed = Number(trimmed);
+          if (!Number.isNaN(parsed)) return parsed;
+        }
+        if ((trimmed.startsWith('{') && trimmed.endsWith('}')) || (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
+          try {
+            return JSON.parse(trimmed);
+          } catch (err) {
+            return raw;
+          }
+        }
+        if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+          return trimmed.slice(1, -1);
+        }
+        return raw;
+      }
+
+      function applyExperimentVariables(vars) {
+        if (!Array.isArray(vars)) return;
+        vars.forEach(entry => {
+          const name = typeof entry?.name === "string" ? entry.name.trim() : "";
+          if (!name) return;
+          const value = coerceExperimentVariableValue(entry.value);
+          try {
+            GLOBAL_OBJECT[name] = value;
+          } catch (err) {
+            console.warn('Could not set experiment variable', name, err);
+          }
+        });
+      }
+
+      function pushRowContext(row) {
+        rowContextStack.push(GLOBAL_OBJECT[ROW_CONTEXT_KEY] ?? null);
+        GLOBAL_OBJECT[ROW_CONTEXT_KEY] = row ?? null;
+      }
+
+      function popRowContext() {
+        const previous = rowContextStack.length ? rowContextStack.pop() : null;
+        GLOBAL_OBJECT[ROW_CONTEXT_KEY] = previous ?? null;
+      }
+
+      function withRowContext(row, fn) {
+        if (typeof fn !== "function") {
+          return () => {};
+        }
+        return function (...args) {
+          const previous = GLOBAL_OBJECT[ROW_CONTEXT_KEY] ?? null;
+          GLOBAL_OBJECT[ROW_CONTEXT_KEY] = row ?? null;
+          try {
+            return fn.apply(this, args);
+          } finally {
+            GLOBAL_OBJECT[ROW_CONTEXT_KEY] = previous;
+          }
+        };
+      }
+
+      function wrapOnStart(row, fn) {
+        return function (...args) {
+          pushRowContext(row);
+          if (typeof fn === "function") {
+            return fn.apply(this, args);
+          }
+        };
+      }
+
+      function wrapOnFinish(row, fn) {
+        return function (...args) {
+          try {
+            return typeof fn === "function" ? fn.apply(this, args) : undefined;
+          } finally {
+            popRowContext();
+          }
+        };
+      }
+
+      function parseTemplatePath(token) {
+        if (typeof token !== "string") return [];
+        return token
+          .replace(/\[(\w+)\]/g, '.\$1')
+          .split(".")
+          .map(part => part.trim())
+          .filter(Boolean);
+      }
+
+      function resolveTimelinePath(row, segments) {
+        if (!Array.isArray(segments) || !segments.length) return undefined;
+        let current = row;
+        for (const segment of segments) {
+          if (current === null || current === undefined) return undefined;
+          const key = /^\d+$/.test(segment) ? Number(segment) : segment;
+          current = current[key];
+        }
+        return current;
+      }
+
+      function renderTimelineTemplate(text, row) {
+        if (typeof text !== "string" || text.indexOf("{{") === -1 || !row) return text;
+        TEMPLATE_PATTERN.lastIndex = 0;
+        return text.replace(TEMPLATE_PATTERN, (_, token) => {
+          const segments = parseTemplatePath(token);
+          const resolved = resolveTimelinePath(row, segments);
+          if (resolved === undefined || resolved === null) return "";
+          return String(resolved);
+        });
+      }
+
+      function prepareTimelineRows(config, rng) {
+        if (!config) return [];
+        const rows = Array.isArray(config.rows) ? config.rows.map(clone) : [];
+        if (!rows.length) return [];
+        let orderRaw = typeof config.order === "string" ? config.order : ""
+        if (!orderRaw && (config.withReplacement || config.sampling?.withReplacement)) orderRaw = "random-with-replacement";
+        if (!orderRaw && config.sampling?.shuffle) orderRaw = "random";
+        if (!orderRaw) orderRaw = "sequential";
+        const order = orderRaw === "random" || orderRaw === "random-with-replacement" || orderRaw === "sequential"
+          ? orderRaw
+          : "sequential";
+        let sampleRaw = null;
+        for (const candidate of [config.sampleSize, config.sample, config.sampling?.count, config.sampling?.size]) {
+          const num = Number(candidate);
+          if (Number.isFinite(num) && num >= 1) {
+            sampleRaw = num;
+            break;
+          }
+        }
+        const sampleSize = Number.isFinite(sampleRaw) && sampleRaw >= 1 ? Math.max(1, Math.round(sampleRaw)) : null;
+        const samplingMode = config.samplingMode || "default";
+        if (samplingMode === "frequency" && Array.isArray(config.frequencies) && config.frequencies.length === rows.length) {
+          const expanded = [];
+          for (let i = 0; i < rows.length; i += 1) {
+            const freq = Math.max(0, Math.round(config.frequencies[i] || 0));
+            for (let j = 0; j < freq; j += 1) {
+              expanded.push(clone(rows[i]));
+            }
+          }
+          if (order === "random" || order === "random-with-replacement") {
+            shuffle(expanded, rng);
+          }
+          if (sampleSize && sampleSize < expanded.length) {
+            return expanded.slice(0, sampleSize);
+          }
+          return expanded;
+        }
+        if (samplingMode === "weighted" && Array.isArray(config.weights) && config.weights.length === rows.length) {
+          const totalWeight = config.weights.reduce((sum, w) => sum + Math.max(0, w || 0), 0);
+          if (totalWeight > 0) {
+            const probabilities = config.weights.map(w => Math.max(0, w || 0) / totalWeight);
+            const count = sampleSize ?? rows.length;
+            const picks = [];
+            for (let i = 0; i < count; i += 1) {
+              const rand = rng();
+              let cumulative = 0;
+              for (let j = 0; j < probabilities.length; j += 1) {
+                cumulative += probabilities[j];
+                if (rand <= cumulative) {
+                  picks.push(clone(rows[j]));
+                  break;
+                }
+              }
+            }
+            return picks;
+          }
+        }
+        if (order === "random-with-replacement") {
+          const count = sampleSize ?? rows.length;
+          if (!rows.length) return [];
+          const picks = [];
+          for (let i = 0; i < count; i += 1) {
+            const index = Math.floor(rng() * rows.length);
+            picks.push(clone(rows[index]));
+          }
+          return picks;
+        }
+        let working = order === "random" ? shuffle(rows.slice(), rng) : rows.slice();
+        if (sampleSize && sampleSize < working.length) {
+          working = working.slice(0, sampleSize);
+        }
+        return working;
+      }
+
+      function reviveFunction(source) {
+        if (typeof source !== "string" || !source.trim()) return null;
+        try {
+          const trimmed = source.trim();
+          try {
+            const fn = (0, eval)(`(${trimmed})`);
+            if (typeof fn === "function") return fn;
+          } catch (e) {}
+          const isFunctionLike = /^(\(.*?\)\s*=>|\bfunction\s*\(|^\([^)]*\)\s*=>)/.test(trimmed);
+          if (isFunctionLike) {
+            console.warn("Could not evaluate function:", trimmed);
+            return null;
+          }
+          const wrappedFn = new Function("data", trimmed);
+          return wrappedFn;
+        } catch (err) {
+          console.warn("Could not evaluate custom function:", err, "Source:", source);
+          return null;
+        }
+      }
+
+      function reviveFunctionWithGlobals(source, globalVarNames = []) {
+        if (typeof source !== "string" || !source.trim()) return null;
+        if (!Array.isArray(globalVarNames) || globalVarNames.length === 0) {
+          return reviveFunction(source);
+        }
+        try {
+          const trimmed = source.trim();
+          const isFunctionLike = /^(\(.*?\)\s*=>|\bfunction\s*\(|^\([^)]*\)\s*=>)/.test(trimmed);
+          const params = globalVarNames.join(", ");
+          return function(...args) {
+            const globalObj = typeof window !== "undefined" ? window : globalThis;
+            const globalValues = globalVarNames.map(name => globalObj[name]);
+            let result;
+            if (isFunctionLike) {
+              const factory = new Function(params, `return ${trimmed};`);
+              const fn = factory(...globalValues);
+              result = typeof fn === "function" ? fn(...args) : fn;
+            } else {
+              const fn = new Function(params, `return ${trimmed};`);
+              result = fn(...globalValues);
+            }
+            return result;
+          };
+        } catch (err) {
+          console.warn("Could not evaluate custom function with globals:", err, "Source:", source);
+          return reviveFunction(source);
+        }
+      }
+
+      function reviveData(value, row) {
+        if (!value) return null;
+        if (Array.isArray(value)) return clone(value);
+        if (value && typeof value === "object") {
+          if (value.__builderType === "data") {
+            const source = typeof value.source === "string" ? value.source : "";
+            if (!source.trim()) return {};
+            try {
+              const hasReturn = /\breturn\b/.test(source);
+              const factory = new Function(
+                "jsPsych",
+                "row",
+                hasReturn ? source : `return (${source});`
+              );
+              const jsPsychRef = typeof jsPsych !== "undefined" ? jsPsych : undefined;
+              const result = factory(jsPsychRef, row ?? {});
+              if (result === undefined || result === null) return {};
+              if (typeof result === "object") return result;
+              return { value: result };
+            } catch (err) {
+              console.warn("Could not evaluate custom data code:", err);
+              return {};
+            }
+          }
+          return clone(value);
+        }
+        return value;
+      }
+
+      function resolveParam(value, row) {
+        if (typeof value === "string") {
+          return row ? renderTimelineTemplate(value, row) : value;
+        }
+        if (Array.isArray(value)) return value.map(item => resolveParam(item, row));
+        if (value && typeof value === "object") {
+          if (value.__builderType === "function") {
+            const revived = reviveFunction(value.source) ?? (() => {});
+            return row ? withRowContext(row, revived) : revived;
+          }
+          if (value.__builderType === "data") {
+            return reviveData(value, row) ?? {};
+          }
+          if ("bind" in value) {
+            const segments = typeof value.bind === "string" ? parseTemplatePath(value.bind) : [];
+            return row ? resolveTimelinePath(row, segments) : undefined;
+          }
+          const output = {};
+          for (const key in value) {
+            output[key] = resolveParam(value[key], row);
+          }
+          return output;
+        }
+        return value;
+      }
+
+      function getTrialLabel(node) {
+        if (!node) return "";
+        const fromLabel = typeof node.label === "string" ? node.label.trim() : "";
+        if (fromLabel.length) {
+          return fromLabel;
+        }
+        const fromName = typeof node.name === "string" ? node.name.trim() : "";
+        if (fromName.length) {
+          return fromName;
+        }
+        return typeof node.id === "string" ? node.id : "";
+      }
+
+      function compileNode(id, map, row, globalVarNames = []) {
+        const node = map.get(id);
+        if (!node) throw new Error("Unknown node " + id);
+        if (node.kind === "trial") {
+          const params = {};
+          for (const key in node.params || {}) {
+            params[key] = resolveParam(node.params[key], row);
+          }
+          const baseData = node.data ? reviveData(node.data, row ?? {}) : null;
+          const rowData = row ? clone(row) : null;
+          const data = rowData
+            ? { ...(baseData && typeof baseData === "object" ? baseData : {}), ...rowData }
+            : baseData && typeof baseData === "object" ? baseData : {};
+          if (data && typeof data === "object") {
+            const trialLabel = getTrialLabel(node);
+            if (trialLabel.length && !Object.prototype.hasOwnProperty.call(data, "trial_label")) {
+              data.trial_label = trialLabel;
+            }
+          }
+          const compiled = { type: node.plugin, ...params, data };
+          if (rowData) {
+            compiled._builderRow = rowData;
+            compiled.on_start = wrapOnStart(rowData, compiled.on_start);
+            compiled.on_finish = wrapOnFinish(rowData, compiled.on_finish);
+            if (typeof compiled.on_load === "function") {
+              compiled.on_load = withRowContext(rowData, compiled.on_load);
+            }
+            if (typeof compiled.on_stimulus_render === "function") {
+              compiled.on_stimulus_render = withRowContext(rowData, compiled.on_stimulus_render);
+            }
+          }
+          const conditional = resolveTimelineFunction(node.conditional_function ?? node.conditionalFunction, globalVarNames);
+          if (conditional) {
+            compiled.conditional_function = rowData ? withRowContext(rowData, conditional) : conditional;
+          }
+          return [compiled];
+        }
+        return [];
+      }
+
+      function compileTrialsSequence(ids, map, row, globalVarNames = []) {
+        const results = [];
+        if (!Array.isArray(ids)) return results;
+        ids.forEach(entry => {
+          const id = typeof entry === "string" ? entry : entry && typeof entry === "object" ? entry.id : null;
+          if (!id) return;
+          results.push(...compileNode(id, map, row, globalVarNames));
+        });
+        return results;
+      }
+
+      function resolveTimelineFunction(value, globalVarNames = []) {
+        if (!value) return undefined;
+        if (value.__builderType === "function") {
+          return reviveFunctionWithGlobals(value.source, globalVarNames) ?? undefined;
+        }
+        if (typeof value === "string") {
+          return reviveFunctionWithGlobals(value, globalVarNames) ?? undefined;
+        }
+        return undefined;
+      }
+
+      function compileExperiment(config) {
+        const rng = makeSeededRng(config.meta?.seed);
+        const map = new Map(config.nodes.map(node => [node.id, node]));
+        const globalVarNames = [];
+        if (config.options && Array.isArray(config.options.variables)) {
+          config.options.variables.forEach(v => {
+            const name = typeof v?.name === "string" ? v.name.trim() : "";
+            if (name) globalVarNames.push(name);
+          });
+        }
+        const timeline = [];
+        const blocks = Array.isArray(config.blocks) ? config.blocks : [];
+        for (const block of blocks) {
+          if (!block || typeof block !== "object") continue;
+          const repetitionsRaw = typeof block.repetitions === "number" ? block.repetitions : parseFloat(block.repetitions);
+          const repetitions = Number.isFinite(repetitionsRaw) && repetitionsRaw >= 1 ? Math.max(1, Math.round(repetitionsRaw)) : 1;
+          const conditionalFn = resolveTimelineFunction(block.conditional_function ?? block.conditionalFunction, globalVarNames);
+          const onStartFn = resolveTimelineFunction(block.on_timeline_start ?? block.onTimelineStart, globalVarNames);
+          const onFinishFn = resolveTimelineFunction(block.on_timeline_finish ?? block.onTimelineFinish, globalVarNames);
+          if (block.table && block.root) {
+            const rows = prepareTimelineRows(block.table, rng);
+            rows.forEach(row => {
+              const sequence = compileNode(block.root, map, row, globalVarNames);
+              if (!sequence.length) return;
+              if (sequence.length === 1 && !conditionalFn && !onStartFn && !onFinishFn && repetitions <= 1) {
+                timeline.push(...sequence);
+              } else {
+                const entry = { timeline: sequence };
+                if (repetitions > 1) entry.repetitions = repetitions;
+                if (onStartFn) entry.on_timeline_start = withRowContext(row, onStartFn);
+                if (onFinishFn) entry.on_timeline_finish = withRowContext(row, onFinishFn);
+                if (conditionalFn) entry.conditional_function = withRowContext(row, conditionalFn);
+                timeline.push(entry);
+              }
+            });
+            continue;
+          }
+          if (block.table && Array.isArray(block.timeline) && block.timeline.length) {
+            const rows = prepareTimelineRows(block.table, rng);
+            rows.forEach(row => {
+              const sequence = compileTrialsSequence(block.timeline, map, row, globalVarNames);
+              if (!sequence.length) return;
+              const entry = { timeline: sequence };
+              if (repetitions > 1) entry.repetitions = repetitions;
+              if (onStartFn) entry.on_timeline_start = withRowContext(row, onStartFn);
+              if (onFinishFn) entry.on_timeline_finish = withRowContext(row, onFinishFn);
+              if (conditionalFn) entry.conditional_function = withRowContext(row, conditionalFn);
+              timeline.push(entry);
+            });
+            continue;
+          }
+          if (Array.isArray(block.timeline) && block.timeline.length) {
+            const sequence = compileTrialsSequence(block.timeline, map, null, globalVarNames);
+            if (!sequence.length) continue;
+            if (repetitions > 1 || onStartFn || onFinishFn || conditionalFn) {
+              const entry = { timeline: sequence };
+              if (repetitions > 1) entry.repetitions = repetitions;
+              if (onStartFn) entry.on_timeline_start = onStartFn;
+              if (onFinishFn) entry.on_timeline_finish = onFinishFn;
+              if (conditionalFn) entry.conditional_function = conditionalFn;
+              timeline.push(entry);
+            } else {
+              timeline.push(...sequence);
+            }
+            continue;
+          }
+          if (block.root) {
+            const sequence = compileNode(block.root, map, null, globalVarNames);
+            if (!sequence.length) continue;
+            if (repetitions > 1 || onStartFn || onFinishFn || conditionalFn) {
+              const entry = { timeline: sequence };
+              if (repetitions > 1) entry.repetitions = repetitions;
+              if (onStartFn) entry.on_timeline_start = onStartFn;
+              if (onFinishFn) entry.on_timeline_finish = onFinishFn;
+              if (conditionalFn) entry.conditional_function = conditionalFn;
+              timeline.push(entry);
+            } else {
+              timeline.push(...sequence);
+            }
+          }
+        }
+        return { timeline };
+      }
+
+      function runCustomJs(code, context) {
+        if (typeof code !== "string" || !code.trim()) return;
+        try {
+          const fn = new Function("jsPsych", "experiment", "timeline", code);
+          fn(context.jsPsych, context.experiment, context.timeline);
+        } catch (err) {
+          console.error("Custom experiment JavaScript failed", err);
+        }
+      }
+
+      function canAttemptOsfUpload() {
+        const origin = window.location.origin;
+        const protocol = window.location.protocol;
+        if (!protocol || protocol === "file:") return false;
+        if (origin === "null") return false;
+        return true;
+      }
+
+      function extractOsfProjectId(input) {
+        if (typeof input !== "string") return "";
+        let raw = input.trim();
+        if (!raw) return "";
+        try {
+          if (!/^https?:\/\//i.test(raw)) raw = `https://${raw}`;
+          const url = new URL(raw);
+          const host = url.hostname.toLowerCase();
+          const segments = url.pathname.split("/").map(part => part.trim()).filter(Boolean);
+          const takeFirst = () => {
+            const value = segments[0];
+            if (value && /^[a-z0-9]{4,10}$/i.test(value)) return value.toLowerCase();
+            return "";
+          };
+          if (host === "osf.io" || host.endsWith(".osf.io")) {
+            if (segments[0] && /^projects?$/i.test(segments[0])) segments.shift();
+            const candidate = takeFirst();
+            if (candidate) return candidate;
+          }
+          if (host === "api.osf.io") {
+            if (segments[0] && /^v2$/i.test(segments[0])) segments.shift();
+            if (segments[0] && /^(nodes|registrations)$/i.test(segments[0])) segments.shift();
+            const candidate = takeFirst();
+            if (candidate) return candidate;
+          }
+          if (host === "files.osf.io") {
+            if (segments[0] && /^v1$/i.test(segments[0])) segments.shift();
+            if (segments[0] && /^resources$/i.test(segments[0])) segments.shift();
+            const candidate = takeFirst();
+            if (candidate) return candidate;
+          }
+        } catch (err) {
+          // fall through to regex parsing
+        }
+        const regexes = [
+          /osf\.io\/(?:project[s]?\/)?([a-z0-9]{4,10})/i,
+          /api\.osf\.io\/v2\/(?:nodes|registrations)\/([a-z0-9]{4,10})/i,
+          /files\.osf\.io\/v1\/resources\/([a-z0-9]{4,10})/i
+        ];
+        for (const regex of regexes) {
+          const match = raw.match(regex);
+          if (match && match[1]) return match[1].toLowerCase();
+        }
+        return "";
+      }
+
+      (async () => {
+        const options = experiment.options ?? {};
+        const rawCss = typeof options.rawCss === "string" ? options.rawCss : "";
+        const rawJs = typeof options.rawJs === "string" ? options.rawJs : "";
+        const urlParamsRaw = typeof options.urlParams === "string" ? options.urlParams : "";
+        const urlParamNames = urlParamsRaw.split(/[,\s]+/).map(name => name.trim()).filter(Boolean);
+        const enforceFullscreen = !!options.fullscreen;
+        applyExperimentVariables(options.variables);
+        applyCustomCss(rawCss);
+        const { timeline } = compileExperiment(experiment);
+        const hydratedTimeline = hydrate(timeline);
+        let handleFullscreenExit = () => {};
+        let handleFullscreenEnter = () => {};
+        const jsPsych = initJsPsych({
+          on_interaction_data_update(data) {
+            if (!enforceFullscreen) return;
+            if (data?.event === "fullscreenexit") {
+              handleFullscreenExit();
+            } else if (data?.event === "fullscreenenter") {
+              handleFullscreenEnter();
+            }
+          }
+        });
+        const originalEvaluateTimelineVariable = typeof jsPsych.evaluateTimelineVariable === "function"
+          ? jsPsych.evaluateTimelineVariable.bind(jsPsych)
+          : null;
+        jsPsych.evaluateTimelineVariable = function (key) {
+          const row = GLOBAL_OBJECT[ROW_CONTEXT_KEY];
+          if (row && Object.prototype.hasOwnProperty.call(row, key)) {
+            return row[key];
+          }
+          if (originalEvaluateTimelineVariable) {
+            return originalEvaluateTimelineVariable(key);
+          }
+          return undefined;
+        };
+        if (urlParamNames.length) {
+          const captured = {};
+          urlParamNames.forEach(name => {
+            const value = jsPsych.data.getURLVariable(name);
+            captured[name] = value !== undefined && value !== null ? value : "";
+          });
+          jsPsych.data.addProperties(captured);
+        }
+        if (enforceFullscreen) {
+          const OVERLAY_ID = "jspsych-fullscreen-guard";
+          let overlay = null;
+          let pausedForFullscreen = false;
+          const requestFullscreen = () => {
+            if (jsPsych?.pluginAPI?.requestFullscreen) {
+              jsPsych.pluginAPI.requestFullscreen(document.documentElement).catch(() => {});
+            } else if (document.documentElement.requestFullscreen) {
+              document.documentElement.requestFullscreen().catch(() => {});
+            }
+          };
+          const ensureOverlay = () => {
+            if (overlay) return overlay;
+            overlay = document.getElementById(OVERLAY_ID);
+            if (overlay) return overlay;
+            overlay = document.createElement('div');
+            overlay.id = OVERLAY_ID;
+            overlay.style.position = 'fixed';
+            overlay.style.inset = '0';
+            overlay.style.display = 'none';
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+            overlay.style.background = 'rgba(0, 0, 0, 0.88)';
+            overlay.style.zIndex = '9999';
+            overlay.style.color = '#ffffff';
+            overlay.style.textAlign = 'center';
+            overlay.style.padding = '2rem';
+            overlay.style.fontFamily = 'sans-serif';
+            overlay.style.flexDirection = 'column';
+            overlay.style.gap = '1.5rem';
+            const message = document.createElement('p');
+            message.textContent = 'Please return to fullscreen to continue the experiment.';
+            message.style.fontSize = '1.2rem';
+            message.style.margin = '0';
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = 'Return to fullscreen';
+            button.style.padding = '0.75rem 1.5rem';
+            button.style.fontSize = '1rem';
+            button.style.border = 'none';
+            button.style.borderRadius = '4px';
+            button.style.cursor = 'pointer';
+            button.style.background = '#4a90e2';
+            button.style.color = '#ffffff';
+            button.addEventListener('click', () => {
+              requestFullscreen();
+            });
+            overlay.append(message, button);
+            document.body.appendChild(overlay);
+            return overlay;
+          };
+          const showOverlay = () => {
+            const el = ensureOverlay();
+            el.style.display = 'flex';
+          };
+          const hideOverlay = () => {
+            if (overlay) overlay.style.display = 'none';
+          };
+          handleFullscreenExit = () => {
+            if (document.fullscreenElement) return;
+            if (!pausedForFullscreen) {
+              pausedForFullscreen = true;
+              try { jsPsych.pauseExperiment(); } catch (err) {}
+              showOverlay();
+            }
+            requestFullscreen();
+          };
+          handleFullscreenEnter = () => {
+            if (!pausedForFullscreen) return;
+            pausedForFullscreen = false;
+            hideOverlay();
+            try { jsPsych.resumeExperiment(); } catch (err) {}
+          };
+          document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+              handleFullscreenEnter();
+            } else {
+              handleFullscreenExit();
+            }
+          });
+        }
+        runCustomJs(rawJs, { jsPsych, experiment, timeline: hydratedTimeline });
+        await jsPsych.run(hydratedTimeline);
+
+        // SONA credit granting
+        if (options.sona && options.sonaExperimentId && options.sonaCreditToken) {
+          const urlParams = new URLSearchParams(window.location.search);
+          const sonaId = urlParams.get('survey_code') || urlParams.get('SONAID') || '';
+          if (sonaId) {
+            const creditUrl = `https://sydneypsych.sona-systems.com/webstudy_credit.aspx?experiment_id=${options.sonaExperimentId}&credit_token=${options.sonaCreditToken}&survey_code=${sonaId}&id=${sonaId}`;
+            window.location.href = creditUrl;
+          } else {
+            console.warn('SONA credit enabled but survey_code parameter not found in URL');
+          }
+        }
+        if (options.prolific && typeof options.prolificRedirectCode === "string" && options.prolificRedirectCode.trim().length) {
+          const redirectCode = encodeURIComponent(options.prolificRedirectCode.trim());
+          window.location.href = `https://app.prolific.com/submissions/complete?cc=${redirectCode}`;
+        }
+
+        if (options.osfSave && typeof options.osfProjectUrl === "string" && options.osfProjectUrl.trim().length && typeof options.osfApiToken === "string" && options.osfApiToken.trim().length) {
+          if (!canAttemptOsfUpload()) {
+            console.warn('OSF upload skipped: authenticated requests are blocked from this origin. Host the experiment over https:// (or http://) to enable OSF uploads.');
+          } else {
+            try {
+              const csv = jsPsych.data.get().csv();
+              const blob = new Blob([csv], { type: 'text/csv' });
+              const fileName = `jspsych-data-${Date.now()}.csv`;
+              const projectUrl = options.osfProjectUrl.trim();
+              const projectId = extractOsfProjectId(projectUrl);
+              const osfToken = options.osfApiToken.trim();
+              if (!projectId) {
+                console.warn('Could not determine OSF project id from', projectUrl);
+              } else {
+                const providerUrl = `https://files.osf.io/v1/resources/${projectId}/providers/osfstorage/?kind=file&name=${encodeURIComponent(fileName)}`;
+                const initResponse = await fetch(providerUrl, {
+                  method: 'POST',
+                  headers: {
+                    Authorization: `Bearer ${osfToken}`,
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                  },
+                  body: JSON.stringify({})
+                });
+                if (!initResponse.ok) {
+                  console.warn('OSF upload initialization failed with status', initResponse.status);
+                  if (initResponse.status === 401 || initResponse.status === 403) {
+                    console.warn('Check that your OSF API token is valid and includes osf.storage write access.');
+                  } else if (initResponse.status === 405) {
+                    console.warn('Received 405 from OSF. Browsers sometimes block the required preflight request when running from local files; hosting the experiment over https:// usually resolves this.');
+                  }
+                } else {
+                  const info = await initResponse.json().catch(() => null);
+                  const uploadUrl = info?.data?.attributes?.upload;
+                  const finalizeUrl = info?.data?.links?.upload_finish;
+                  if (!uploadUrl) {
+                    console.warn('OSF upload URL missing in response');
+                  } else {
+                    let uploadResponse = null;
+                    try {
+                      uploadResponse = await fetch(uploadUrl, {
+                        method: 'PUT',
+                        headers: {
+                          'Content-Type': 'text/csv'
+                        },
+                        body: blob
+                      });
+                    } catch (uploadErr) {
+                      console.warn('OSF file upload request failed', uploadErr);
+                    }
+                    if (!uploadResponse || !uploadResponse.ok) {
+                      const status = uploadResponse ? uploadResponse.status : 'network error';
+                      console.warn('OSF file upload failed with status', status);
+                    } else if (finalizeUrl) {
+                      await fetch(finalizeUrl, {
+                        method: 'POST',
+                        headers: {
+                          Authorization: `Bearer ${osfToken}`
+                        }
+                      }).catch(finalizeErr => {
+                        console.warn('OSF finalize request failed', finalizeErr);
+                      });
+                    }
+                  }
+                }
+              }
+            } catch (err) {
+              console.warn('Could not upload data to OSF.', err);
+            }
+          }
+        }
+
+        if (options.localSave) {
+          try {
+            jsPsych.data.get().localSave('csv', 'my_experiment_data.csv');
+          } catch (err) {
+            console.warn('Could not save data locally.', err);
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
