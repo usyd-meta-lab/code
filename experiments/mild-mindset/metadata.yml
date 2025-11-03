@@ -1,0 +1,22 @@
+id: mindset-and-reactivity
+version: 1.0.0
+date_created: '2025-09-03'
+title: mild-mindset
+project_title: Mindset and Reactivity
+description: Paired associated task with JOL versus No-JOL. Pre-learning participants
+  experience a mindset manipulation or a control task. Pairs are weakly related
+status: active
+authors:
+- Kit S. Double <kit.double@sydney.edu.au>
+tags:
+- metacognition
+- reactivity
+data:
+  datapipe_name: Relational Mindset and Reactivity - 2
+links:
+  osf: https://osf.io/25cjr
+measures:
+- paired associates
+- word-pairs
+- analogies
+date_updated: '2025-09-03'
